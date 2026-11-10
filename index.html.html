@@ -1,760 +1,1219 @@
+
+
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع مواطن الإخباري</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts & FontAwesome -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        navy: {
-                            DEFAULT: '#0B192C',
-                            dark: '#050D18',
-                            light: '#1E3E62'
-                        },
-                        gold: {
-                            DEFAULT: '#D4AF37',
-                            light: '#F3E5AB',
-                            dark: '#AA8C2C'
-                        }
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #1e293b; }
-        .ticker-wrap { width: 100%; overflow: hidden; white-space: nowrap; box-sizing: border-box; }
-        .ticker { display: inline-block; animation: ticker 35s linear infinite; }
-        .ticker-item { display: inline-block; padding: 0 2rem; }
-        @keyframes ticker { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(100%, 0, 0); } }
-    </style>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#101b31">
+
+<title>مواطن | منصة إخبارية</title>
+
+<style>
+
+:root {
+
+  --navy:#101b31;
+
+  --navy2:#1b2d49;
+
+  --gold:#d6ad58;
+
+  --gold-light:#f4d997;
+
+  --white:#fff;
+
+  --bg:#f3f5f8;
+
+  --text:#202b3c;
+
+  --muted:#788496;
+
+  --red:#c83b43;
+
+}
+
+*{box-sizing:border-box}
+
+body{
+
+  margin:0;
+
+  font-family:Tahoma,Arial,sans-serif;
+
+  background:var(--bg);
+
+  color:var(--text);
+
+  line-height:1.8
+
+}
+
+button,input,textarea{font:inherit}
+
+button{cursor:pointer}
+
+.container{width:94%;max-width:1200px;margin:auto}
+
+.top-line{height:5px;background:linear-gradient(90deg,var(--gold),#fff,var(--gold))}
+
+header{background:var(--navy);color:white}
+
+.header{
+
+ display:flex;justify-content:space-between;
+
+ align-items:center;padding:18px 0;gap:12px
+
+}
+
+.logo{display:flex;align-items:center;gap:12px}
+
+.logo-icon{
+
+ width:55px;height:55px;border:2px solid var(--gold);
+
+ border-radius:15px;display:grid;place-items:center;
+
+ color:var(--gold-light);font-size:29px;font-weight:bold
+
+}
+
+.logo h1{margin:0;color:var(--gold-light);font-size:27px}
+
+.logo small{color:#cbd5e1}
+
+.admin-button{
+
+ background:var(--gold);border:0;border-radius:9px;
+
+ padding:10px 15px;color:var(--navy);font-weight:bold
+
+}
+
+nav{border-top:1px solid #ffffff20}
+
+.nav{
+
+ display:flex;gap:25px;padding:10px 0;
+
+ overflow:auto;white-space:nowrap
+
+}
+
+.nav a{color:white;text-decoration:none;font-size:14px}
+
+.nav a:hover{color:var(--gold-light)}
+
+.breaking{
+
+ background:white;border-bottom:1px solid #ddd;
+
+ display:flex;align-items:center;overflow:hidden
+
+}
+
+.breaking strong{
+
+ background:var(--red);color:white;padding:7px 17px;
+
+ white-space:nowrap
+
+}
+
+.breaking marquee{padding:7px;color:#374151}
+
+main{padding:25px 0}
+
+.hero{
+
+ display:grid;grid-template-columns:1.5fr 1fr;
+
+ gap:16px;margin-bottom:25px
+
+}
+
+.feature{
+
+ min-height:350px;position:relative;overflow:hidden;
+
+ border-radius:17px;background:var(--navy);color:white;
+
+ display:flex;align-items:end
+
+}
+
+.feature img{
+
+ position:absolute;width:100%;height:100%;
+
+ object-fit:cover;opacity:.55
+
+}
+
+.feature-content{
+
+ position:relative;padding:25px;width:100%;
+
+ background:linear-gradient(transparent,#07101f)
+
+}
+
+.feature h2{font-size:27px;line-height:1.5}
+
+.feature p{color:#e2e8f0}
+
+.tag{
+
+ display:inline-block;background:var(--gold);
+
+ color:var(--navy);padding:3px 12px;
+
+ border-radius:20px;font-size:12px;font-weight:bold
+
+}
+
+.side-stories{display:grid;gap:15px}
+
+.side-story{
+
+ min-height:165px;border-radius:15px;
+
+ background:var(--navy2);color:white;
+
+ padding:20px;display:flex;flex-direction:column;
+
+ justify-content:end;position:relative;overflow:hidden
+
+}
+
+.side-story img{
+
+ position:absolute;inset:0;width:100%;height:100%;
+
+ object-fit:cover;opacity:.4
+
+}
+
+.side-story h3,.side-story span{position:relative}
+
+.section-title{
+
+ border-right:5px solid var(--gold);
+
+ padding-right:12px;color:var(--navy);
+
+ margin:25px 0 15px;font-size:21px
+
+}
+
+.ad-box{
+
+ background:white;padding:13px;border-radius:15px;
+
+ margin:22px 0;border:1px solid #e3e7ed
+
+}
+
+.ad-title{font-size:13px;color:var(--muted);margin-bottom:8px}
+
+.ad-area{
+
+ height:125px;border-radius:11px;overflow:hidden;
+
+ background:var(--navy2);position:relative
+
+}
+
+.ad-area img{width:100%;height:100%;object-fit:cover}
+
+.ad-area a{position:absolute;inset:0}
+
+.ad-placeholder{
+
+ color:var(--gold-light);height:100%;
+
+ display:grid;place-items:center;text-align:center;
+
+ font-size:22px;font-weight:bold
+
+}
+
+.news-ticker{
+
+ background:var(--navy2);color:white;
+
+ padding:10px 15px;border-radius:10px;
+
+ margin-bottom:25px
+
+}
+
+.news-ticker strong{color:var(--gold-light)}
+
+.news-layout{
+
+ display:grid;grid-template-columns:minmax(0,1fr) 280px;
+
+ gap:20px
+
+}
+
+.articles{
+
+ display:grid;grid-template-columns:repeat(2,1fr);
+
+ gap:16px
+
+}
+
+.article{
+
+ background:white;border-radius:14px;
+
+ overflow:hidden;border:1px solid #e5e9ef
+
+}
+
+.article img{
+
+ width:100%;height:190px;object-fit:cover
+
+}
+
+.article-content{padding:15px}
+
+.article h3{font-size:18px;margin:5px 0}
+
+.article p{font-size:13px;color:var(--muted)}
+
+.meta{font-size:11px;color:var(--muted)}
+
+.read-button{
+
+ background:#f5eddd;color:#76551c;
+
+ border:0;border-radius:8px;padding:8px 14px;
+
+ font-weight:bold
+
+}
+
+.sidebar-box{
+
+ background:white;border-radius:13px;
+
+ padding:16px;margin-bottom:15px
+
+}
+
+.sidebar-box h3{margin-top:0;color:var(--navy)}
+
+.sidebar-box p{font-size:13px;color:var(--muted)}
+
+footer{
+
+ background:var(--navy);color:#d5deeb;
+
+ text-align:center;padding:28px 10px;margin-top:40px
+
+}
+
+footer strong{color:var(--gold-light)}
+
+footer small{display:block;color:#aab6c8}
+
+.modal,.admin{
+
+ display:none;position:fixed;inset:0;
+
+ background:#07101fdc;z-index:50;
+
+ padding:15px;overflow:auto
+
+}
+
+.modal.active,.admin.active{
+
+ display:flex;align-items:center;justify-content:center
+
+}
+
+.modal-content,.admin-content{
+
+ background:white;border-radius:15px;
+
+ padding:22px;width:min(750px,100%);
+
+ max-height:95vh;overflow:auto;position:relative
+
+}
+
+.close{
+
+ position:absolute;left:12px;top:12px;
+
+ border:0;background:#eee;padding:7px 12px;
+
+ border-radius:7px
+
+}
+
+.admin-content h2{color:var(--navy)}
+
+.field{margin:12px 0}
+
+.field label{display:block;font-size:13px;font-weight:bold}
+
+.field input,.field textarea{
+
+ width:100%;padding:10px;border:1px solid #ddd;
+
+ border-radius:8px;margin-top:5px
+
+}
+
+.field textarea{min-height:90px}
+
+.save{
+
+ background:var(--navy);color:white;
+
+ border:0;padding:10px 16px;border-radius:8px
+
+}
+
+.delete{
+
+ background:#ffe5e5;color:#a22;
+
+ border:0;padding:6px 10px;border-radius:7px
+
+}
+
+.admin-item{
+
+ display:flex;justify-content:space-between;
+
+ align-items:center;gap:10px;
+
+ border-bottom:1px solid #eee;padding:10px 0
+
+}
+
+.notice{
+
+ background:#fff6df;padding:12px;
+
+ border-radius:8px;font-size:12px;color:#71551b
+
+}
+
+@media(max-width:800px){
+
+ .hero,.news-layout{grid-template-columns:1fr}
+
+ .side-stories{grid-template-columns:1fr 1fr}
+
+}
+
+@media(max-width:550px){
+
+ .articles{grid-template-columns:1fr}
+
+ .side-stories{grid-template-columns:1fr}
+
+ .feature{min-height:290px}
+
+ .logo h1{font-size:22px}
+
+}
+
+</style>
+
 </head>
-<body class="flex flex-col min-h-screen">
 
-    <!-- Header Top Bar -->
-    <header class="bg-navy text-white shadow-md border-b-2 border-gold">
-        <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="bg-gold text-navy font-black text-2xl px-4 py-2 rounded-lg shadow-inner">مـ</div>
-                <div>
-                    <h1 class="text-2xl font-black tracking-wider text-gold">مواطن</h1>
-                    <p class="text-xs text-gray-300">بوابة إعلامية عربية شاملة</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-4">
-                <div id="current-date" class="text-sm text-gray-300 hidden sm:block"></div>
-                <button onclick="openAdminLogin()" class="bg-gold hover:bg-gold-dark text-navy font-bold px-4 py-2 rounded-lg transition duration-300 flex items-center gap-2 shadow">
-                    <i class="fa-solid fa-lock"></i> لوحة الإدارة
-                </button>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- Navigation Bar -->
-    <nav class="bg-navy-light text-white shadow-inner">
-        <div class="container mx-auto px-4 flex justify-between items-center overflow-x-auto py-2">
-            <div class="flex space-x-6 space-x-reverse font-semibold text-sm">
-                <a href="#" onclick="filterCategory('الكل')" class="hover:text-gold transition">الرئيسية</a>
-                <a href="#" onclick="filterCategory('سياسة')" class="hover:text-gold transition">سياسة</a>
-                <a href="#" onclick="filterCategory('اقتصاد')" class="hover:text-gold transition">اقتصاد</a>
-                <a href="#" onclick="filterCategory('محليات')" class="hover:text-gold transition">محليات</a>
-                <a href="#" onclick="filterCategory('رياضة')" class="hover:text-gold transition">رياضة</a>
-                <a href="#" onclick="filterCategory('ثقافة')" class="hover:text-gold transition">ثقافة وفن</a>
-            </div>
-            <div class="relative hidden md:block">
-                <input type="text" id="searchInput" oninput="searchArticles()" placeholder="ابحث عن خبر..." class="bg-navy text-white px-3 py-1.5 rounded-lg text-sm border border-gold/50 focus:outline-none focus:border-gold">
-                <i class="fa-solid fa-search absolute left-3 top-2.5 text-gray-400 text-sm"></i>
-            </div>
-        </div>
-    </nav>
+<div class="top-line"></div>
 
-    <!-- Breaking News Ticker -->
-    <div id="tickerContainer" class="bg-amber-500 text-navy font-bold py-2 overflow-hidden border-y border-amber-600 flex items-center shadow-inner">
-        <div class="bg-navy text-white px-4 py-1 text-xs tracking-wider z-10 mx-2 rounded shadow">عاجل</div>
-        <div class="ticker-wrap">
-            <div class="ticker" id="tickerText">
-                <span class="ticker-item">جاري تحميل الأخبار العاجلة...</span>
-            </div>
-        </div>
+<header>
+
+ <div class="container">
+
+  <div class="header">
+
+   <div class="logo">
+
+    <div class="logo-icon">م</div>
+
+    <div>
+
+     <h1>مواطن</h1>
+
+     <small>منصة إخبارية عربية</small>
+
     </div>
 
-    <!-- Main Content -->
-    <main class="flex-grow container mx-auto px-4 py-6 space-y-8">
+   </div>
 
-        <!-- Hero Carousel -->
-        <section class="relative bg-navy rounded-2xl overflow-hidden shadow-2xl h-[350px] md:h-[450px] border border-gold/30">
-            <div id="heroCarousel" class="relative w-full h-full">
-                <!-- Slides added dynamically -->
-            </div>
-            <button onclick="prevSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-gold text-white hover:text-navy p-3 rounded-full transition"><i class="fa-solid fa-chevron-right"></i></button>
-            <button onclick="nextSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-gold text-white hover:text-navy p-3 rounded-full transition"><i class="fa-solid fa-chevron-left"></i></button>
-            <div id="carouselDots" class="absolute bottom-4 left-0 right-0 flex justify-center gap-2"></div>
-        </section>
+   <button class="admin-button" onclick="openAdmin()">
 
-        <!-- Banner Ads Slider (Up to 5 rotating ads) -->
-        <section class="bg-white rounded-xl shadow-md p-2 border border-gray-200 overflow-hidden">
-            <div class="text-xs text-gray-400 mb-1 px-2 font-semibold">إعلان مميز</div>
-            <div id="adBannerContainer" class="relative w-full h-28 md:h-36 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                <!-- Ads injected dynamically -->
-            </div>
-        </section>
+    لوحة الإدارة
 
-        <!-- Articles Grid -->
-        <section>
-            <div class="flex justify-between items-center mb-6 border-b-2 border-navy pb-2">
-                <h2 id="sectionTitle" class="text-2xl font-black text-navy flex items-center gap-2">
-                    <i class="fa-solid fa-newspaper text-gold"></i> أحدث الأخبار والمقالات
-                </h2>
-                <span id="articleCount" class="text-sm bg-navy text-gold px-3 py-1 rounded-full font-bold">0 مقال</span>
-            </div>
-            <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Articles injected dynamically -->
-            </div>
-        </section>
-    </main>
+   </button>
 
-    <!-- Article Reader Modal -->
-    <div id="articleModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 relative">
-            <button onclick="closeModal()" class="absolute left-4 top-4 text-gray-500 hover:text-red-600 text-2xl font-bold">&times;</button>
-            <img id="modalImg" src="" alt="" class="w-full h-60 object-cover rounded-xl mb-4 shadow">
-            <div class="flex items-center gap-2 mb-2">
-                <span id="modalCat" class="bg-navy text-gold text-xs px-3 py-1 rounded-full font-bold"></span>
-                <span id="modalDate" class="text-gray-400 text-xs"></span>
-            </div>
-            <h2 id="modalTitle" class="text-2xl font-black text-navy mb-4"></h2>
-            <div id="modalContent" class="text-gray-700 leading-relaxed space-y-4 text-justify"></div>
-        </div>
+  </div>
+
+  <nav>
+
+   <div class="nav">
+
+    <a href="#">الرئيسية</a>
+
+    <a href="#latest">آخر الأخبار</a>
+
+    <a href="#advertisements">الإعلانات</a>
+
+    <a href="#about">من نحن</a>
+
+   </div>
+
+  </nav>
+
+ </div>
+
+</header>
+
+<div class="breaking">
+
+ <strong>عاجل</strong>
+
+ <marquee id="breakingText" direction="right">
+
+  أهلاً بكم في منصة مواطن الإخبارية
+
+ </marquee>
+
+</div>
+
+<main class="container">
+
+ <section class="hero">
+
+  <div class="feature">
+
+   <img id="featuredImage"
+
+    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80"
+
+    alt="خبر رئيسي">
+
+   <div class="feature-content">
+
+    <span class="tag">أبرز الأخبار</span>
+
+    <h2 id="featuredTitle">مرحباً بكم في منصة مواطن</h2>
+
+    <p id="featuredSummary">
+
+     تابعوا آخر الأخبار والتقارير والمستجدات.
+
+    </p>
+
+   </div>
+
+  </div>
+
+  <div class="side-stories" id="sideStories"></div>
+
+ </section>
+
+ <section class="ad-box" id="advertisements">
+
+  <div class="ad-title">مساحة إعلانية</div>
+
+  <div class="ad-area" id="adArea">
+
+   <div class="ad-placeholder">
+
+    أعلن معنا عبر منصة مواطن
+
+   </div>
+
+  </div>
+
+ </section>
+
+ <div class="news-ticker">
+
+  <strong>جديد مواطن | </strong>
+
+  <marquee id="newsTicker" direction="right">
+
+   تابعوا جديد الأخبار والتقارير عبر منصة مواطن
+
+  </marquee>
+
+ </div>
+
+ <div class="news-layout" id="latest">
+
+  <section>
+
+   <h2 class="section-title">آخر الأخبار</h2>
+
+   <div class="articles" id="articles"></div>
+
+  </section>
+
+  <aside>
+
+   <div class="sidebar-box">
+
+    <h3>الأكثر قراءة</h3>
+
+    <div id="popular"></div>
+
+   </div>
+
+   <div class="sidebar-box">
+
+    <h3>عن مواطن</h3>
+
+    <p>
+
+     منصة إخبارية عربية تهتم بنقل الأخبار والتقارير
+
+     والمستجدات إلى القارئ.
+
+    </p>
+
+   </div>
+
+  </aside>
+
+ </div>
+
+</main>
+
+<footer id="about">
+
+ <strong>مواطن</strong>
+
+ <div>منصة إخبارية عربية</div>
+
+ <small>تم تطوير الموقع من قبل حسن الحميدي</small>
+
+ <small>alkaser20200hasn@gmail.com</small>
+
+ <small>جميع الحقوق محفوظة © 2026</small>
+
+</footer>
+
+<div class="modal" id="articleModal">
+
+ <div class="modal-content">
+
+  <button class="close" onclick="closeArticle()">إغلاق ✕</button>
+
+  <div id="articleDetails"></div>
+
+ </div>
+
+</div>
+
+<div class="admin" id="adminPanel">
+
+ <div class="admin-content">
+
+  <button class="close" onclick="closeAdmin()">إغلاق ✕</button>
+
+  <h2>لوحة إدارة موقع مواطن</h2>
+
+  <div class="notice">
+
+   تنبيه: هذه نسخة تجريبية تحفظ البيانات في المتصفح الحالي فقط.
+
+   لا توفر حسابات مشتركة أو حماية إدارية حقيقية.
+
+   لا تضع معلومات حساسة هنا.
+
+  </div>
+
+  <h3>إضافة خبر جديد</h3>
+
+  <div class="field">
+
+   <label>عنوان الخبر</label>
+
+   <input id="title" placeholder="عنوان الخبر">
+
+  </div>
+
+  <div class="field">
+
+   <label>تصنيف الخبر</label>
+
+   <input id="category" placeholder="أخبار محلية">
+
+  </div>
+
+  <div class="field">
+
+   <label>رابط صورة الخبر</label>
+
+   <input id="image" placeholder="https://...">
+
+  </div>
+
+  <div class="field">
+
+   <label>ملخص الخبر</label>
+
+   <textarea id="summary"></textarea>
+
+  </div>
+
+  <div class="field">
+
+   <label>تفاصيل الخبر</label>
+
+   <textarea id="body"></textarea>
+
+  </div>
+
+  <button class="save" onclick="addArticle()">نشر الخبر</button>
+
+  <h3>الأخبار المنشورة</h3>
+
+  <div id="adminArticles"></div>
+
+  <hr>
+
+  <h3>إضافة إعلان (الحد الأقصى 5)</h3>
+
+  <div class="field">
+
+   <label>رابط صورة الإعلان</label>
+
+   <input id="adImage" placeholder="https://...">
+
+  </div>
+
+  <div class="field">
+
+   <label>رابط الإعلان عند الضغط (اختياري)</label>
+
+   <input id="adTarget" placeholder="https://...">
+
+  </div>
+
+  <button class="save" onclick="addAd()">إضافة الإعلان</button>
+
+  <div id="adminAds"></div>
+
+  <hr>
+
+  <h3>تحديث شريط الأخبار</h3>
+
+  <div class="field">
+
+   <textarea id="tickerInput"></textarea>
+
+  </div>
+
+  <button class="save" onclick="saveTicker()">حفظ الشريط</button>
+
+  <hr>
+
+  <h3>النسخ الاحتياطي</h3>
+
+  <button class="save" onclick="exportData()">تنزيل نسخة احتياطية</button>
+
+ </div>
+
+</div>
+
+<script>
+
+const KEY = "mawaten_news_data";
+
+const initialData = {
+
+ articles: [
+
+  {
+
+   id:1,
+
+   title:"مرحباً بكم في منصة مواطن",
+
+   category:"تعريف",
+
+   image:"https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1000&q=80",
+
+   summary:"منصة إخبارية لمتابعة الأخبار والتقارير.",
+
+   body:"مرحباً بكم في منصة مواطن الإخبارية. يمكنكم متابعة الأخبار والتقارير والمستجدات عبر الموقع.",
+
+   date:new Date().toLocaleDateString("ar")
+
+  }
+
+ ],
+
+ ads:[],
+
+ ticker:"تابعوا جديد الأخبار والتقارير عبر منصة مواطن",
+
+ breaking:"أهلاً بكم في منصة مواطن الإخبارية"
+
+};
+
+function loadData(){
+
+ try{
+
+  const saved=localStorage.getItem(KEY);
+
+  return saved ? JSON.parse(saved) : initialData;
+
+ }catch(e){
+
+  return initialData;
+
+ }
+
+}
+
+let data=loadData();
+
+let slideIndex=0;
+
+let adIndex=0;
+
+function saveData(){
+
+ localStorage.setItem(KEY,JSON.stringify(data));
+
+}
+
+function safeUrl(value){
+
+ try{
+
+  const url=new URL(value);
+
+  return ["https:","http:"].includes(url.protocol) ? url.href : "";
+
+ }catch(e){return ""}
+
+}
+
+function escapeHTML(value){
+
+ return String(value||"").replace(/[&<>"']/g,function(c){
+
+  return {
+
+   "&":"&amp;",
+
+   "<":"&lt;",
+
+   ">":"&gt;",
+
+   '"':"&quot;",
+
+   "'":"&#39;"
+
+  }[c];
+
+ });
+
+}
+
+function render(){
+
+ document.getElementById("breakingText").textContent=data.breaking;
+
+ document.getElementById("newsTicker").textContent=data.ticker;
+
+ const articles=document.getElementById("articles");
+
+ articles.innerHTML=data.articles.map(item=>`
+
+  <article class="article">
+
+   <img src="${escapeHTML(safeUrl(item.image))}"
+
+    alt="" onerror="this.style.display='none'">
+
+   <div class="article-content">
+
+    <div class="meta">
+
+     ${escapeHTML(item.category)} | ${escapeHTML(item.date)}
+
     </div>
 
-    <!-- Admin Login Modal -->
-    <div id="adminLoginModal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl p-6 relative">
-            <button onclick="closeAdminLogin()" class="absolute left-4 top-4 text-gray-500 hover:text-red-600 text-xl">&times;</button>
-            <div class="text-center mb-6">
-                <div class="bg-navy text-gold text-3xl font-black w-12 h-12 mx-auto flex items-center justify-center rounded-xl mb-2">م</div>
-                <h3 class="text-xl font-bold text-navy">تسجيل دخول لوحة الإدارة</h3>
-            </div>
-            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-bold text-navy mb-1">اسم المستخدم</label>
-                    <input type="text" id="loginUser" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-navy">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-navy mb-1">كلمة المرور</label>
-                    <input type="password" id="loginPass" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-navy">
-                </div>
-                <p id="loginError" class="text-red-500 text-xs hidden">اسم المستخدم أو كلمة المرور غير صحيحة.</p>
-                <button type="submit" class="w-full bg-navy hover:bg-navy-light text-gold font-bold py-3 rounded-lg transition duration-300">تسجيل الدخول</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- First Time Password Change Modal -->
-    <div id="changeCredentialsModal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full shadow-2xl p-6 relative">
-            <div class="text-center mb-4">
-                <div class="bg-amber-500 text-white text-2xl w-12 h-12 mx-auto flex items-center justify-center rounded-full mb-2"><i class="fa-solid fa-key"></i></div>
-                <h3 class="text-xl font-bold text-navy">تحديث بيانات الدخول الخاصة بك</h3>
-                <p class="text-xs text-gray-500 mt-1">خطوة إجبارية لأول تسجيل دخول لحماية اللوحة.</p>
-            </div>
-            <form onsubmit="saveNewCredentials(event)" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-bold text-navy mb-1">اسم المستخدم الجديد</label>
-                    <input type="text" id="newAdminUser" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-navy" placeholder="أدخل اسم مستخدم جديد">
-                </div>
-                <div>
-                    <label class="block text-sm font-bold text-navy mb-1">كلمة المرور الجديدة</label>
-                    <input type="password" id="newAdminPass" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-navy" placeholder="أدخل كلمة مرور قوية">
-                </div>
-                <button type="submit" class="w-full bg-gold hover:bg-gold-dark text-navy font-bold py-3 rounded-lg transition duration-300">حفظ البيانات والانتقال</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Admin Panel Dashboard Modal -->
-    <div id="adminPanelModal" class="fixed inset-0 bg-black/80 z-50 hidden flex flex-col justify-center p-2 md:p-6">
-        <div class="bg-white rounded-2xl max-w-5xl w-full h-[90vh] flex flex-col shadow-2xl overflow-hidden mx-auto">
-            <!-- Admin Header -->
-            <div class="bg-navy text-white px-6 py-4 flex justify-between items-center border-b border-gold">
-                <div class="flex items-center gap-3">
-                    <h2 class="text-xl font-black text-gold">لوحة تحكم موقع مواطن</h2>
-                </div>
-                <div class="flex items-center gap-3">
-                    <button onclick="openChangeCredentialsModalDirect()" class="bg-gold/20 hover:bg-gold text-gold hover:text-navy px-3 py-1.5 rounded text-xs font-bold transition">تغيير كلمة السر</button>
-                    <button onclick="closeAdminPanel()" class="text-gray-300 hover:text-white text-xl font-bold">&times;</button>
-                </div>
-            </div>
-            <!-- Admin Tabs -->
-            <div class="bg-gray-100 flex border-b text-sm font-bold overflow-x-auto">
-                <button onclick="switchAdminTab('articles')" id="tab-articles" class="px-6 py-3 border-b-2 border-navy text-navy bg-white transition">إدارة الأخبار والمقالات</button>
-                <button onclick="switchAdminTab('ads')" id="tab-ads" class="px-6 py-3 border-b-2 border-transparent text-gray-600 transition">إدارة الإعلانات (حتى 5)</button>
-                <button onclick="switchAdminTab('ticker')" id="tab-ticker" class="px-6 py-3 border-b-2 border-transparent text-gray-600 transition">شريط العاجل</button>
-            </div>
-            <!-- Admin Body -->
-            <div class="flex-grow overflow-y-auto p-6 bg-gray-50">
-                
-                <!-- Tab 1: Articles -->
-                <div id="admin-articles-content" class="space-y-6">
-                    <div class="bg-white p-4 rounded-xl shadow border">
-                        <h3 class="font-bold text-navy mb-3" id="articleFormTitle">إضافة خبر أو مقال جديد</h3>
-                        <form onsubmit="handleArticleSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <input type="hidden" id="editArticleId">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">عنوان الخبر</label>
-                                <input type="text" id="artTitle" required class="w-full px-3 py-2 border rounded-lg text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">التصنيف</label>
-                                <select id="artCategory" class="w-full px-3 py-2 border rounded-lg text-sm">
-                                    <option value="سياسة">سياسة</option>
-                                    <option value="اقتصاد">اقتصاد</option>
-                                    <option value="محليات">محليات</option>
-                                    <option value="رياضة">رياضة</option>
-                                    <option value="ثقافة">ثقافة وفن</option>
-                                </select>
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-bold text-gray-600 mb-1">رابط الصورة المباشر</label>
-                                <input type="url" id="artImage" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="https://example.com/image.jpg">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-xs font-bold text-gray-600 mb-1">محتوى المقال كاملاً</label>
-                                <textarea id="artContent" rows="4" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="اكتب تفاصيل الخبر هنا..."></textarea>
-                            </div>
-                            <div class="md:col-span-2 flex gap-2">
-                                <button type="submit" id="artSubmitBtn" class="bg-navy text-gold px-6 py-2 rounded-lg font-bold text-sm shadow">نشر الخبر</button>
-                                <button type="button" onclick="resetArticleForm()" id="artCancelBtn" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm hidden">إلغاء التعديل</button>
-                            </div>
-                        </form>
-                    </div>
-
-                    <!-- Articles Table -->
-                    <div class="bg-white rounded-xl shadow border overflow-hidden">
-                        <table class="w-full text-right border-collapse">
-                            <thead class="bg-navy text-white text-xs">
-                                <tr>
-                                    <th class="p-3">العنوان</th>
-                                    <th class="p-3">التصنيف</th>
-                                    <th class="p-3">التاريخ</th>
-                                    <th class="p-3 text-center">الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminArticlesTable" class="divide-y text-sm"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Tab 2: Ads -->
-                <div id="admin-ads-content" class="space-y-6 hidden">
-                    <div class="bg-white p-4 rounded-xl shadow border">
-                        <h3 class="font-bold text-navy mb-3">إضافة إعلان جديد (الحد الأقصى 5 إعلانات)</h3>
-                        <form onsubmit="handleAdSubmit(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">رابط صورة الإعلان (مستطيلة)</label>
-                                <input type="url" id="adImage" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="https://example.com/ad.jpg">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">رابط التوجيه (عند النقر على الإعلان)</label>
-                                <input type="url" id="adLink" required class="w-full px-3 py-2 border rounded-lg text-sm" placeholder="https://website.com">
-                            </div>
-                            <button type="submit" class="bg-navy text-gold px-6 py-2 rounded-lg font-bold text-sm shadow">إضافة الإعلان</button>
-                        </form>
-                    </div>
-
-                    <div class="bg-white rounded-xl shadow border overflow-hidden">
-                        <table class="w-full text-right border-collapse">
-                            <thead class="bg-navy text-white text-xs">
-                                <tr>
-                                    <th class="p-3">معاينة الصورة</th>
-                                    <th class="p-3">رابط التوجيه</th>
-                                    <th class="p-3 text-center">حذف</th>
-                                </tr>
-                            </thead>
-                            <tbody id="adminAdsTable" class="divide-y text-sm"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- Tab 3: Ticker -->
-                <div id="admin-ticker-content" class="space-y-6 hidden">
-                    <div class="bg-white p-4 rounded-xl shadow border">
-                        <h3 class="font-bold text-navy mb-3">إدارة شريط الأخبار العاجلة</h3>
-                        <form onsubmit="handleTickerSubmit(event)" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-bold text-gray-600 mb-1">نص الخبر العاجل المتحرك</label>
-                                <input type="text" id="tickerInputText" required class="w-full px-3 py-2 border rounded-lg text-sm">
-                            </div>
-                            <div class="flex items-center gap-3">
-                                <label class="text-xs font-bold text-gray-600">حالة الشريط:</label>
-                                <select id="tickerStatus" class="px-3 py-1.5 border rounded-lg text-sm">
-                                    <option value="active">تشغيل الشريط</option>
-                                    <option value="stopped">إيقاف الشريط</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="bg-navy text-gold px-6 py-2 rounded-lg font-bold text-sm shadow">حفظ وتحديث الشريط</button>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="bg-navy text-white border-t-2 border-gold py-8 mt-12">
-        <div class="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-right">
-            <div>
-                <h3 class="text-xl font-black text-gold">موقع مواطن الإخباري</h3>
-                <p class="text-xs text-gray-400 mt-1">مصدرك الموثوق لمتابعة آخر المستجدات العربية والعالمية.</p>
-            </div>
-            <div class="text-xs text-gray-300 space-y-1">
-                <p>تم تطوير الموقع من قبل: <strong class="text-gold">حسن الحميدي</strong></p>
-                <p>البريد الإلكتروني: <a href="mailto:alkaser20200hasn@gmail.com" class="text-gold hover:underline">alkaser20200hasn@gmail.com</a></p>
-                <p class="text-gray-400 pt-1">جميع الحقوق محفوظة © 2026</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Script Logic -->
-    <script>
-        // Initial Default Data
-        const defaultArticles = [
-            { id: 1, title: "انطلاق أعمال القمة العربية الاقتصادية لبحث آفاق التعاون المشترك", category: "سياسة", date: "2026-06-01", image: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80", content: "انطلقت اليوم أعمال القمة العربية الاقتصادية بمشاركة واسعة من قادة وزعماء الدول العربية لبحث تعزيز التبادل التجاري وتجاوز التحديات الإقليمية الراهنة عبر استراتيجيات تنموية مستدامة." },
-            { id: 2, title: "ارتفاع مؤشرات الأسواق المالية العربية وسط انتعاش قطاع الطاقة", category: "اقتصاد", date: "2026-06-02", image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80", content: "سجلت الأسواق المالية في المنطقة العربية مكاسب ملحوظة خلال تداولات الأسبوع الحالي، مدعومة بنمو قوي في قطاعات الطاقة والتكنولوجيا والخدمات المصرفية الرقمية الحديثة." },
-            { id: 3, title: "مشاريع استراتيجية جديدة لتطوير البنية التتحتية للمدن الذكية", category: "محليات", date: "2026-06-03", image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80", content: "أعلنت الجهات المعنية عن إطلاق حزمة من المشاريع الهندسية الضخمة تهدف إلى تحويل المدن الكبرى إلى مدن ذكية مستدامة تعتمد على إنترنت الأشياء والطاقة النظيفة بالكامل." },
-            { id: 4, title: "انطلاق بطولة كأس آسيا للمنتخبات بمواجهات نارية", category: "رياضة", date: "2026-06-04", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80", content: "شهدت انطلاقة منافسات بطولة كأس آسيا حضوراً جماهيرياً ضخماً ومباريات حماسية أظهرت التطور الكبير لمستوى كرة القدم الآسيوية في السنوات الأخيرة." }
-        ];
-
-        const defaultAds = [
-            { image: "https://images.unsplash.com/photo-1579389083078-4e7018379f7e?auto=format&fit=crop&w=1200&q=80", link: "#" },
-            { image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=1200&q=80", link: "#" }
-        ];
-
-        // LocalStorage Initialization
-        if (!localStorage.getItem('mwatan_articles')) {
-            localStorage.setItem('mwatan_articles', JSON.stringify(defaultArticles));
-        }
-        if (!localStorage.getItem('mwatan_ads')) {
-            localStorage.setItem('mwatan_ads', JSON.stringify(defaultAds));
-        }
-        if (!localStorage.getItem('mwatan_ticker')) {
-            localStorage.setItem('mwatan_ticker', JSON.stringify({ text: "أهلاً بكم في موقع مواطن الإخباري - تابعوا آخر الأخبار والمستجدات على مدار الساعة.", status: "active" }));
-        }
-
-        // Admin Credentials Initialization (Default: admin / admin123)
-        if (!localStorage.getItem('mwatan_admin_user')) {
-            localStorage.setItem('mwatan_admin_user', 'admin');
-            localStorage.setItem('mwatan_admin_pass', 'admin123');
-            localStorage.setItem('mwatan_admin_changed', 'false');
-        }
-
-        let currentCategory = 'الكل';
-        let currentSlideIndex = 0;
-        let currentAdIndex = 0;
-        let adInterval;
-
-        window.onload = function() {
-            updateDate();
-            renderHeroCarousel();
-            renderAds();
-            renderArticles();
-            renderTicker();
-            startAdRotator();
-        };
-
-        function updateDate() {
-            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const today = new Date().toLocaleDateString('ar-SA', options);
-            document.getElementById('current-date').innerText = today;
-        }
-
-        // Carousel Logic
-        function renderHeroCarousel() {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-            const carousel = document.getElementById('heroCarousel');
-            const dots = document.getElementById('carouselDots');
-            
-            const topArticles = articles.slice(0, 4);
-            
-            carousel.innerHTML = topArticles.map((art, idx) => `
-                <div class="absolute inset-0 transition-opacity duration-1000 ${idx === currentSlideIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}">
-                    <img src="${art.image}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-navy-dark via-transparent to-transparent flex flex-col justify-end p-6 md:p-10">
-                        <span class="bg-gold text-navy text-xs font-bold px-3 py-1 rounded-full w-fit mb-2">${art.category}</span>
-                        <h2 class="text-white text-xl md:text-3xl font-black drop-shadow cursor-pointer hover:text-gold transition" onclick="openArticle(${art.id})">${art.title}</h2>
-                        <p class="text-gray-300 text-xs md:text-sm mt-1 line-clamp-1">${art.content}</p>
-                    </div>
-                </div>
-            `).join('');
-
-            dots.innerHTML = topArticles.map((_, idx) => `
-                <button onclick="currentSlideIndex = ${idx}; renderHeroCarousel();" class="w-3 h-3 rounded-full ${idx === currentSlideIndex ? 'bg-gold' : 'bg-white/50'}"></button>
-            `).join('');
-        }
-
-        function nextSlide() {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles')).slice(0, 4);
-            currentSlideIndex = (currentSlideIndex + 1) % articles.length;
-            renderHeroCarousel();
-        }
-
-        function prevSlide() {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles')).slice(0, 4);
-            currentSlideIndex = (currentSlideIndex - 1 + articles.length) % articles.length;
-            renderHeroCarousel();
-        }
-
-        // Ads Logic
-        function renderAds() {
-            const ads = JSON.parse(localStorage.getItem('mwatan_ads'));
-            const container = document.getElementById('adBannerContainer');
-            if (!ads.length) {
-                container.innerHTML = `<p class="text-gray-400 text-xs">لا توجد إعلانات حالياً</p>`;
-                return;
-            }
-            const ad = ads[currentAdIndex];
-            container.innerHTML = `
-                <a href="${ad.link}" target="_blank" class="w-full h-full block">
-                    <img src="${ad.image}" class="w-full h-full object-cover rounded-lg shadow-inner">
-                </a>
-            `;
-        }
-
-        function startAdRotator() {
-            clearInterval(adInterval);
-            adInterval = setInterval(() => {
-                const ads = JSON.parse(localStorage.getItem('mwatan_ads'));
-                if (ads.length > 0) {
-                    currentAdIndex = (currentAdIndex + 1) % ads.length;
-                    renderAds();
-                }
-            }, 5000);
-        }
-
-        // News Ticker Logic
-        function renderTicker() {
-            const tickerData = JSON.parse(localStorage.getItem('mwatan_ticker'));
-            const container = document.getElementById('tickerContainer');
-            const tickerText = document.getElementById('tickerText');
-
-            if (tickerData.status === 'stopped') {
-                container.style.display = 'none';
-            } else {
-                container.style.display = 'flex';
-                tickerText.innerHTML = `<span class="ticker-item">${tickerData.text}</span><span class="ticker-item">${tickerData.text}</span>`;
-            }
-        }
-
-        // Articles Logic
-        function filterCategory(cat) {
-            currentCategory = cat;
-            renderArticles();
-        }
-
-        function searchArticles() {
-            renderArticles();
-        }
-
-        function renderArticles() {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-            const grid = document.getElementById('articlesGrid');
-            const titleEl = document.getElementById('sectionTitle');
-            const countEl = document.getElementById('articleCount');
-
-            titleEl.innerHTML = `<i class="fa-solid fa-newspaper text-gold"></i> ${currentCategory === 'الكل' ? 'أحدث الأخبار والمقالات' : 'قسم ' + currentCategory}`;
-
-            let filtered = articles.filter(art => {
-                const matchCat = currentCategory === 'الكل' || art.category === currentCategory;
-                const matchSearch = art.title.toLowerCase().includes(searchTerm) || art.content.toLowerCase().includes(searchTerm);
-                return matchCat && matchSearch;
-            });
-
-            countEl.innerText = `${filtered.length} مقال`;
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<p class="col-span-full text-center text-gray-500 py-10">لا توجد مقالات مطابقة لبحثك.</p>`;
-                return;
-            }
-
-            grid.innerHTML = filtered.map(art => `
-                <div class="bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 flex flex-col justify-between hover:shadow-xl transition duration-300">
-                    <div>
-                        <div class="relative h-48 overflow-hidden">
-                            <img src="${art.image}" class="w-full h-full object-cover hover:scale-105 transition duration-500">
-                            <span class="absolute top-3 right-3 bg-navy text-gold text-xs font-bold px-3 py-1 rounded-full shadow">${art.category}</span>
-                        </div>
-                        <div class="p-5">
-                            <div class="text-xs text-gray-400 mb-2 flex items-center gap-1">
-                                <i class="fa-regular fa-calendar"></i> ${art.date}
-                            </div>
-                            <h3 class="font-black text-navy text-lg mb-2 line-clamp-2 cursor-pointer hover:text-gold transition" onclick="openArticle(${art.id})">${art.title}</h3>
-                            <p class="text-gray-600 text-sm line-clamp-3">${art.content}</p>
-                        </div>
-                    </div>
-                    <div class="p-5 pt-0">
-                        <button onclick="openArticle(${art.id})" class="text-navy font-bold text-sm hover:text-gold transition flex items-center gap-1">
-                            قراءة المزيد <i class="fa-solid fa-arrow-left text-xs"></i>
-                        </button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Modal
-        function openArticle(id) {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-            const art = articles.find(a => a.id === id);
-            if (!art) return;
-
-            document.getElementById('modalImg').src = art.image;
-            document.getElementById('modalCat').innerText = art.category;
-            document.getElementById('modalDate').innerText = art.date;
-            document.getElementById('modalTitle').innerText = art.title;
-            document.getElementById('modalContent').innerHTML = art.content.split('\n').map(p => `<p>${p}</p>`).join('');
-
-            document.getElementById('articleModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('articleModal').classList.add('hidden');
-        }
-
-        // Admin Auth
-        function openAdminLogin() {
-            document.getElementById('loginUser').value = '';
-            document.getElementById('loginPass').value = '';
-            document.getElementById('loginError').classList.add('hidden');
-            document.getElementById('adminLoginModal').classList.remove('hidden');
-        }
-
-        function closeAdminLogin() {
-            document.getElementById('adminLoginModal').classList.add('hidden');
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const user = document.getElementById('loginUser').value;
-            const pass = document.getElementById('loginPass').value;
-
-            const storedUser = localStorage.getItem('mwatan_admin_user');
-            const storedPass = localStorage.getItem('mwatan_admin_pass');
-            const isChanged = localStorage.getItem('mwatan_admin_changed');
-
-            if (user === storedUser && pass === storedPass) {
-                closeAdminLogin();
-                if (isChanged === 'false' && storedUser === 'admin') {
-                    openChangeCredentialsModal();
-                } else {
-                    openAdminPanel();
-                }
-            } else {
-                document.getElementById('loginError').classList.remove('hidden');
-            }
-        }
-
-        function openChangeCredentialsModal() {
-            document.getElementById('newAdminUser').value = '';
-            document.getElementById('newAdminPass').value = '';
-            document.getElementById('changeCredentialsModal').classList.remove('hidden');
-        }
-
-        function openChangeCredentialsModalDirect() {
-            closeAdminPanel();
-            openChangeCredentialsModal();
-        }
-
-        function saveNewCredentials(e) {
-            e.preventDefault();
-            const newUser = document.getElementById('newAdminUser').value;
-            const newPass = document.getElementById('newAdminPass').value;
-
-            if (newUser && newPass) {
-                localStorage.setItem('mwatan_admin_user', newUser);
-                localStorage.setItem('mwatan_admin_pass', newPass);
-                localStorage.setItem('mwatan_admin_changed', 'true');
-                
-                document.getElementById('changeCredentialsModal').classList.add('hidden');
-                alert('تم تحديث اسم المستخدم وكلمة المرور بنجاح!');
-                openAdminPanel();
-            }
-        }
-
-        function openAdminPanel() {
-            document.getElementById('adminPanelModal').classList.remove('hidden');
-            loadAdminArticles();
-            loadAdminAds();
-            loadAdminTicker();
-        }
-
-        function closeAdminPanel() {
-            document.getElementById('adminPanelModal').classList.add('hidden');
-            renderHeroCarousel();
-            renderAds();
-            renderArticles();
-            renderTicker();
-        }
-
-        function switchAdminTab(tab) {
-            document.getElementById('admin-articles-content').classList.add('hidden');
-            document.getElementById('admin-ads-content').classList.add('hidden');
-            document.getElementById('admin-ticker-content').classList.add('hidden');
-
-            document.getElementById('tab-articles').className = "px-6 py-3 border-b-2 border-transparent text-gray-600 transition";
-            document.getElementById('tab-ads').className = "px-6 py-3 border-b-2 border-transparent text-gray-600 transition";
-            document.getElementById('tab-ticker').className = "px-6 py-3 border-b-2 border-transparent text-gray-600 transition";
-
-            document.getElementById(`tab-${tab}`).className = "px-6 py-3 border-b-2 border-navy text-navy bg-white transition";
-            document.getElementById(`admin-${tab}-content`).classList.remove('hidden');
-        }
-
-        // Admin Management
-        function loadAdminArticles() {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-            const tbody = document.getElementById('adminArticlesTable');
-
-            tbody.innerHTML = articles.map(art => `
-                <tr>
-                    <td class="p-3 font-bold text-navy truncate max-w-xs">${art.title}</td>
-                    <td class="p-3"><span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">${art.category}</span></td>
-                    <td class="p-3 text-gray-500 text-xs">${art.date}</td>
-                    <td class="p-3 text-center space-x-2 space-x-reverse">
-                        <button onclick="editArticle(${art.id})" class="text-blue-600 hover:text-blue-800 font-bold px-2 py-1"><i class="fa-solid fa-pen"></i></button>
-                        <button onclick="deleteArticle(${art.id})" class="text-red-600 hover:text-red-800 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function handleArticleSubmit(e) {
-            e.preventDefault();
-            const id = document.getElementById('editArticleId').value;
-            const title = document.getElementById('artTitle').value;
-            const category = document.getElementById('artCategory').value;
-            const image = document.getElementById('artImage').value;
-            const content = document.getElementById('artContent').value;
-            const date = new Date().toISOString().split('T')[0];
-
-            let articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-
-            if (id) {
-                articles = articles.map(art => art.id == id ? { ...art, title, category, image, content } : art);
-                alert('تم تحديث الخبر بنجاح!');
-            } else {
-                const newArt = { id: Date.now(), title, category, image, content, date };
-                articles.unshift(newArt);
-                alert('تم نشر الخبر بنجاح!');
-            }
-
-            localStorage.setItem('mwatan_articles', JSON.stringify(articles));
-            resetArticleForm();
-            loadAdminArticles();
-        }
-
-        function editArticle(id) {
-            const articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-            const art = articles.find(a => a.id === id);
-            if (!art) return;
-
-            document.getElementById('editArticleId').value = art.id;
-            document.getElementById('artTitle').value = art.title;
-            document.getElementById('artCategory').value = art.category;
-            document.getElementById('artImage').value = art.image;
-            document.getElementById('artContent').value = art.content;
-
-            document.getElementById('articleFormTitle').innerText = 'تعديل الخبر أو المقال';
-            document.getElementById('artSubmitBtn').innerText = 'حفظ التعديلات';
-            document.getElementById('artCancelBtn').classList.remove('hidden');
-        }
-
-        function resetArticleForm() {
-            document.getElementById('editArticleId').value = '';
-            document.getElementById('artTitle').value = '';
-            document.getElementById('artImage').value = '';
-            document.getElementById('artContent').value = '';
-            document.getElementById('articleFormTitle').innerText = 'إضافة خبر أو مقال جديد';
-            document.getElementById('artSubmitBtn').innerText = 'نشر الخبر';
-            document.getElementById('artCancelBtn').classList.add('hidden');
-        }
-
-        function deleteArticle(id) {
-            if (confirm('هل أنت متأكد من حذف هذا المقال؟')) {
-                let articles = JSON.parse(localStorage.getItem('mwatan_articles'));
-                articles = articles.filter(a => a.id !== id);
-                localStorage.setItem('mwatan_articles', JSON.stringify(articles));
-                loadAdminArticles();
-            }
-        }
-
-        function loadAdminAds() {
-            const ads = JSON.parse(localStorage.getItem('mwatan_ads'));
-            const tbody = document.getElementById('adminAdsTable');
-
-            tbody.innerHTML = ads.map((ad, idx) => `
-                <tr>
-                    <td class="p-3"><img src="${ad.image}" class="w-20 h-10 object-cover rounded shadow"></td>
-                    <td class="p-3 text-blue-600 truncate max-w-xs"><a href="${ad.link}" target="_blank">${ad.link}</a></td>
-                    <td class="p-3 text-center">
-                        <button onclick="deleteAd(${idx})" class="text-red-600 hover:text-red-800 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
-                    </td>
-                </tr>
-            `).join('');
-        }
-
-        function handleAdSubmit(e) {
-            e.preventDefault();
-            let ads = JSON.parse(localStorage.getItem('mwatan_ads'));
-            if (ads.length >= 5) {
-                alert('الحد الأقصى للإعلانات هو 5 إعلانات. قم بحذف إعلان قديم لإضافة إعلان جديد.');
-                return;
-            }
-
-            const image = document.getElementById('adImage').value;
-            const link = document.getElementById('adLink').value;
-
-            ads.push({ image, link });
-            localStorage.setItem('mwatan_ads', JSON.stringify(ads));
-
-            document.getElementById('adImage').value = '';
-            document.getElementById('adLink').value = '';
-            loadAdminAds();
-            alert('تم إضافة الإعلان بنجاح!');
-        }
-
-        function deleteAd(idx) {
-            let ads = JSON.parse(localStorage.getItem('mwatan_ads'));
-            ads.splice(idx, 1);
-            localStorage.setItem('mwatan_ads', JSON.stringify(ads));
-            loadAdminAds();
-        }
-
-        function loadAdminTicker() {
-            const ticker = JSON.parse(localStorage.getItem('mwatan_ticker'));
-            document.getElementById('tickerInputText').value = ticker.text;
-            document.getElementById('tickerStatus').value = ticker.status;
-        }
-
-        function handleTickerSubmit(e) {
-            e.preventDefault();
-            const text = document.getElementById('tickerInputText').value;
-            const status = document.getElementById('tickerStatus').value;
-
-            localStorage.setItem('mwatan_ticker', JSON.stringify({ text, status }));
-            alert('تم تحديث شريط العاجل بنجاح!');
-            renderTicker();
-        }
-    </script>
+    <h3>${escapeHTML(item.title)}</h3>
+
+    <p>${escapeHTML(item.summary)}</p>
+
+    <button class="read-button"
+
+     onclick="openArticle(${Number(item.id)})">
+
+     اقرأ المزيد
+
+    </button>
+
+   </div>
+
+  </article>
+
+ `).join("") || "<p>لا توجد أخبار منشورة حالياً.</p>";
+
+ document.getElementById("popular").innerHTML=
+
+ data.articles.slice(0,5).map(item=>`
+
+  <div class="admin-item">
+
+   <a href="#" onclick="openArticle(${Number(item.id)});return false">
+
+    ${escapeHTML(item.title)}
+
+   </a>
+
+  </div>
+
+ `).join("");
+
+ renderSlides();
+
+ renderAds();
+
+ renderAdmin();
+
+}
+
+function renderSlides(){
+
+ const items=data.articles;
+
+ if(!items.length)return;
+
+ slideIndex=slideIndex%items.length;
+
+ const item=items[slideIndex];
+
+ document.getElementById("featuredTitle").textContent=item.title;
+
+ document.getElementById("featuredSummary").textContent=item.summary;
+
+ document.getElementById("featuredImage").src=
+
+ safeUrl(item.image) || "";
+
+ const side=document.getElementById("sideStories");
+
+ side.innerHTML=items
+
+ .filter((item,index)=>index!==slideIndex)
+
+ .slice(0,2)
+
+ .map(item=>`
+
+  <div class="side-story">
+
+   <img src="${escapeHTML(safeUrl(item.image))}" alt="">
+
+   <span class="tag">${escapeHTML(item.category)}</span>
+
+   <h3>${escapeHTML(item.title)}</h3>
+
+  </div>
+
+ `).join("");
+
+}
+
+setInterval(function(){
+
+ if(data.articles.length>1){
+
+  slideIndex=(slideIndex+1)%data.articles.length;
+
+  renderSlides();
+
+ }
+
+},6000);
+
+function renderAds(){
+
+ const area=document.getElementById("adArea");
+
+ if(!data.ads.length){
+
+  area.innerHTML='<div class="ad-placeholder">أعلن معنا عبر منصة مواطن</div>';
+
+  return;
+
+ }
+
+ adIndex=adIndex%data.ads.length;
+
+ const ad=data.ads[adIndex];
+
+ const image=safeUrl(ad.image);
+
+ const target=safeUrl(ad.target);
+
+ area.innerHTML=`
+
+  <img src="${escapeHTML(image)}" alt="إعلان">
+
+  ${target?`<a href="${escapeHTML(target)}" target="_blank" rel="noopener"></a>`:""}
+
+ `;
+
+}
+
+setInterval(function(){
+
+ if(data.ads.length>1){
+
+  adIndex=(adIndex+1)%data.ads.length;
+
+  renderAds();
+
+ }
+
+},4500);
+
+function openArticle(id){
+
+ const item=data.articles.find(x=>Number(x.id)===Number(id));
+
+ if(!item)return;
+
+ document.getElementById("articleDetails").innerHTML=`
+
+  <div class="meta">${escapeHTML(item.category)} | ${escapeHTML(item.date)}</div>
+
+  <h2>${escapeHTML(item.title)}</h2>
+
+  ${safeUrl(item.image)?`<img src="${escapeHTML(safeUrl(item.image))}" style="width:100%;border-radius:10px">`:""}
+
+  <p>${escapeHTML(item.body).replace(/\n/g,"<br>")}</p>
+
+ `;
+
+ document.getElementById("articleModal").classList.add("active");
+
+}
+
+function closeArticle(){
+
+ document.getElementById("articleModal").classList.remove("active");
+
+}
+
+function openAdmin(){
+
+ document.getElementById("adminPanel").classList.add("active");
+
+ document.getElementById("tickerInput").value=data.ticker;
+
+ renderAdmin();
+
+}
+
+function closeAdmin(){
+
+ document.getElementById("adminPanel").classList.remove("active");
+
+}
+
+function addArticle(){
+
+ const title=document.getElementById("title").value.trim();
+
+ const summary=document.getElementById("summary").value.trim();
+
+ if(!title||!summary){
+
+  alert("أدخل عنوان الخبر والملخص أولاً");
+
+  return;
+
+ }
+
+ data.articles.unshift({
+
+  id:Date.now(),
+
+  title:title,
+
+  category:document.getElementById("category").value.trim()||"أخبار",
+
+  image:safeUrl(document.getElementById("image").value.trim()),
+
+  summary:summary,
+
+  body:document.getElementById("body").value.trim()||summary,
+
+  date:new Date().toLocaleDateString("ar")
+
+ });
+
+ saveData();
+
+ render();
+
+ ["title","category","image","summary","body"].forEach(id=>{
+
+  document.getElementById(id).value="";
+
+ });
+
+ alert("تم نشر الخبر في هذا المتصفح");
+
+}
+
+function deleteArticle(id){
+
+ if(!confirm("هل تريد حذف الخبر؟"))return;
+
+ data.articles=data.articles.filter(x=>Number(x.id)!==Number(id));
+
+ saveData();
+
+ render();
+
+}
+
+function addAd(){
+
+ const image=safeUrl(document.getElementById("adImage").value.trim());
+
+ const target=safeUrl(document.getElementById("adTarget").value.trim());
+
+ if(!image){
+
+  alert("أدخل رابط صورة صحيح");
+
+  return;
+
+ }
+
+ if(data.ads.length>=5){
+
+  alert("الحد الأقصى خمسة إعلانات");
+
+  return;
+
+ }
+
+ data.ads.push({id:Date.now(),image,target});
+
+ saveData();
+
+ render();
+
+ document.getElementById("adImage").value="";
+
+ document.getElementById("adTarget").value="";
+
+}
+
+function deleteAd(id){
+
+ data.ads=data.ads.filter(x=>Number(x.id)!==Number(id));
+
+ saveData();
+
+ render();
+
+}
+
+function saveTicker(){
+
+ data.ticker=document.getElementById("tickerInput").value.trim();
+
+ saveData();
+
+ render();
+
+ alert("تم تحديث الشريط");
+
+}
+
+function renderAdmin(){
+
+ document.getElementById("adminArticles").innerHTML=
+
+ data.articles.map(item=>`
+
+  <div class="admin-item">
+
+   <span>${escapeHTML(item.title)}</span>
+
+   <button class="delete" onclick="deleteArticle(${Number(item.id)})">حذف</button>
+
+  </div>
+
+ `).join("");
+
+ document.getElementById("adminAds").innerHTML=
+
+ data.ads.map(ad=>`
+
+  <div class="admin-item">
+
+   <span>إعلان ${Number(ad.id)}</span>
+
+   <button class="delete" onclick="deleteAd(${Number(ad.id)})">حذف</button>
+
+  </div>
+
+ `).join("");
+
+}
+
+function exportData(){
+
+ const file=new Blob([JSON.stringify(data,null,2)],{
+
+  type:"application/json"
+
+ });
+
+ const link=document.createElement("a");
+
+ link.href=URL.createObjectURL(file);
+
+ link.download="mawaten-backup.json";
+
+ link.click();
+
+ URL.revokeObjectURL(link.href);
+
+}
+
+render();
+
+</script>
+
 </body>
+
 </html>
