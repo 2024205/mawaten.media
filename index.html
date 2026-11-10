@@ -14,25 +14,25 @@
 
 <style>
 
-:root {
+:root{
 
-  --navy:#101b31;
+--navy:#101b31;
 
-  --navy2:#1b2d49;
+--navy2:#1b2d49;
 
-  --gold:#d6ad58;
+--gold:#d6ad58;
 
-  --gold-light:#f4d997;
+--gold-light:#f4d997;
 
-  --white:#fff;
+--white:#fff;
 
-  --bg:#f3f5f8;
+--bg:#f3f5f8;
 
-  --text:#202b3c;
+--text:#202b3c;
 
-  --muted:#788496;
+--muted:#788496;
 
-  --red:#c83b43;
+--red:#c83b43
 
 }
 
@@ -40,15 +40,15 @@
 
 body{
 
-  margin:0;
+margin:0;
 
-  font-family:Tahoma,Arial,sans-serif;
+font-family:Tahoma,Arial,sans-serif;
 
-  background:var(--bg);
+background:var(--bg);
 
-  color:var(--text);
+color:var(--text);
 
-  line-height:1.8
+line-height:1.8
 
 }
 
@@ -58,39 +58,95 @@ button{cursor:pointer}
 
 .container{width:94%;max-width:1200px;margin:auto}
 
-.top-line{height:5px;background:linear-gradient(90deg,var(--gold),#fff,var(--gold))}
+.top-line{
 
-header{background:var(--navy);color:white}
+height:5px;
+
+background:linear-gradient(90deg,var(--gold),#fff,var(--gold))
+
+}
+
+header{
+
+background:linear-gradient(120deg,#0b1528,var(--navy),#1d304d);
+
+color:white;
+
+box-shadow:0 4px 18px #101b3120
+
+}
 
 .header{
 
- display:flex;justify-content:space-between;
+display:flex;
 
- align-items:center;padding:18px 0;gap:12px
+justify-content:space-between;
+
+align-items:center;
+
+padding:20px 0;
+
+gap:12px
 
 }
 
-.logo{display:flex;align-items:center;gap:12px}
+.logo{display:flex;align-items:center;gap:13px}
 
 .logo-icon{
 
- width:55px;height:55px;border:2px solid var(--gold);
+width:58px;height:58px;
 
- border-radius:15px;display:grid;place-items:center;
+border:2px solid var(--gold);
 
- color:var(--gold-light);font-size:29px;font-weight:bold
+border-radius:16px;
+
+display:grid;place-items:center;
+
+color:var(--gold-light);
+
+font-size:29px;font-weight:bold;
+
+box-shadow:inset 0 0 0 4px #d6ad5815
 
 }
 
-.logo h1{margin:0;color:var(--gold-light);font-size:27px}
+.logo h1{
 
-.logo small{color:#cbd5e1}
+margin:0;
+
+color:var(--gold-light);
+
+font-size:30px;
+
+letter-spacing:1px
+
+}
+
+.logo small{color:#e2e8f0;font-size:12px}
+
+.logo .slogan{
+
+display:block;
+
+color:var(--gold);
+
+font-size:11px;
+
+margin-top:1px
+
+}
 
 .admin-button{
 
- background:var(--gold);border:0;border-radius:9px;
+background:linear-gradient(135deg,var(--gold-light),var(--gold));
 
- padding:10px 15px;color:var(--navy);font-weight:bold
+border:0;border-radius:10px;
+
+padding:10px 15px;
+
+color:var(--navy);
+
+font-weight:bold
 
 }
 
@@ -98,9 +154,11 @@ nav{border-top:1px solid #ffffff20}
 
 .nav{
 
- display:flex;gap:25px;padding:10px 0;
+display:flex;gap:25px;
 
- overflow:auto;white-space:nowrap
+padding:10px 0;
+
+overflow:auto;white-space:nowrap
 
 }
 
@@ -110,17 +168,21 @@ nav{border-top:1px solid #ffffff20}
 
 .breaking{
 
- background:white;border-bottom:1px solid #ddd;
+background:white;
 
- display:flex;align-items:center;overflow:hidden
+border-bottom:1px solid #ddd;
+
+display:flex;align-items:center;overflow:hidden
 
 }
 
 .breaking strong{
 
- background:var(--red);color:white;padding:7px 17px;
+background:var(--red);
 
- white-space:nowrap
+color:white;padding:7px 17px;
+
+white-space:nowrap
 
 }
 
@@ -130,35 +192,47 @@ main{padding:25px 0}
 
 .hero{
 
- display:grid;grid-template-columns:1.5fr 1fr;
+display:grid;
 
- gap:16px;margin-bottom:25px
+grid-template-columns:1.5fr 1fr;
+
+gap:16px;margin-bottom:25px
 
 }
 
 .feature{
 
- min-height:350px;position:relative;overflow:hidden;
+min-height:350px;
 
- border-radius:17px;background:var(--navy);color:white;
+position:relative;overflow:hidden;
 
- display:flex;align-items:end
+border-radius:17px;
+
+background:var(--navy);
+
+color:white;
+
+display:flex;align-items:end
 
 }
 
 .feature img{
 
- position:absolute;width:100%;height:100%;
+position:absolute;
 
- object-fit:cover;opacity:.55
+width:100%;height:100%;
+
+object-fit:cover;opacity:.55
 
 }
 
 .feature-content{
 
- position:relative;padding:25px;width:100%;
+position:relative;
 
- background:linear-gradient(transparent,#07101f)
+padding:25px;width:100%;
+
+background:linear-gradient(transparent,#07101f)
 
 }
 
@@ -168,11 +242,17 @@ main{padding:25px 0}
 
 .tag{
 
- display:inline-block;background:var(--gold);
+display:inline-block;
 
- color:var(--navy);padding:3px 12px;
+background:var(--gold);
 
- border-radius:20px;font-size:12px;font-weight:bold
+color:var(--navy);
+
+padding:3px 12px;
+
+border-radius:20px;
+
+font-size:12px;font-weight:bold
 
 }
 
@@ -180,21 +260,29 @@ main{padding:25px 0}
 
 .side-story{
 
- min-height:165px;border-radius:15px;
+min-height:165px;
 
- background:var(--navy2);color:white;
+border-radius:15px;
 
- padding:20px;display:flex;flex-direction:column;
+background:var(--navy2);
 
- justify-content:end;position:relative;overflow:hidden
+color:white;padding:20px;
+
+display:flex;flex-direction:column;
+
+justify-content:end;
+
+position:relative;overflow:hidden
 
 }
 
 .side-story img{
 
- position:absolute;inset:0;width:100%;height:100%;
+position:absolute;inset:0;
 
- object-fit:cover;opacity:.4
+width:100%;height:100%;
+
+object-fit:cover;opacity:.4
 
 }
 
@@ -202,19 +290,27 @@ main{padding:25px 0}
 
 .section-title{
 
- border-right:5px solid var(--gold);
+border-right:5px solid var(--gold);
 
- padding-right:12px;color:var(--navy);
+padding-right:12px;
 
- margin:25px 0 15px;font-size:21px
+color:var(--navy);
+
+margin:25px 0 15px;
+
+font-size:21px
 
 }
 
 .ad-box{
 
- background:white;padding:13px;border-radius:15px;
+background:white;padding:13px;
 
- margin:22px 0;border:1px solid #e3e7ed
+border-radius:15px;
+
+margin:22px 0;
+
+border:1px solid #e3e7ed
 
 }
 
@@ -222,9 +318,15 @@ main{padding:25px 0}
 
 .ad-area{
 
- height:125px;border-radius:11px;overflow:hidden;
+height:125px;
 
- background:var(--navy2);position:relative
+border-radius:11px;
+
+overflow:hidden;
+
+background:var(--navy2);
+
+position:relative
 
 }
 
@@ -234,21 +336,25 @@ main{padding:25px 0}
 
 .ad-placeholder{
 
- color:var(--gold-light);height:100%;
+color:var(--gold-light);
 
- display:grid;place-items:center;text-align:center;
+height:100%;
 
- font-size:22px;font-weight:bold
+display:grid;place-items:center;
+
+text-align:center;
+
+font-size:22px;font-weight:bold
 
 }
 
 .news-ticker{
 
- background:var(--navy2);color:white;
+background:var(--navy2);
 
- padding:10px 15px;border-radius:10px;
+color:white;padding:10px 15px;
 
- margin-bottom:25px
+border-radius:10px;margin-bottom:25px
 
 }
 
@@ -256,31 +362,41 @@ main{padding:25px 0}
 
 .news-layout{
 
- display:grid;grid-template-columns:minmax(0,1fr) 280px;
+display:grid;
 
- gap:20px
+grid-template-columns:minmax(0,1fr) 280px;
+
+gap:20px
 
 }
 
 .articles{
 
- display:grid;grid-template-columns:repeat(2,1fr);
+display:grid;
 
- gap:16px
+grid-template-columns:repeat(2,1fr);
+
+gap:16px
 
 }
 
 .article{
 
- background:white;border-radius:14px;
+background:white;
 
- overflow:hidden;border:1px solid #e5e9ef
+border-radius:14px;
+
+overflow:hidden;
+
+border:1px solid #e5e9ef
 
 }
 
 .article img{
 
- width:100%;height:190px;object-fit:cover
+width:100%;height:190px;
+
+object-fit:cover
 
 }
 
@@ -294,19 +410,23 @@ main{padding:25px 0}
 
 .read-button{
 
- background:#f5eddd;color:#76551c;
+background:#f5eddd;
 
- border:0;border-radius:8px;padding:8px 14px;
+color:#76551c;
 
- font-weight:bold
+border:0;border-radius:8px;
+
+padding:8px 14px;font-weight:bold
 
 }
 
 .sidebar-box{
 
- background:white;border-radius:13px;
+background:white;
 
- padding:16px;margin-bottom:15px
+border-radius:13px;
+
+padding:16px;margin-bottom:15px
 
 }
 
@@ -316,9 +436,15 @@ main{padding:25px 0}
 
 footer{
 
- background:var(--navy);color:#d5deeb;
+background:var(--navy);
 
- text-align:center;padding:28px 10px;margin-top:40px
+color:#d5deeb;
+
+text-align:center;
+
+padding:28px 10px;
+
+margin-top:40px
 
 }
 
@@ -326,39 +452,67 @@ footer strong{color:var(--gold-light)}
 
 footer small{display:block;color:#aab6c8}
 
-.modal,.admin{
+.modal,.admin,.login-modal{
 
- display:none;position:fixed;inset:0;
+display:none;
 
- background:#07101fdc;z-index:50;
+position:fixed;inset:0;
 
- padding:15px;overflow:auto
+background:#07101fdc;
 
-}
+z-index:50;
 
-.modal.active,.admin.active{
-
- display:flex;align-items:center;justify-content:center
+padding:15px;overflow:auto
 
 }
 
-.modal-content,.admin-content{
+.modal.active,.admin.active,.login-modal.active{
 
- background:white;border-radius:15px;
+display:flex;
 
- padding:22px;width:min(750px,100%);
+align-items:center;
 
- max-height:95vh;overflow:auto;position:relative
+justify-content:center
 
 }
+
+.modal-content,.admin-content,.login-content{
+
+background:white;
+
+border-radius:15px;
+
+padding:22px;
+
+width:min(750px,100%);
+
+max-height:95vh;
+
+overflow:auto;
+
+position:relative
+
+}
+
+.login-content{
+
+width:min(420px,100%);
+
+text-align:center
+
+}
+
+.login-content h2{color:var(--navy);margin-top:10px}
 
 .close{
 
- position:absolute;left:12px;top:12px;
+position:absolute;
 
- border:0;background:#eee;padding:7px 12px;
+left:12px;top:12px;
 
- border-radius:7px
+border:0;background:#eee;
+
+padding:7px 12px;border-radius:7px
 
 }
 
@@ -366,13 +520,21 @@ footer small{display:block;color:#aab6c8}
 
 .field{margin:12px 0}
 
-.field label{display:block;font-size:13px;font-weight:bold}
+.field label{
+
+display:block;
+
+font-size:13px;font-weight:bold
+
+}
 
 .field input,.field textarea{
 
- width:100%;padding:10px;border:1px solid #ddd;
+width:100%;padding:10px;
 
- border-radius:8px;margin-top:5px
+border:1px solid #ddd;
+
+border-radius:8px;margin-top:5px
 
 }
 
@@ -380,55 +542,101 @@ footer small{display:block;color:#aab6c8}
 
 .save{
 
- background:var(--navy);color:white;
+background:var(--navy);
 
- border:0;padding:10px 16px;border-radius:8px
+color:white;border:0;
+
+padding:10px 16px;
+
+border-radius:8px
 
 }
 
 .delete{
 
- background:#ffe5e5;color:#a22;
+background:#ffe5e5;
 
- border:0;padding:6px 10px;border-radius:7px
+color:#a22;border:0;
+
+padding:6px 10px;
+
+border-radius:7px
 
 }
 
 .admin-item{
 
- display:flex;justify-content:space-between;
+display:flex;
 
- align-items:center;gap:10px;
+justify-content:space-between;
 
- border-bottom:1px solid #eee;padding:10px 0
+align-items:center;
+
+gap:10px;
+
+border-bottom:1px solid #eee;
+
+padding:10px 0
 
 }
 
 .notice{
 
- background:#fff6df;padding:12px;
+background:#fff6df;
 
- border-radius:8px;font-size:12px;color:#71551b
+padding:12px;
+
+border-radius:8px;
+
+font-size:12px;
+
+color:#71551b
+
+}
+
+.settings-box{
+
+background:#f5f7fa;
+
+border:1px solid #e3e7ed;
+
+border-radius:12px;
+
+padding:15px;margin:16px 0
+
+}
+
+.secondary{
+
+background:#e9edf3;
+
+color:var(--navy);
+
+border:0;padding:9px 14px;
+
+border-radius:8px;font-weight:bold
 
 }
 
 @media(max-width:800px){
 
- .hero,.news-layout{grid-template-columns:1fr}
+.hero,.news-layout{grid-template-columns:1fr}
 
- .side-stories{grid-template-columns:1fr 1fr}
+.side-stories{grid-template-columns:1fr 1fr}
 
 }
 
 @media(max-width:550px){
 
- .articles{grid-template-columns:1fr}
+.articles{grid-template-columns:1fr}
 
- .side-stories{grid-template-columns:1fr}
+.side-stories{grid-template-columns:1fr}
 
- .feature{min-height:290px}
+.feature{min-height:290px}
 
- .logo h1{font-size:22px}
+.logo h1{font-size:24px}
+
+.logo-icon{width:50px;height:50px}
 
 }
 
@@ -442,299 +650,395 @@ footer small{display:block;color:#aab6c8}
 
 <header>
 
- <div class="container">
+<div class="container">
 
-  <div class="header">
+<div class="header">
 
-   <div class="logo">
+<div class="logo">
 
-    <div class="logo-icon">م</div>
+<div class="logo-icon">م</div>
 
-    <div>
+<div>
 
-     <h1>مواطن</h1>
+<h1>مُــوَاطِــن</h1>
 
-     <small>منصة إخبارية عربية</small>
+<small>M O W A T E N</small>
 
-    </div>
+<span class="slogan">صوت المواطن.. نبض الوطن</span>
 
-   </div>
+</div>
 
-   <button class="admin-button" onclick="openAdmin()">
+</div>
 
-    لوحة الإدارة
+<button class="admin-button" onclick="showLogin()">
 
-   </button>
+لوحة الإدارة
 
-  </div>
+</button>
 
-  <nav>
+</div>
 
-   <div class="nav">
+<nav>
 
-    <a href="#">الرئيسية</a>
+<div class="nav">
 
-    <a href="#latest">آخر الأخبار</a>
+<a href="#">الرئيسية</a>
 
-    <a href="#advertisements">الإعلانات</a>
+<a href="#latest">آخر الأخبار</a>
 
-    <a href="#about">من نحن</a>
+<a href="#advertisements">الإعلانات</a>
 
-   </div>
+<a href="#about">من نحن</a>
 
-  </nav>
+</div>
 
- </div>
+</nav>
+
+</div>
 
 </header>
 
 <div class="breaking">
 
- <strong>عاجل</strong>
+<strong>عاجل</strong>
 
- <marquee id="breakingText" direction="right">
+<marquee id="breakingText" direction="right">
 
-  أهلاً بكم في منصة مواطن الإخبارية
+أهلاً بكم في منصة مواطن الإخبارية
 
- </marquee>
+</marquee>
 
 </div>
 
 <main class="container">
 
- <section class="hero">
+<section class="hero">
 
-  <div class="feature">
+<div class="feature">
 
-   <img id="featuredImage"
+<img id="featuredImage"
 
-    src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80"
+src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1200&q=80"
 
-    alt="خبر رئيسي">
+alt="خبر رئيسي">
 
-   <div class="feature-content">
+<div class="feature-content">
 
-    <span class="tag">أبرز الأخبار</span>
+<span class="tag">أبرز الأخبار</span>
 
-    <h2 id="featuredTitle">مرحباً بكم في منصة مواطن</h2>
+<h2 id="featuredTitle">مرحباً بكم في منصة مواطن</h2>
 
-    <p id="featuredSummary">
+<p id="featuredSummary">تابعوا آخر الأخبار والتقارير والمستجدات.</p>
 
-     تابعوا آخر الأخبار والتقارير والمستجدات.
+</div>
 
-    </p>
+</div>
 
-   </div>
+<div class="side-stories" id="sideStories"></div>
 
-  </div>
+</section>
 
-  <div class="side-stories" id="sideStories"></div>
+<section class="ad-box" id="advertisements">
 
- </section>
+<div class="ad-title">مساحة إعلانية</div>
 
- <section class="ad-box" id="advertisements">
+<div class="ad-area" id="adArea">
 
-  <div class="ad-title">مساحة إعلانية</div>
+<div class="ad-placeholder">أعلن معنا عبر منصة مواطن</div>
 
-  <div class="ad-area" id="adArea">
+</div>
 
-   <div class="ad-placeholder">
+</section>
 
-    أعلن معنا عبر منصة مواطن
+<div class="news-ticker">
 
-   </div>
+<strong>جديد مواطن | </strong>
 
-  </div>
+<marquee id="newsTicker" direction="right">
 
- </section>
+تابعوا جديد الأخبار والتقارير عبر منصة مواطن
 
- <div class="news-ticker">
+</marquee>
 
-  <strong>جديد مواطن | </strong>
+</div>
 
-  <marquee id="newsTicker" direction="right">
+<div class="news-layout" id="latest">
 
-   تابعوا جديد الأخبار والتقارير عبر منصة مواطن
+<section>
 
-  </marquee>
+<h2 class="section-title">آخر الأخبار</h2>
 
- </div>
+<div class="articles" id="articles"></div>
 
- <div class="news-layout" id="latest">
+</section>
 
-  <section>
+<aside>
 
-   <h2 class="section-title">آخر الأخبار</h2>
+<div class="sidebar-box">
 
-   <div class="articles" id="articles"></div>
+<h3>الأكثر قراءة</h3>
 
-  </section>
+<div id="popular"></div>
 
-  <aside>
+</div>
 
-   <div class="sidebar-box">
+<div class="sidebar-box">
 
-    <h3>الأكثر قراءة</h3>
+<h3>عن مواطن</h3>
 
-    <div id="popular"></div>
+<p>
 
-   </div>
+منصة إخبارية عربية تهتم بنقل الأخبار والتقارير
 
-   <div class="sidebar-box">
+والمستجدات إلى القارئ.
 
-    <h3>عن مواطن</h3>
+</p>
 
-    <p>
+</div>
 
-     منصة إخبارية عربية تهتم بنقل الأخبار والتقارير
+</aside>
 
-     والمستجدات إلى القارئ.
-
-    </p>
-
-   </div>
-
-  </aside>
-
- </div>
+</div>
 
 </main>
 
 <footer id="about">
 
- <strong>مواطن</strong>
+<strong>مواطن</strong>
 
- <div>منصة إخبارية عربية</div>
+<div>صوت المواطن.. نبض الوطن</div>
 
- <small>تم تطوير الموقع من قبل حسن الحميدي</small>
+<small>تم تطوير الموقع من قبل حسن الحميدي</small>
 
- <small>alkaser20200hasn@gmail.com</small>
+<small>alkaser20200hasn@gmail.com</small>
 
- <small>جميع الحقوق محفوظة © 2026</small>
+<small>جميع الحقوق محفوظة © 2026</small>
 
 </footer>
 
-<div class="modal" id="articleModal">
+<!-- نافذة تسجيل الدخول -->
 
- <div class="modal-content">
+<div class="login-modal" id="loginModal">
 
-  <button class="close" onclick="closeArticle()">إغلاق ✕</button>
+<div class="login-content">
 
-  <div id="articleDetails"></div>
+<button class="close" onclick="closeLogin()">إغلاق ✕</button>
 
- </div>
+<div class="logo-icon" style="margin:8px auto">م</div>
+
+<h2>تسجيل دخول الإدارة</h2>
+
+<p class="meta">أدخل بيانات لوحة تحكم مواطن</p>
+
+<div class="field" style="text-align:right">
+
+<label>اسم المستخدم</label>
+
+<input id="loginUser" autocomplete="username" placeholder="اسم المستخدم">
 
 </div>
 
+<div class="field" style="text-align:right">
+
+<label>كلمة المرور</label>
+
+<input id="loginPass" type="password" autocomplete="current-password" placeholder="كلمة المرور">
+
+</div>
+
+<button class="save" style="width:100%" onclick="loginAdmin()">
+
+دخول لوحة التحكم
+
+</button>
+
+<p class="meta">بيانات البداية: admin / admin</p>
+
+</div>
+
+</div>
+
+<!-- نافذة قراءة الخبر -->
+
+<div class="modal" id="articleModal">
+
+<div class="modal-content">
+
+<button class="close" onclick="closeArticle()">إغلاق ✕</button>
+
+<div id="articleDetails"></div>
+
+</div>
+
+</div>
+
+<!-- لوحة الإدارة -->
+
 <div class="admin" id="adminPanel">
 
- <div class="admin-content">
+<div class="admin-content">
 
-  <button class="close" onclick="closeAdmin()">إغلاق ✕</button>
+<button class="close" onclick="closeAdmin()">إغلاق ✕</button>
 
-  <h2>لوحة إدارة موقع مواطن</h2>
+<h2>لوحة إدارة موقع مواطن</h2>
 
-  <div class="notice">
+<div class="notice">
 
-   تنبيه: هذه نسخة تجريبية تحفظ البيانات في المتصفح الحالي فقط.
+تنبيه: هذه نسخة تجريبية تحفظ الأخبار والإعلانات وبيانات الدخول
 
-   لا توفر حسابات مشتركة أو حماية إدارية حقيقية.
+في المتصفح الحالي فقط. لا توفر حسابات مشتركة أو حماية إدارية حقيقية.
 
-   لا تضع معلومات حساسة هنا.
+لا تضع معلومات حساسة هنا.
 
-  </div>
+</div>
 
-  <h3>إضافة خبر جديد</h3>
+<!-- إعدادات الحساب -->
 
-  <div class="field">
+<div class="settings-box">
 
-   <label>عنوان الخبر</label>
+<h3>إعدادات الحساب</h3>
 
-   <input id="title" placeholder="عنوان الخبر">
+<p class="meta">
 
-  </div>
+يمكنك تغيير اسم المستخدم وكلمة المرور لهذه النسخة على هذا المتصفح.
 
-  <div class="field">
+</p>
 
-   <label>تصنيف الخبر</label>
+<div class="field">
 
-   <input id="category" placeholder="أخبار محلية">
+<label>اسم المستخدم الجديد</label>
 
-  </div>
+<input id="newAdminUser" placeholder="اسم المستخدم الجديد">
 
-  <div class="field">
+</div>
 
-   <label>رابط صورة الخبر</label>
+<div class="field">
 
-   <input id="image" placeholder="https://...">
+<label>كلمة المرور الجديدة</label>
 
-  </div>
+<input id="newAdminPass" type="password" placeholder="كلمة المرور الجديدة">
 
-  <div class="field">
+</div>
 
-   <label>ملخص الخبر</label>
+<div class="field">
 
-   <textarea id="summary"></textarea>
+<label>تأكيد كلمة المرور</label>
 
-  </div>
+<input id="confirmAdminPass" type="password" placeholder="أعد كتابة كلمة المرور">
 
-  <div class="field">
+</div>
 
-   <label>تفاصيل الخبر</label>
+<button class="save" onclick="changeCredentials()">
 
-   <textarea id="body"></textarea>
+حفظ بيانات الدخول
 
-  </div>
+</button>
 
-  <button class="save" onclick="addArticle()">نشر الخبر</button>
+<button class="secondary" onclick="logoutAdmin()">
 
-  <h3>الأخبار المنشورة</h3>
+تسجيل الخروج
 
-  <div id="adminArticles"></div>
+</button>
 
-  <hr>
+</div>
 
-  <h3>إضافة إعلان (الحد الأقصى 5)</h3>
+<hr>
 
-  <div class="field">
+<h3>إضافة خبر جديد</h3>
 
-   <label>رابط صورة الإعلان</label>
+<div class="field">
 
-   <input id="adImage" placeholder="https://...">
+<label>عنوان الخبر</label>
 
-  </div>
+<input id="title" placeholder="عنوان الخبر">
 
-  <div class="field">
+</div>
 
-   <label>رابط الإعلان عند الضغط (اختياري)</label>
+<div class="field">
 
-   <input id="adTarget" placeholder="https://...">
+<label>تصنيف الخبر</label>
 
-  </div>
+<input id="category" placeholder="أخبار محلية">
 
-  <button class="save" onclick="addAd()">إضافة الإعلان</button>
+</div>
 
-  <div id="adminAds"></div>
+<div class="field">
 
-  <hr>
+<label>رابط صورة الخبر</label>
 
-  <h3>تحديث شريط الأخبار</h3>
+<input id="image" placeholder="https://...">
 
-  <div class="field">
+</div>
 
-   <textarea id="tickerInput"></textarea>
+<div class="field">
 
-  </div>
+<label>ملخص الخبر</label>
 
-  <button class="save" onclick="saveTicker()">حفظ الشريط</button>
+<textarea id="summary"></textarea>
 
-  <hr>
+</div>
 
-  <h3>النسخ الاحتياطي</h3>
+<div class="field">
 
-  <button class="save" onclick="exportData()">تنزيل نسخة احتياطية</button>
+<label>تفاصيل الخبر</label>
 
- </div>
+<textarea id="body"></textarea>
+
+</div>
+
+<button class="save" onclick="addArticle()">نشر الخبر</button>
+
+<h3>الأخبار المنشورة</h3>
+
+<div id="adminArticles"></div>
+
+<hr>
+
+<h3>إضافة إعلان (الحد الأقصى 5)</h3>
+
+<div class="field">
+
+<label>رابط صورة الإعلان</label>
+
+<input id="adImage" placeholder="https://...">
+
+</div>
+
+<div class="field">
+
+<label>رابط الإعلان عند الضغط (اختياري)</label>
+
+<input id="adTarget" placeholder="https://...">
+
+</div>
+
+<button class="save" onclick="addAd()">إضافة الإعلان</button>
+
+<div id="adminAds"></div>
+
+<hr>
+
+<h3>تحديث شريط الأخبار</h3>
+
+<div class="field">
+
+<textarea id="tickerInput"></textarea>
+
+</div>
+
+<button class="save" onclick="saveTicker()">حفظ الشريط</button>
+
+<hr>
+
+<h3>النسخ الاحتياطي</h3>
+
+<button class="save" onclick="exportData()">
+
+تنزيل نسخة احتياطية
+
+</button>
+
+</div>
 
 </div>
 
@@ -742,55 +1046,83 @@ footer small{display:block;color:#aab6c8}
 
 const KEY = "mawaten_news_data";
 
+const AUTH_KEY = "mawaten_admin_credentials";
+
+const defaultCredentials = {
+
+username:"admin",
+
+password:"admin"
+
+};
+
 const initialData = {
 
- articles: [
+articles:[
 
-  {
+{
 
-   id:1,
+id:1,
 
-   title:"مرحباً بكم في منصة مواطن",
+title:"مرحباً بكم في منصة مواطن",
 
-   category:"تعريف",
+category:"تعريف",
 
-   image:"https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1000&q=80",
+image:"https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1000&q=80",
 
-   summary:"منصة إخبارية لمتابعة الأخبار والتقارير.",
+summary:"منصة إخبارية لمتابعة الأخبار والتقارير.",
 
-   body:"مرحباً بكم في منصة مواطن الإخبارية. يمكنكم متابعة الأخبار والتقارير والمستجدات عبر الموقع.",
+body:"مرحباً بكم في منصة مواطن الإخبارية. يمكنكم متابعة الأخبار والتقارير والمستجدات عبر الموقع.",
 
-   date:new Date().toLocaleDateString("ar")
+date:new Date().toLocaleDateString("ar")
 
-  }
+}
 
- ],
+],
 
- ads:[],
+ads:[],
 
- ticker:"تابعوا جديد الأخبار والتقارير عبر منصة مواطن",
+ticker:"تابعوا جديد الأخبار والتقارير عبر منصة مواطن",
 
- breaking:"أهلاً بكم في منصة مواطن الإخبارية"
+breaking:"أهلاً بكم في منصة مواطن الإخبارية"
 
 };
 
 function loadData(){
 
- try{
+try{
 
-  const saved=localStorage.getItem(KEY);
+const saved=localStorage.getItem(KEY);
 
-  return saved ? JSON.parse(saved) : initialData;
+return saved ? JSON.parse(saved) : initialData;
 
- }catch(e){
+}catch(e){
 
-  return initialData;
+return initialData;
 
- }
+}
+
+}
+
+function loadCredentials(){
+
+try{
+
+const saved=localStorage.getItem(AUTH_KEY);
+
+return saved ? JSON.parse(saved) : defaultCredentials;
+
+}catch(e){
+
+return defaultCredentials;
+
+}
 
 }
 
 let data=loadData();
+
+let credentials=loadCredentials();
 
 let slideIndex=0;
 
@@ -798,413 +1130,563 @@ let adIndex=0;
 
 function saveData(){
 
- localStorage.setItem(KEY,JSON.stringify(data));
+localStorage.setItem(KEY,JSON.stringify(data));
 
 }
 
 function safeUrl(value){
 
- try{
+try{
 
-  const url=new URL(value);
+const url=new URL(value);
 
-  return ["https:","http:"].includes(url.protocol) ? url.href : "";
+return ["https:","http:"].includes(url.protocol) ? url.href : "";
 
- }catch(e){return ""}
+}catch(e){
+
+return "";
+
+}
 
 }
 
 function escapeHTML(value){
 
- return String(value||"").replace(/[&<>"']/g,function(c){
+return String(value||"").replace(/[&<>"']/g,function(c){
 
-  return {
+return {
 
-   "&":"&amp;",
+"&":"&amp;",
 
-   "<":"&lt;",
+"<":"&lt;",
 
-   ">":"&gt;",
+">":"&gt;",
 
-   '"':"&quot;",
+'"':"&quot;",
 
-   "'":"&#39;"
+"'":"&#39;"
 
-  }[c];
+}[c];
 
- });
+});
 
 }
 
 function render(){
 
- document.getElementById("breakingText").textContent=data.breaking;
+document.getElementById("breakingText").textContent=data.breaking||"";
 
- document.getElementById("newsTicker").textContent=data.ticker;
+document.getElementById("newsTicker").textContent=data.ticker||"";
 
- const articles=document.getElementById("articles");
+document.getElementById("articles").innerHTML=
 
- articles.innerHTML=data.articles.map(item=>`
+data.articles.map(item=>`
 
-  <article class="article">
+<article class="article">
 
-   <img src="${escapeHTML(safeUrl(item.image))}"
+<img src="${escapeHTML(safeUrl(item.image))}"
 
-    alt="" onerror="this.style.display='none'">
+alt="" onerror="this.style.display='none'">
 
-   <div class="article-content">
+<div class="article-content">
 
-    <div class="meta">
+<div class="meta">
 
-     ${escapeHTML(item.category)} | ${escapeHTML(item.date)}
+${escapeHTML(item.category)} | ${escapeHTML(item.date)}
 
-    </div>
+</div>
 
-    <h3>${escapeHTML(item.title)}</h3>
+<h3>${escapeHTML(item.title)}</h3>
 
-    <p>${escapeHTML(item.summary)}</p>
+<p>${escapeHTML(item.summary)}</p>
 
-    <button class="read-button"
+<button class="read-button"
 
-     onclick="openArticle(${Number(item.id)})">
+onclick="openArticle(${Number(item.id)})">
 
-     اقرأ المزيد
+اقرأ المزيد
 
-    </button>
+</button>
 
-   </div>
+</div>
 
-  </article>
+</article>
 
- `).join("") || "<p>لا توجد أخبار منشورة حالياً.</p>";
+`).join("") || "<p>لا توجد أخبار منشورة حالياً.</p>";
 
- document.getElementById("popular").innerHTML=
+document.getElementById("popular").innerHTML=
 
- data.articles.slice(0,5).map(item=>`
+data.articles.slice(0,5).map(item=>`
 
-  <div class="admin-item">
+<div class="admin-item">
 
-   <a href="#" onclick="openArticle(${Number(item.id)});return false">
+<a href="#"
 
-    ${escapeHTML(item.title)}
+onclick="openArticle(${Number(item.id)});return false">
 
-   </a>
+${escapeHTML(item.title)}
 
-  </div>
+</a>
 
- `).join("");
+</div>
 
- renderSlides();
+`).join("");
 
- renderAds();
+renderSlides();
 
- renderAdmin();
+renderAds();
+
+renderAdmin();
 
 }
 
 function renderSlides(){
 
- const items=data.articles;
+const items=data.articles;
 
- if(!items.length)return;
+if(!items.length){
 
- slideIndex=slideIndex%items.length;
+document.getElementById("featuredTitle").textContent="مرحباً بكم في منصة مواطن";
 
- const item=items[slideIndex];
+document.getElementById("featuredSummary").textContent="تابعوا آخر الأخبار والتقارير والمستجدات.";
 
- document.getElementById("featuredTitle").textContent=item.title;
+document.getElementById("featuredImage").src="";
 
- document.getElementById("featuredSummary").textContent=item.summary;
+document.getElementById("sideStories").innerHTML="";
 
- document.getElementById("featuredImage").src=
+return;
 
- safeUrl(item.image) || "";
+}
 
- const side=document.getElementById("sideStories");
+slideIndex=slideIndex%items.length;
 
- side.innerHTML=items
+const item=items[slideIndex];
 
- .filter((item,index)=>index!==slideIndex)
+document.getElementById("featuredTitle").textContent=item.title;
 
- .slice(0,2)
+document.getElementById("featuredSummary").textContent=item.summary;
 
- .map(item=>`
+document.getElementById("featuredImage").src=safeUrl(item.image)||"";
 
-  <div class="side-story">
+document.getElementById("sideStories").innerHTML=
 
-   <img src="${escapeHTML(safeUrl(item.image))}" alt="">
+items.filter((x,i)=>i!==slideIndex).slice(0,2).map(x=>`
 
-   <span class="tag">${escapeHTML(item.category)}</span>
+<div class="side-story">
 
-   <h3>${escapeHTML(item.title)}</h3>
+<img src="${escapeHTML(safeUrl(x.image))}" alt="">
 
-  </div>
+<span class="tag">${escapeHTML(x.category)}</span>
 
- `).join("");
+<h3>${escapeHTML(x.title)}</h3>
+
+</div>
+
+`).join("");
 
 }
 
 setInterval(function(){
 
- if(data.articles.length>1){
+if(data.articles.length>1){
 
-  slideIndex=(slideIndex+1)%data.articles.length;
+slideIndex=(slideIndex+1)%data.articles.length;
 
-  renderSlides();
+renderSlides();
 
- }
+}
 
 },6000);
 
 function renderAds(){
 
- const area=document.getElementById("adArea");
+const area=document.getElementById("adArea");
 
- if(!data.ads.length){
+if(!data.ads.length){
 
-  area.innerHTML='<div class="ad-placeholder">أعلن معنا عبر منصة مواطن</div>';
+area.innerHTML='<div class="ad-placeholder">أعلن معنا عبر منصة مواطن</div>';
 
-  return;
+return;
 
- }
+}
 
- adIndex=adIndex%data.ads.length;
+adIndex=adIndex%data.ads.length;
 
- const ad=data.ads[adIndex];
+const ad=data.ads[adIndex];
 
- const image=safeUrl(ad.image);
+const image=safeUrl(ad.image);
 
- const target=safeUrl(ad.target);
+const target=safeUrl(ad.target);
 
- area.innerHTML=`
+area.innerHTML=`
 
-  <img src="${escapeHTML(image)}" alt="إعلان">
+<img src="${escapeHTML(image)}" alt="إعلان">
 
-  ${target?`<a href="${escapeHTML(target)}" target="_blank" rel="noopener"></a>`:""}
+${target?`<a href="${escapeHTML(target)}" target="_blank" rel="noopener" aria-label="فتح الإعلان"></a>`:""}
 
- `;
+`;
 
 }
 
 setInterval(function(){
 
- if(data.ads.length>1){
+if(data.ads.length>1){
 
-  adIndex=(adIndex+1)%data.ads.length;
+adIndex=(adIndex+1)%data.ads.length;
 
-  renderAds();
+renderAds();
 
- }
+}
 
 },4500);
 
 function openArticle(id){
 
- const item=data.articles.find(x=>Number(x.id)===Number(id));
+const item=data.articles.find(x=>Number(x.id)===Number(id));
 
- if(!item)return;
+if(!item)return;
 
- document.getElementById("articleDetails").innerHTML=`
+document.getElementById("articleDetails").innerHTML=`
 
-  <div class="meta">${escapeHTML(item.category)} | ${escapeHTML(item.date)}</div>
+<div class="meta">
 
-  <h2>${escapeHTML(item.title)}</h2>
+${escapeHTML(item.category)} | ${escapeHTML(item.date)}
 
-  ${safeUrl(item.image)?`<img src="${escapeHTML(safeUrl(item.image))}" style="width:100%;border-radius:10px">`:""}
+</div>
 
-  <p>${escapeHTML(item.body).replace(/\n/g,"<br>")}</p>
+<h2>${escapeHTML(item.title)}</h2>
 
- `;
+${safeUrl(item.image)?`<img src="${escapeHTML(safeUrl(item.image))}" style="width:100%;border-radius:10px" alt="">`:""}
 
- document.getElementById("articleModal").classList.add("active");
+<p>${escapeHTML(item.body).replace(/\n/g,"<br>")}</p>
+
+`;
+
+document.getElementById("articleModal").classList.add("active");
 
 }
 
 function closeArticle(){
 
- document.getElementById("articleModal").classList.remove("active");
+document.getElementById("articleModal").classList.remove("active");
+
+}
+
+/* تسجيل الدخول */
+
+function showLogin(){
+
+document.getElementById("loginModal").classList.add("active");
+
+document.getElementById("loginUser").value="";
+
+document.getElementById("loginPass").value="";
+
+}
+
+function closeLogin(){
+
+document.getElementById("loginModal").classList.remove("active");
+
+}
+
+function loginAdmin(){
+
+const user=document.getElementById("loginUser").value;
+
+const pass=document.getElementById("loginPass").value;
+
+if(user===credentials.username && pass===credentials.password){
+
+closeLogin();
+
+openAdmin();
+
+}else{
+
+alert("اسم المستخدم أو كلمة المرور غير صحيحة");
+
+}
 
 }
 
 function openAdmin(){
 
- document.getElementById("adminPanel").classList.add("active");
+document.getElementById("adminPanel").classList.add("active");
 
- document.getElementById("tickerInput").value=data.ticker;
+document.getElementById("tickerInput").value=data.ticker;
 
- renderAdmin();
+document.getElementById("newAdminUser").value=credentials.username;
+
+renderAdmin();
 
 }
 
 function closeAdmin(){
 
- document.getElementById("adminPanel").classList.remove("active");
+document.getElementById("adminPanel").classList.remove("active");
 
 }
 
+function logoutAdmin(){
+
+closeAdmin();
+
+alert("تم تسجيل الخروج");
+
+}
+
+/* تغيير اسم المستخدم وكلمة المرور */
+
+function changeCredentials(){
+
+const username=document.getElementById("newAdminUser").value.trim();
+
+const password=document.getElementById("newAdminPass").value;
+
+const confirmPass=document.getElementById("confirmAdminPass").value;
+
+if(!username || !password){
+
+alert("أدخل اسم المستخدم وكلمة المرور الجديدة");
+
+return;
+
+}
+
+if(password.length<4){
+
+alert("اجعل كلمة المرور 4 أحرف أو أكثر");
+
+return;
+
+}
+
+if(password!==confirmPass){
+
+alert("كلمتا المرور غير متطابقتين");
+
+return;
+
+}
+
+credentials={
+
+username:username,
+
+password:password
+
+};
+
+localStorage.setItem(AUTH_KEY,JSON.stringify(credentials));
+
+document.getElementById("newAdminPass").value="";
+
+document.getElementById("confirmAdminPass").value="";
+
+alert("تم حفظ بيانات الدخول على هذا المتصفح. استخدم البيانات الجديدة في المرة القادمة.");
+
+}
+
+/* إضافة الأخبار */
+
 function addArticle(){
 
- const title=document.getElementById("title").value.trim();
+const title=document.getElementById("title").value.trim();
 
- const summary=document.getElementById("summary").value.trim();
+const summary=document.getElementById("summary").value.trim();
 
- if(!title||!summary){
+if(!title || !summary){
 
-  alert("أدخل عنوان الخبر والملخص أولاً");
+alert("أدخل عنوان الخبر والملخص أولاً");
 
-  return;
+return;
 
- }
+}
 
- data.articles.unshift({
+data.articles.unshift({
 
-  id:Date.now(),
+id:Date.now(),
 
-  title:title,
+title:title,
 
-  category:document.getElementById("category").value.trim()||"أخبار",
+category:document.getElementById("category").value.trim()||"أخبار",
 
-  image:safeUrl(document.getElementById("image").value.trim()),
+image:safeUrl(document.getElementById("image").value.trim()),
 
-  summary:summary,
+summary:summary,
 
-  body:document.getElementById("body").value.trim()||summary,
+body:document.getElementById("body").value.trim()||summary,
 
-  date:new Date().toLocaleDateString("ar")
+date:new Date().toLocaleDateString("ar")
 
- });
+});
 
- saveData();
+saveData();
 
- render();
+render();
 
- ["title","category","image","summary","body"].forEach(id=>{
+["title","category","image","summary","body"].forEach(id=>{
 
-  document.getElementById(id).value="";
+document.getElementById(id).value="";
 
- });
+});
 
- alert("تم نشر الخبر في هذا المتصفح");
+alert("تم نشر الخبر في هذا المتصفح");
 
 }
 
 function deleteArticle(id){
 
- if(!confirm("هل تريد حذف الخبر؟"))return;
+if(!confirm("هل تريد حذف الخبر؟"))return;
 
- data.articles=data.articles.filter(x=>Number(x.id)!==Number(id));
+data.articles=data.articles.filter(x=>Number(x.id)!==Number(id));
 
- saveData();
+saveData();
 
- render();
+render();
 
 }
 
+/* الإعلانات */
+
 function addAd(){
 
- const image=safeUrl(document.getElementById("adImage").value.trim());
+const image=safeUrl(document.getElementById("adImage").value.trim());
 
- const target=safeUrl(document.getElementById("adTarget").value.trim());
+const target=safeUrl(document.getElementById("adTarget").value.trim());
 
- if(!image){
+if(!image){
 
-  alert("أدخل رابط صورة صحيح");
+alert("أدخل رابط صورة صحيح");
 
-  return;
+return;
 
- }
+}
 
- if(data.ads.length>=5){
+if(data.ads.length>=5){
 
-  alert("الحد الأقصى خمسة إعلانات");
+alert("الحد الأقصى خمسة إعلانات");
 
-  return;
+return;
 
- }
+}
 
- data.ads.push({id:Date.now(),image,target});
+data.ads.push({
 
- saveData();
+id:Date.now(),
 
- render();
+image:image,
 
- document.getElementById("adImage").value="";
+target:target
 
- document.getElementById("adTarget").value="";
+});
+
+saveData();
+
+render();
+
+document.getElementById("adImage").value="";
+
+document.getElementById("adTarget").value="";
 
 }
 
 function deleteAd(id){
 
- data.ads=data.ads.filter(x=>Number(x.id)!==Number(id));
+data.ads=data.ads.filter(x=>Number(x.id)!==Number(id));
 
- saveData();
+saveData();
 
- render();
+render();
 
 }
+
+/* الشريط المتحرك */
 
 function saveTicker(){
 
- data.ticker=document.getElementById("tickerInput").value.trim();
+data.ticker=document.getElementById("tickerInput").value.trim();
 
- saveData();
+saveData();
 
- render();
+render();
 
- alert("تم تحديث الشريط");
+alert("تم تحديث الشريط");
 
 }
+
+/* عرض عناصر الإدارة */
 
 function renderAdmin(){
 
- document.getElementById("adminArticles").innerHTML=
+const articleBox=document.getElementById("adminArticles");
 
- data.articles.map(item=>`
+const adBox=document.getElementById("adminAds");
 
-  <div class="admin-item">
+if(!articleBox || !adBox)return;
 
-   <span>${escapeHTML(item.title)}</span>
+articleBox.innerHTML=data.articles.map(item=>`
 
-   <button class="delete" onclick="deleteArticle(${Number(item.id)})">حذف</button>
+<div class="admin-item">
 
-  </div>
+<span>${escapeHTML(item.title)}</span>
 
- `).join("");
+<button class="delete"
 
- document.getElementById("adminAds").innerHTML=
+onclick="deleteArticle(${Number(item.id)})">
 
- data.ads.map(ad=>`
+حذف
 
-  <div class="admin-item">
+</button>
 
-   <span>إعلان ${Number(ad.id)}</span>
+</div>
 
-   <button class="delete" onclick="deleteAd(${Number(ad.id)})">حذف</button>
+`).join("");
 
-  </div>
+adBox.innerHTML=data.ads.map(ad=>`
 
- `).join("");
+<div class="admin-item">
+
+<span>إعلان ${Number(ad.id)}</span>
+
+<button class="delete"
+
+onclick="deleteAd(${Number(ad.id)})">
+
+حذف
+
+</button>
+
+</div>
+
+`).join("");
 
 }
 
+/* النسخ الاحتياطي */
+
 function exportData(){
 
- const file=new Blob([JSON.stringify(data,null,2)],{
+const file=new Blob(
 
-  type:"application/json"
+[JSON.stringify(data,null,2)],
 
- });
+{type:"application/json"}
 
- const link=document.createElement("a");
+);
 
- link.href=URL.createObjectURL(file);
+const url=URL.createObjectURL(file);
 
- link.download="mawaten-backup.json";
+const link=document.createElement("a");
 
- link.click();
+link.href=url;
 
- URL.revokeObjectURL(link.href);
+link.download="mawaten-backup.json";
+
+link.click();
+
+URL.revokeObjectURL(url);
 
 }
 
