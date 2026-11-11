@@ -7,6 +7,7 @@
 <title>مُــوَاطِــن | صوت المواطن.. نبض الوطن</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
@@ -61,6 +62,8 @@ button{cursor:pointer}
 .admin-tab.active{background:var(--navy);color:white}
 .admin-list-item{border:1px solid #e5e8ef;border-radius:9px;padding:12px;margin-top:9px}
 .loading{opacity:.6;pointer-events:none}
+
+/* أزرار مشاركة الأخبار */
 .share-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:13px}
 .share-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid #e1e5eb;background:#f8fafc;color:#344054;border-radius:7px;padding:6px 9px;font-size:11px;font-weight:700;transition:.2s}
 .share-btn:hover{background:#edf1f6}
@@ -69,6 +72,8 @@ button{cursor:pointer}
 .share-btn.whatsapp{color:#168b50}
 .share-btn.copy{color:#475467}
 .modal-share{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;padding-top:15px;border-top:1px solid #e8ebf0}
+
+/* أيقونات التواصل الصغيرة */
 .contact-area{margin-top:20px;padding-top:17px;border-top:1px solid #ffffff20}
 .contact-icons{display:flex;align-items:center;justify-content:center;gap:17px;margin-top:10px}
 .contact-link{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;color:#fff;opacity:.9;transition:.2s}
@@ -78,6 +83,7 @@ button{cursor:pointer}
 .contact-link.whatsapp{color:#53d58c}
 .contact-label{font-size:11px;color:#c7d0df;margin-top:5px}
 .contact-item{display:flex;flex-direction:column;align-items:center;min-width:42px}
+
 @media(max-width:640px){
 .ad-frame{height:190px}
 .news-image{height:165px}
@@ -124,6 +130,7 @@ button{cursor:pointer}
 </div>
 
 <main id="home" class="max-w-7xl mx-auto px-4 py-6">
+
 <section id="ads" class="mb-9">
 <div class="flex justify-between items-center mb-3">
 <h2 class="section-title text-lg">إعلانات وشراكات</h2>
@@ -162,6 +169,7 @@ button{cursor:pointer}
 <p class="text-gray-500 text-xs mt-2">منصة إخبارية لنقل الأخبار والمستجدات</p>
 </div>
 </section>
+
 </main>
 
 <footer class="site-footer mt-10">
@@ -169,15 +177,20 @@ button{cursor:pointer}
 <div class="max-w-7xl mx-auto px-4 py-8 text-center">
 <div class="text-2xl font-black gold-text">مُــوَاطِــن</div>
 <p class="text-sm mt-2">صوت المواطن.. نبض الوطن</p>
+
 <div class="contact-area">
 <p class="text-sm font-bold text-white">تواصل معنا</p>
-<div class="contact-icons" id="footerContactIcons"></div>
+<div class="contact-icons" id="footerContactIcons">
+<!-- تظهر أيقونات التواصل عند إدخال روابطها من لوحة الإدارة -->
 </div>
+</div>
+
 <p class="text-xs text-gray-400 mt-5">تم تطوير الموقع من قبل الضالعي</p>
 <p class="text-xs text-gray-400 mt-2">جميع الحقوق محفوظة © 2026</p>
 </div>
 </footer>
 
+<!-- تفاصيل الخبر -->
 <div class="modal-backdrop" id="articleModal" onclick="closeArticleOutside(event)">
 <div class="modal-box">
 <div class="flex justify-between items-center p-4 border-b">
@@ -191,6 +204,7 @@ button{cursor:pointer}
 <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
 <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
+
 <div class="modal-share">
 <button class="share-btn facebook" onclick="shareCurrentFacebook()">فيسبوك</button>
 <button class="share-btn whatsapp" onclick="shareCurrentWhatsApp()">واتساب</button>
@@ -202,6 +216,7 @@ button{cursor:pointer}
 </div>
 </div>
 
+<!-- عرض الصورة -->
 <div class="modal-backdrop" id="imageModal" onclick="this.classList.remove('show')">
 <div class="max-w-5xl w-full text-center">
 <button class="text-white text-3xl mb-2" onclick="document.getElementById('imageModal').classList.remove('show')">×</button>
@@ -209,6 +224,7 @@ button{cursor:pointer}
 </div>
 </div>
 
+<!-- لوحة الإدارة -->
 <div class="admin-panel" id="adminPanel">
 <div class="admin-top">
 <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
@@ -221,6 +237,7 @@ button{cursor:pointer}
 </div>
 
 <div class="max-w-6xl mx-auto p-4">
+
 <div id="loginSection" class="max-w-md mx-auto mt-10 admin-card">
 <h3 class="text-xl font-black text-center mb-2">دخول الإدارة</h3>
 <p class="text-xs text-gray-500 text-center mb-6">هذه المنطقة مخصصة للمستخدمين المصرح لهم فقط</p>
@@ -233,10 +250,20 @@ button{cursor:pointer}
 </div>
 
 <div id="dashboard" style="display:none">
+
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-<div class="admin-card"><div class="text-xs text-gray-500">حالة الحساب</div><div class="font-black text-green-700 mt-2" id="adminRole">مدير</div></div>
-<div class="admin-card"><div class="text-xs text-gray-500">الأخبار المنشورة</div><div class="text-2xl font-black mt-2" id="adminNewsCount">0</div></div>
-<div class="admin-card"><div class="text-xs text-gray-500">الإعلانات النشطة</div><div class="text-2xl font-black mt-2" id="adminAdsCount">0</div></div>
+<div class="admin-card">
+<div class="text-xs text-gray-500">حالة الحساب</div>
+<div class="font-black text-green-700 mt-2" id="adminRole">مدير</div>
+</div>
+<div class="admin-card">
+<div class="text-xs text-gray-500">الأخبار المنشورة</div>
+<div class="text-2xl font-black mt-2" id="adminNewsCount">0</div>
+</div>
+<div class="admin-card">
+<div class="text-xs text-gray-500">الإعلانات النشطة</div>
+<div class="text-2xl font-black mt-2" id="adminAdsCount">0</div>
+</div>
 </div>
 
 <div class="flex flex-wrap gap-2 mb-5">
@@ -247,6 +274,7 @@ button{cursor:pointer}
 <button class="admin-tab" id="adminsTabButton" style="display:none" onclick="showAdminTab('adminsTab',this)">إدارة المدراء</button>
 </div>
 
+<!-- الأخبار -->
 <div id="newsTab" class="admin-tab-content">
 <div class="admin-card mb-5">
 <h3 class="font-black text-lg mb-4">إضافة خبر جديد</h3>
@@ -265,9 +293,13 @@ button{cursor:pointer}
 <button onclick="addArticle(this)" class="gold-btn w-full">نشر الخبر</button>
 <p id="newsMessage" class="text-sm mt-3"></p>
 </div>
-<div class="admin-card"><h3 class="font-black mb-3">الأخبار المنشورة</h3><div id="adminArticlesList">جارٍ التحميل...</div></div>
+<div class="admin-card">
+<h3 class="font-black mb-3">الأخبار المنشورة</h3>
+<div id="adminArticlesList">جارٍ التحميل...</div>
+</div>
 </div>
 
+<!-- الإعلانات -->
 <div id="adsTab" class="admin-tab-content" style="display:none">
 <div class="admin-card mb-5">
 <h3 class="font-black text-lg mb-4">إضافة إعلان</h3>
@@ -280,9 +312,13 @@ button{cursor:pointer}
 <button onclick="addAd()" class="gold-btn w-full">إضافة الإعلان</button>
 <p id="adMessage" class="text-sm mt-3"></p>
 </div>
-<div class="admin-card"><h3 class="font-black mb-3">الإعلانات النشطة</h3><div id="adminAdsList">جارٍ التحميل...</div></div>
+<div class="admin-card">
+<h3 class="font-black mb-3">الإعلانات النشطة</h3>
+<div id="adminAdsList">جارٍ التحميل...</div>
+</div>
 </div>
 
+<!-- الشريط العاجل -->
 <div id="tickerTab" class="admin-tab-content" style="display:none">
 <div class="admin-card">
 <h3 class="font-black text-lg mb-4">تحديث الشريط العاجل</h3>
@@ -292,28 +328,35 @@ button{cursor:pointer}
 </div>
 </div>
 
+<!-- إعدادات التواصل -->
 <div id="contactTab" class="admin-tab-content" style="display:none">
 <div class="admin-card">
 <h3 class="font-black text-lg mb-2">إعدادات التواصل</h3>
 <p class="text-xs text-gray-500 mb-5">أدخل بيانات التواصل التي تريد عرضها أسفل الموقع. يمكنك إخفاء أي وسيلة دون حذف بياناتها.</p>
+
 <label class="text-sm font-bold block mb-2">رابط صفحة فيسبوك</label>
 <input id="facebookUrlInput" type="url" class="form-control mb-3" placeholder="https://www.facebook.com/اسم الصفحة">
+
 <div class="flex items-center gap-2 mb-5">
 <input id="showFacebookInput" type="checkbox" checked class="w-4 h-4">
 <label for="showFacebookInput" class="text-sm">إظهار أيقونة فيسبوك في الموقع</label>
 </div>
+
 <label class="text-sm font-bold block mb-2">رقم واتساب مع مفتاح الدولة</label>
 <input id="whatsappNumberInput" type="tel" class="form-control mb-2" placeholder="مثال: 9677XXXXXXXX">
 <p class="text-xs text-gray-500 mb-3">اكتب الرقم بالأرقام فقط، مع مفتاح الدولة، دون علامة + أو مسافات.</p>
+
 <div class="flex items-center gap-2 mb-5">
 <input id="showWhatsappInput" type="checkbox" checked class="w-4 h-4">
 <label for="showWhatsappInput" class="text-sm">إظهار أيقونة واتساب في الموقع</label>
 </div>
+
 <button onclick="saveContactSettings(this)" class="gold-btn w-full">حفظ إعدادات التواصل</button>
 <p id="contactMessage" class="text-sm mt-3"></p>
 </div>
 </div>
 
+<!-- إدارة المدراء -->
 <div id="adminsTab" class="admin-tab-content" style="display:none">
 <div class="admin-card mb-5">
 <h3 class="font-black text-lg mb-2">إدارة صلاحيات المدراء</h3>
@@ -333,67 +376,24 @@ button{cursor:pointer}
 </div>
 </div>
 
-<div class="text-center mt-7 mb-10"><button onclick="adminLogout()" class="red-btn px-6 py-3">تسجيل الخروج</button></div>
+<div class="text-center mt-7 mb-10">
+<button onclick="adminLogout()" class="red-btn px-6 py-3">تسجيل الخروج</button>
 </div>
+</div>
+
 <p id="accessMessage" class="text-center text-red-700 font-bold mt-8"></p>
 </div>
 </div>
 
 <script>
 // ==========================================
-// إعداد الاتصال وتحميل مكتبة Supabase
+// إعداد الاتصال
 // ==========================================
 const SUPABASE_URL = "https://sfomyyvfxyvzsbmecqob.supabase.co";
-const SUPABASE_KEY = "sb_publishable_Un8Xw6RLTCjrUM6H6JjXGCg_GDvIwk21";
+const SUPABASE_KEY = "sb_publishable_Un8Xw6RLTCjrUM6hJjXGCg_GDvIwk21";
 const CLOUDINARY_CLOUD = "lxkdpxpz";
 const CLOUDINARY_PRESET = "mawaten_upload";
-
-let db = null;
-
-function loadSupabaseLibrary(){
-return new Promise((resolve,reject)=>{
-if(window.supabase?.createClient){
-resolve();
-return;
-}
-
-const urls=[
-"https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
-"https://unpkg.com/@supabase/supabase-js@2"
-];
-
-let index=0;
-
-function tryNext(){
-if(window.supabase?.createClient){
-resolve();
-return;
-}
-
-if(index>=urls.length){
-reject(new Error("تعذر تحميل مكتبة Supabase من جميع المصادر"));
-return;
-}
-
-const script=document.createElement("script");
-script.src=urls[index++];
-script.async=true;
-
-script.onload=()=>{
-if(window.supabase?.createClient){
-resolve();
-}else{
-tryNext();
-}
-};
-
-script.onerror=tryNext;
-document.head.appendChild(script);
-}
-
-tryNext();
-});
-}
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser=null;
 let currentRole=null;
@@ -514,8 +514,14 @@ if(!a)return;
 const url=getArticleUrl(a);
 const title=a.title||"خبر من مواطن";
 
-if(method==="facebook"){openFacebookShare(url);return;}
-if(method==="whatsapp"){openWhatsAppShare(title,url);return;}
+if(method==="facebook"){
+openFacebookShare(url);
+return;
+}
+if(method==="whatsapp"){
+openWhatsAppShare(title,url);
+return;
+}
 if(method==="copy"){
 const ok=await copyText(url);
 alert(ok?"تم نسخ رابط الخبر":"تعذر نسخ الرابط");
@@ -537,8 +543,14 @@ return;
 
 const title=item.title||"خبر من مصدر خارجي";
 
-if(method==="facebook"){openFacebookShare(url);return;}
-if(method==="whatsapp"){openWhatsAppShare(title,url);return;}
+if(method==="facebook"){
+openFacebookShare(url);
+return;
+}
+if(method==="whatsapp"){
+openWhatsAppShare(title,url);
+return;
+}
 if(method==="copy"){
 const ok=await copyText(url);
 alert(ok?"تم نسخ رابط الخبر الأصلي":"تعذر نسخ الرابط");
@@ -640,7 +652,7 @@ grid.innerHTML=articlesCache.map((a,index)=>`
 <article class="news-card" onclick="openArticle(${index})">
 <div class="news-image">
 ${a.image
-?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy" onerror="this.style.display='none'">`
+?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy">`
 :`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`}
 </div>
 <div class="p-4">
@@ -753,7 +765,7 @@ return;
 grid.innerHTML=externalNewsCache.map((item,index)=>{
 const safeUrl=getExternalShareUrl(item);
 const image=item.image_url
-?`<div class="news-image"><img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy" onerror="this.style.display='none'"></div>`
+?`<div class="news-image"><img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy"></div>`
 :`<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>`;
 
 return `
@@ -826,6 +838,7 @@ const box=document.getElementById("footerContactIcons");
 if(!box)return;
 
 let html="";
+
 const facebookUrl=safeHttpUrl(contactSettings.facebook_url);
 const whatsappNumber=normalizeWhatsAppNumber(contactSettings.whatsapp_number);
 
@@ -875,6 +888,7 @@ return;
 }
 
 const whatsappNumber=normalizeWhatsAppNumber(whatsappRaw);
+
 if(whatsappRaw&&whatsappNumber.length<8){
 showMessage("contactMessage","رقم واتساب غير مكتمل. أدخل مفتاح الدولة والرقم.");
 return;
@@ -959,6 +973,7 @@ ${adsCache.map((ad,i)=>`
 
 currentAdIndex=0;
 if(adTimer)clearInterval(adTimer);
+
 if(adsCache.length>1){
 adTimer=setInterval(()=>goAd((currentAdIndex+1)%adsCache.length),5000);
 }
@@ -1106,15 +1121,27 @@ history.replaceState(null,"",location.pathname+location.search);
 }
 }
 
+db.auth.onAuthStateChange((event,session)=>{
+if(event==="SIGNED_OUT"){
+currentUser=null;
+currentRole=null;
+document.getElementById("dashboard").style.display="none";
+document.getElementById("loginSection").style.display="block";
+}
+});
+
 // ==========================================
 // تبويبات لوحة الإدارة
 // ==========================================
 function showAdminTab(tab,button){
 if(tab==="adminsTab"&&currentRole!=="owner")return;
+
 document.querySelectorAll(".admin-tab-content").forEach(el=>el.style.display="none");
 document.querySelectorAll(".admin-tab").forEach(el=>el.classList.remove("active"));
+
 document.getElementById(tab).style.display="block";
 if(button)button.classList.add("active");
+
 if(tab==="contactTab")loadContactSettings();
 }
 
@@ -1381,48 +1408,7 @@ openSharedArticleFromUrl();
 openAdminRoute();
 }
 
-// مستمع تسجيل الخروج بعد إنشاء اتصال Supabase
-function setupAuthListener(){
-db.auth.onAuthStateChange((event,session)=>{
-if(event==="SIGNED_OUT"){
-currentUser=null;
-currentRole=null;
-document.getElementById("dashboard").style.display="none";
-document.getElementById("loginSection").style.display="block";
-}
-});
-}
-
-// التهيئة: لا تبدأ وظائف الموقع قبل تحميل المكتبة وإنشاء الاتصال
-async function initializeSite(){
-try{
-await loadSupabaseLibrary();
-
-db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-
-setupAuthListener();
-
-await startSite();
-
-}catch(error){
-console.error("Site initialization error:",error);
-
-const newsGrid=document.getElementById("newsGrid");
-const externalGrid=document.getElementById("externalNewsGrid");
-
-if(newsGrid){
-newsGrid.innerHTML=
-'<div class="col-span-full text-center py-12 text-red-600">تعذر الاتصال بالخدمة حاليًا. يرجى تحديث الصفحة بعد قليل.</div>';
-}
-
-if(externalGrid){
-externalGrid.innerHTML=
-'<div class="col-span-full text-center py-8 text-red-600">تعذر تحميل الأخبار الخارجية حاليًا.</div>';
-}
-}
-}
-
-initializeSite();
+startSite();
 </script>
 </body>
 </html>
