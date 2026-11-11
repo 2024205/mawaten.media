@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101d36">
 <title>مُــوَاطِــن | صوت المواطن.. نبض الوطن</title>
+<meta name="description" content="مواطن منصة إخبارية تنقل آخر الأخبار المحلية والعربية والدولية، بصوت المواطن ونبض الوطن.">
+<meta name="robots" content="index,follow">
+<meta property="og:site_name" content="مواطن">
+<meta property="og:locale" content="ar_YE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="مواطن | صوت المواطن.. نبض الوطن">
+<meta property="og:description" content="آخر الأخبار المحلية والعربية والدولية من منصة مواطن الإخبارية.">
+<meta name="twitter:card" content="summary_large_image">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -84,6 +92,12 @@ button{cursor:pointer}
 .contact-label{font-size:11px;color:#c7d0df;margin-top:5px}
 .contact-item{display:flex;flex-direction:column;align-items:center;min-width:42px}
 
+.news-tools{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:10px;margin:0 0 18px}
+.news-tools input,.news-tools select{width:100%;border:1px solid #dce2eb;background:#fff;border-radius:10px;padding:12px 14px;font:inherit;color:#18243a;outline:none}
+.news-tools input:focus,.news-tools select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d5ad5920}
+.news-tools-hint{font-size:11px;color:#7b8494;margin:7px 2px 0}
+@media(max-width:640px){.news-tools{grid-template-columns:1fr}.news-tools select{min-height:44px}}
+
 @media(max-width:640px){
 .ad-frame{height:190px}
 .news-image{height:165px}
@@ -145,6 +159,15 @@ button{cursor:pointer}
 <div class="flex items-center justify-between mb-4">
 <h2 class="section-title text-lg">آخر الأخبار</h2>
 <span class="text-xs text-gray-500" id="newsCount">الأخبار المنشورة</span>
+</div>
+<div class="news-tools">
+<div>
+<input id="newsSearchInput" type="search" placeholder="ابحث في الأخبار والعناوين..." aria-label="البحث في الأخبار" oninput="renderArticles()">
+<p class="news-tools-hint">ابحث بالكلمات أو اسم التصنيف أو تفاصيل الخبر</p>
+</div>
+<select id="newsCategoryFilter" aria-label="تصفية الأخبار حسب التصنيف" onchange="renderArticles()">
+<option value="">كل التصنيفات</option>
+</select>
 </div>
 <div id="newsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 <div class="col-span-full text-center py-12 text-gray-500">جارٍ تحميل الأخبار...</div>
@@ -458,7 +481,7 @@ function getArticleUrl(article){
 const url=new URL(window.location.href);
 url.hash="";
 url.search="";
-url.searchParams.set("article",String(article.id));
+url.searchParams.set("a",String(article.id));
 return url.href;
 }
 
@@ -638,21 +661,45 @@ renderArticles();
 
 function renderArticles(){
 const grid=document.getElementById("newsGrid");
-document.getElementById("newsCount").textContent=`${articlesCache.length} خبر`;
-
 const adminCount=document.getElementById("adminNewsCount");
 if(adminCount)adminCount.textContent=articlesCache.length;
 
+const search=document.getElementById("newsSearchInput");
+const category=document.getElementById("newsCategoryFilter");
+const query=(search?.value||"").trim().toLocaleLowerCase("ar");
+const selectedCategory=category?.value||"";
+
+if(category){
+const current=category.value;
+const categories=[...new Set(articlesCache.map(a=>(a.category||"أخبار").trim()).filter(Boolean))].sort((x,y)=>x.localeCompare(y,"ar"));
+category.innerHTML='<option value="">كل التصنيفات</option>'+categories.map(x=>'<option value="'+safeText(x)+'">'+safeText(x)+'</option>').join("");
+category.value=categories.includes(current)?current:"";
+}
+
 if(!articlesCache.length){
+document.getElementById("newsCount").textContent="0 خبر";
 grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار منشورة حتى الآن</div>';
 return;
 }
 
-grid.innerHTML=articlesCache.map((a,index)=>`
+const filtered=articlesCache.filter(a=>{
+const haystack=[a.title,a.summary,a.body,a.category].join(" ").toLocaleLowerCase("ar");
+return (!query||haystack.includes(query))&&(!selectedCategory||(a.category||"أخبار")===selectedCategory);
+});
+document.getElementById("newsCount").textContent=filtered.length+" من "+articlesCache.length+" خبر";
+
+if(!filtered.length){
+grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">ما لقينا أخبار تطابق بحثك. جرّب كلمة ثانية أو غيّر التصنيف.</div>';
+return;
+}
+
+grid.innerHTML=filtered.map(a=>{
+const index=articlesCache.indexOf(a);
+return `
 <article class="news-card" onclick="openArticle(${index})">
 <div class="news-image">
 ${a.image
-?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy">`
+?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy" decoding="async">`
 :`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`}
 </div>
 <div class="p-4">
@@ -670,8 +717,8 @@ ${a.image
 <button class="share-btn" onclick="shareArticle(event,${index},'native')">مشاركة</button>
 </div>
 </div>
-</article>
-`).join("");
+</article>`;
+}).join("");
 
 if(currentUser)renderAdminArticles();
 }
@@ -700,7 +747,7 @@ img.style.display="none";
 document.getElementById("articleModal").classList.add("show");
 
 const url=new URL(window.location.href);
-url.searchParams.set("article",String(a.id));
+url.searchParams.set("a",String(a.id));
 history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
 
@@ -710,6 +757,7 @@ currentSharedArticle=null;
 
 const url=new URL(window.location.href);
 url.searchParams.delete("article");
+url.searchParams.delete("a");
 history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
 
@@ -723,7 +771,8 @@ document.getElementById("imageModal").classList.add("show");
 }
 
 function openSharedArticleFromUrl(){
-const id=new URLSearchParams(window.location.search).get("article");
+const params=new URLSearchParams(window.location.search);
+const id=params.get("a")||params.get("article");
 if(!id)return;
 
 const index=articlesCache.findIndex(a=>String(a.id)===String(id));
@@ -1090,7 +1139,7 @@ currentRole=data.role;
 document.getElementById("loginSection").style.display="none";
 document.getElementById("dashboard").style.display="block";
 document.getElementById("accessMessage").textContent="";
-document.getElementById("adminIdentity").textContent=user.email;
+document.getElementById("adminIdentity").textContent="لوحة الإدارة الخاصة";
 document.getElementById("adminRole").textContent=currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
 document.getElementById("adminsTabButton").style.display=currentRole==="owner"?"inline-block":"none";
 
