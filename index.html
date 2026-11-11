@@ -8,7 +8,6 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
@@ -36,10 +35,10 @@ button{cursor:pointer}
 .ad-dot{width:8px;height:8px;border-radius:50%;background:#ffffff90;border:0;padding:0}
 .ad-dot.active{background:var(--gold);width:21px;border-radius:8px}
 .news-card{background:white;border-radius:12px;overflow:hidden;border:1px solid #e8ebf0;transition:.25s;cursor:pointer}
-.news-card:hover{transform:translateY(-4px);box-shadow:0 9px 24px #14233b16}
+.news-card:hover{transform:translateY(-3px);box-shadow:0 9px 24px #14233b16}
 .news-image{height:190px;background:#e5e9ef;overflow:hidden}
 .news-image img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-.news-card:hover .news-image img{transform:scale(1.04)}
+.news-card:hover .news-image img{transform:scale(1.03)}
 .category-tag{background:#f4ead5;color:#84621f;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:800}
 .news-title{font-weight:800;line-height:1.8}
 .news-summary{color:#697386;font-size:13px;line-height:1.9}
@@ -63,17 +62,39 @@ button{cursor:pointer}
 .admin-tab.active{background:var(--navy);color:white}
 .admin-list-item{border:1px solid #e5e8ef;border-radius:9px;padding:12px;margin-top:9px}
 .loading{opacity:.6;pointer-events:none}
+
+/* أزرار مشاركة الأخبار */
+.share-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:13px}
+.share-btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid #e1e5eb;background:#f8fafc;color:#344054;border-radius:7px;padding:6px 9px;font-size:11px;font-weight:700;transition:.2s}
+.share-btn:hover{background:#edf1f6}
+.share-btn svg{width:15px;height:15px;flex-shrink:0}
+.share-btn.facebook{color:#1877f2}
+.share-btn.whatsapp{color:#168b50}
+.share-btn.copy{color:#475467}
+.modal-share{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;padding-top:15px;border-top:1px solid #e8ebf0}
+
+/* أيقونات التواصل الصغيرة */
+.contact-area{margin-top:20px;padding-top:17px;border-top:1px solid #ffffff20}
+.contact-icons{display:flex;align-items:center;justify-content:center;gap:17px;margin-top:10px}
+.contact-link{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;color:#fff;opacity:.9;transition:.2s}
+.contact-link:hover{opacity:1;transform:scale(1.12)}
+.contact-link svg{width:22px;height:22px}
+.contact-link.facebook{color:#78aaff}
+.contact-link.whatsapp{color:#53d58c}
+.contact-label{font-size:11px;color:#c7d0df;margin-top:5px}
+.contact-item{display:flex;flex-direction:column;align-items:center;min-width:42px}
+
 @media(max-width:640px){
 .ad-frame{height:190px}
 .news-image{height:165px}
 .news-title{font-size:14px}
+.share-btn{padding:6px 7px}
 }
 </style>
 </head>
 
 <body>
 
-<!-- رأس الموقع -->
 <header class="site-header">
 <div class="max-w-7xl mx-auto px-4 py-5">
 <div class="flex items-center justify-between gap-3 flex-wrap">
@@ -92,7 +113,6 @@ button{cursor:pointer}
 </div>
 </div>
 <div class="gold-line"></div>
-
 <nav class="max-w-7xl mx-auto px-3 py-2 flex gap-1 overflow-x-auto text-sm">
 <a href="#home" class="nav-link">الرئيسية</a>
 <a href="#news" class="nav-link">آخر الأخبار</a>
@@ -102,7 +122,6 @@ button{cursor:pointer}
 </nav>
 </header>
 
-<!-- عاجل -->
 <div class="breaking">
 <div class="breaking-label">عاجل</div>
 <div class="ticker-window">
@@ -112,20 +131,16 @@ button{cursor:pointer}
 
 <main id="home" class="max-w-7xl mx-auto px-4 py-6">
 
-<!-- الإعلانات -->
 <section id="ads" class="mb-9">
 <div class="flex justify-between items-center mb-3">
 <h2 class="section-title text-lg">إعلانات وشراكات</h2>
 <span class="text-xs text-gray-500">مساحة إعلانية</span>
 </div>
 <div class="ad-frame" id="adFrame">
-<div class="absolute inset-0 flex items-center justify-center text-gray-400" id="noAds">
-الإعلانات ستظهر هنا
-</div>
+<div class="absolute inset-0 flex items-center justify-center text-gray-400" id="noAds">الإعلانات ستظهر هنا</div>
 </div>
 </section>
 
-<!-- الأخبار الأصلية -->
 <section id="news" class="mb-10">
 <div class="flex items-center justify-between mb-4">
 <h2 class="section-title text-lg">آخر الأخبار</h2>
@@ -136,7 +151,6 @@ button{cursor:pointer}
 </div>
 </section>
 
-<!-- الأخبار من مصادر أخرى -->
 <section id="externalNews" class="mb-10">
 <div class="flex items-center justify-between mb-4">
 <h2 class="section-title text-lg">من مصادر أخرى</h2>
@@ -147,7 +161,6 @@ button{cursor:pointer}
 </div>
 </section>
 
-<!-- عن الموقع -->
 <section id="about" class="mb-10">
 <div class="admin-card text-center py-8">
 <h2 class="text-xl font-black text-gray-800 mb-2">مُــوَاطِــن</h2>
@@ -159,18 +172,25 @@ button{cursor:pointer}
 
 </main>
 
-<!-- التذييل -->
 <footer class="site-footer mt-10">
 <div class="gold-line"></div>
 <div class="max-w-7xl mx-auto px-4 py-8 text-center">
 <div class="text-2xl font-black gold-text">مُــوَاطِــن</div>
 <p class="text-sm mt-2">صوت المواطن.. نبض الوطن</p>
+
+<div class="contact-area">
+<p class="text-sm font-bold text-white">تواصل معنا</p>
+<div class="contact-icons" id="footerContactIcons">
+<!-- تظهر أيقونات التواصل عند إدخال روابطها من لوحة الإدارة -->
+</div>
+</div>
+
 <p class="text-xs text-gray-400 mt-5">تم تطوير الموقع من قبل الضالعي</p>
 <p class="text-xs text-gray-400 mt-2">جميع الحقوق محفوظة © 2026</p>
 </div>
 </footer>
 
-<!-- نافذة تفاصيل الخبر -->
+<!-- تفاصيل الخبر -->
 <div class="modal-backdrop" id="articleModal" onclick="closeArticleOutside(event)">
 <div class="modal-box">
 <div class="flex justify-between items-center p-4 border-b">
@@ -184,11 +204,19 @@ button{cursor:pointer}
 <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
 <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
+
+<div class="modal-share">
+<button class="share-btn facebook" onclick="shareCurrentFacebook()">فيسبوك</button>
+<button class="share-btn whatsapp" onclick="shareCurrentWhatsApp()">واتساب</button>
+<button class="share-btn copy" onclick="copyCurrentArticleLink()">نسخ رابط الخبر</button>
+<button class="share-btn" onclick="shareCurrentNative()">مشاركة</button>
+</div>
+<p id="articleShareMessage" class="text-xs text-green-700 mt-2"></p>
 </div>
 </div>
 </div>
 
-<!-- عرض الصورة بالحجم الكامل -->
+<!-- عرض الصورة -->
 <div class="modal-backdrop" id="imageModal" onclick="this.classList.remove('show')">
 <div class="max-w-5xl w-full text-center">
 <button class="text-white text-3xl mb-2" onclick="document.getElementById('imageModal').classList.remove('show')">×</button>
@@ -210,7 +238,6 @@ button{cursor:pointer}
 
 <div class="max-w-6xl mx-auto p-4">
 
-<!-- تسجيل الدخول -->
 <div id="loginSection" class="max-w-md mx-auto mt-10 admin-card">
 <h3 class="text-xl font-black text-center mb-2">دخول الإدارة</h3>
 <p class="text-xs text-gray-500 text-center mb-6">هذه المنطقة مخصصة للمستخدمين المصرح لهم فقط</p>
@@ -222,7 +249,6 @@ button{cursor:pointer}
 <p id="loginMessage" class="text-sm text-center mt-4 text-red-600"></p>
 </div>
 
-<!-- لوحة التحكم -->
 <div id="dashboard" style="display:none">
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
@@ -244,10 +270,11 @@ button{cursor:pointer}
 <button class="admin-tab active" onclick="showAdminTab('newsTab',this)">إدارة الأخبار</button>
 <button class="admin-tab" onclick="showAdminTab('adsTab',this)">إدارة الإعلانات</button>
 <button class="admin-tab" onclick="showAdminTab('tickerTab',this)">الشريط العاجل</button>
+<button class="admin-tab" onclick="showAdminTab('contactTab',this)">إعدادات التواصل</button>
 <button class="admin-tab" id="adminsTabButton" style="display:none" onclick="showAdminTab('adminsTab',this)">إدارة المدراء</button>
 </div>
 
-<!-- إدارة الأخبار -->
+<!-- الأخبار -->
 <div id="newsTab" class="admin-tab-content">
 <div class="admin-card mb-5">
 <h3 class="font-black text-lg mb-4">إضافة خبر جديد</h3>
@@ -255,14 +282,7 @@ button{cursor:pointer}
 <input id="newTitle" class="form-control mb-3" placeholder="اكتب عنوان الخبر">
 <label class="text-sm font-bold block mb-2">التصنيف</label>
 <select id="newCategory" class="form-control mb-3">
-<option>أخبار محلية</option>
-<option>أخبار عربية</option>
-<option>أخبار دولية</option>
-<option>سياسة</option>
-<option>اقتصاد</option>
-<option>رياضة</option>
-<option>مجتمع</option>
-<option>تقارير</option>
+<option>أخبار محلية</option><option>أخبار عربية</option><option>أخبار دولية</option><option>سياسة</option><option>اقتصاد</option><option>رياضة</option><option>مجتمع</option><option>تقارير</option>
 </select>
 <label class="text-sm font-bold block mb-2">ملخص الخبر</label>
 <textarea id="newSummary" class="form-control mb-3" rows="3" placeholder="ملخص قصير للخبر"></textarea>
@@ -270,10 +290,9 @@ button{cursor:pointer}
 <textarea id="newBody" class="form-control mb-3" rows="6" placeholder="اكتب تفاصيل الخبر"></textarea>
 <label class="text-sm font-bold block mb-2">صورة الخبر</label>
 <input id="newNewsImage" type="file" accept="image/*" class="form-control mb-3">
-<button onclick="addArticle()" class="gold-btn w-full">نشر الخبر</button>
+<button onclick="addArticle(this)" class="gold-btn w-full">نشر الخبر</button>
 <p id="newsMessage" class="text-sm mt-3"></p>
 </div>
-
 <div class="admin-card">
 <h3 class="font-black mb-3">الأخبار المنشورة</h3>
 <div id="adminArticlesList">جارٍ التحميل...</div>
@@ -309,6 +328,34 @@ button{cursor:pointer}
 </div>
 </div>
 
+<!-- إعدادات التواصل -->
+<div id="contactTab" class="admin-tab-content" style="display:none">
+<div class="admin-card">
+<h3 class="font-black text-lg mb-2">إعدادات التواصل</h3>
+<p class="text-xs text-gray-500 mb-5">أدخل بيانات التواصل التي تريد عرضها أسفل الموقع. يمكنك إخفاء أي وسيلة دون حذف بياناتها.</p>
+
+<label class="text-sm font-bold block mb-2">رابط صفحة فيسبوك</label>
+<input id="facebookUrlInput" type="url" class="form-control mb-3" placeholder="https://www.facebook.com/اسم الصفحة">
+
+<div class="flex items-center gap-2 mb-5">
+<input id="showFacebookInput" type="checkbox" checked class="w-4 h-4">
+<label for="showFacebookInput" class="text-sm">إظهار أيقونة فيسبوك في الموقع</label>
+</div>
+
+<label class="text-sm font-bold block mb-2">رقم واتساب مع مفتاح الدولة</label>
+<input id="whatsappNumberInput" type="tel" class="form-control mb-2" placeholder="مثال: 9677XXXXXXXX">
+<p class="text-xs text-gray-500 mb-3">اكتب الرقم بالأرقام فقط، مع مفتاح الدولة، دون علامة + أو مسافات.</p>
+
+<div class="flex items-center gap-2 mb-5">
+<input id="showWhatsappInput" type="checkbox" checked class="w-4 h-4">
+<label for="showWhatsappInput" class="text-sm">إظهار أيقونة واتساب في الموقع</label>
+</div>
+
+<button onclick="saveContactSettings(this)" class="gold-btn w-full">حفظ إعدادات التواصل</button>
+<p id="contactMessage" class="text-sm mt-3"></p>
+</div>
+</div>
+
 <!-- إدارة المدراء -->
 <div id="adminsTab" class="admin-tab-content" style="display:none">
 <div class="admin-card mb-5">
@@ -332,8 +379,8 @@ button{cursor:pointer}
 <div class="text-center mt-7 mb-10">
 <button onclick="adminLogout()" class="red-btn px-6 py-3">تسجيل الخروج</button>
 </div>
-
 </div>
+
 <p id="accessMessage" class="text-center text-red-700 font-bold mt-8"></p>
 </div>
 </div>
@@ -342,28 +389,32 @@ button{cursor:pointer}
 // ==========================================
 // إعداد الاتصال
 // ==========================================
-
 const SUPABASE_URL = "https://sfomyyvfxyvzsbmecqob.supabase.co";
 const SUPABASE_KEY = "sb_publishable_Un8Xw6RLTCjrUM6hJjXGCg_GDvIwk21";
 const CLOUDINARY_CLOUD = "lxkdpxpz";
 const CLOUDINARY_PRESET = "mawaten_upload";
-
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let currentUser = null;
-let currentRole = null;
-let articlesCache = [];
-let adsCache = [];
-let externalNewsCache = [];
-let adTimer = null;
-let currentAdIndex = 0;
+let currentUser=null;
+let currentRole=null;
+let articlesCache=[];
+let adsCache=[];
+let externalNewsCache=[];
+let adTimer=null;
+let currentAdIndex=0;
+let contactSettings={
+facebook_url:"",
+whatsapp_number:"",
+show_facebook:true,
+show_whatsapp:true
+};
+let currentSharedArticle=null;
 
 // ==========================================
 // أدوات مساعدة
 // ==========================================
-
 function safeText(value){
-return String(value ?? "").replace(/[&<>"']/g,c=>({
+return String(value??"").replace(/[&<>"']/g,c=>({
 "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
 }[c]));
 }
@@ -395,13 +446,159 @@ return false;
 return true;
 }
 
-// ==========================================
-// رفع الصور إلى Cloudinary
-// ==========================================
+function safeHttpUrl(value){
+try{
+const u=new URL(value);
+if(u.protocol==="https:"||u.protocol==="http:")return u.href;
+}catch(e){}
+return "";
+}
 
+function getArticleUrl(article){
+const url=new URL(window.location.href);
+url.hash="";
+url.search="";
+url.searchParams.set("article",String(article.id));
+return url.href;
+}
+
+function getExternalShareUrl(item){
+return safeHttpUrl(item.article_url);
+}
+
+function normalizeWhatsAppNumber(value){
+return String(value||"").replace(/\D/g,"");
+}
+
+// ==========================================
+// المشاركة والروابط المستقلة
+// ==========================================
+async function copyText(text){
+try{
+if(navigator.clipboard&&window.isSecureContext){
+await navigator.clipboard.writeText(text);
+return true;
+}
+}catch(e){}
+
+try{
+const area=document.createElement("textarea");
+area.value=text;
+area.style.position="fixed";
+area.style.opacity="0";
+document.body.appendChild(area);
+area.select();
+const ok=document.execCommand("copy");
+area.remove();
+return ok;
+}catch(e){
+return false;
+}
+}
+
+function openFacebookShare(url){
+const shareUrl="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(url);
+window.open(shareUrl,"_blank","noopener,noreferrer,width=650,height=550");
+}
+
+function openWhatsAppShare(title,url){
+const text=(title?title+"\n":"")+"اقرأ الخبر عبر منصة مواطن:\n"+url;
+window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank","noopener,noreferrer");
+}
+
+async function shareArticle(event,index,method="native"){
+if(event)event.stopPropagation();
+const a=articlesCache[index];
+if(!a)return;
+
+const url=getArticleUrl(a);
+const title=a.title||"خبر من مواطن";
+
+if(method==="facebook"){
+openFacebookShare(url);
+return;
+}
+if(method==="whatsapp"){
+openWhatsAppShare(title,url);
+return;
+}
+if(method==="copy"){
+const ok=await copyText(url);
+alert(ok?"تم نسخ رابط الخبر":"تعذر نسخ الرابط");
+return;
+}
+await nativeShare(title,url);
+}
+
+async function shareExternalNews(event,index,method="native"){
+if(event)event.stopPropagation();
+const item=externalNewsCache[index];
+if(!item)return;
+
+const url=getExternalShareUrl(item);
+if(!url){
+alert("رابط الخبر الأصلي غير متاح");
+return;
+}
+
+const title=item.title||"خبر من مصدر خارجي";
+
+if(method==="facebook"){
+openFacebookShare(url);
+return;
+}
+if(method==="whatsapp"){
+openWhatsAppShare(title,url);
+return;
+}
+if(method==="copy"){
+const ok=await copyText(url);
+alert(ok?"تم نسخ رابط الخبر الأصلي":"تعذر نسخ الرابط");
+return;
+}
+await nativeShare(title,url);
+}
+
+async function nativeShare(title,url){
+if(navigator.share){
+try{
+await navigator.share({title,text:"منصة مواطن الإخبارية",url});
+return;
+}catch(error){
+if(error.name==="AbortError")return;
+}
+}
+const ok=await copyText(url);
+alert(ok?"تم نسخ رابط الخبر":"تعذر فتح المشاركة أو نسخ الرابط");
+}
+
+function shareCurrentFacebook(){
+if(!currentSharedArticle)return;
+openFacebookShare(getArticleUrl(currentSharedArticle));
+}
+
+function shareCurrentWhatsApp(){
+if(!currentSharedArticle)return;
+openWhatsAppShare(currentSharedArticle.title,getArticleUrl(currentSharedArticle));
+}
+
+async function copyCurrentArticleLink(){
+if(!currentSharedArticle)return;
+const ok=await copyText(getArticleUrl(currentSharedArticle));
+document.getElementById("articleShareMessage").textContent=
+ok?"تم نسخ رابط الخبر بنجاح":"تعذر نسخ الرابط";
+}
+
+async function shareCurrentNative(){
+if(!currentSharedArticle)return;
+await nativeShare(currentSharedArticle.title,getArticleUrl(currentSharedArticle));
+}
+
+// ==========================================
+// رفع الصور
+// ==========================================
 async function uploadImage(file){
 if(!validImage(file))throw new Error("ملف الصورة غير صالح");
-
 const form=new FormData();
 form.append("file",file);
 form.append("upload_preset",CLOUDINARY_PRESET);
@@ -410,20 +607,17 @@ const response=await fetch(
 `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,
 {method:"POST",body:form}
 );
-
 const result=await response.json();
 
 if(!response.ok||!result.secure_url){
 throw new Error(result.error?.message||"تعذر رفع الصورة");
 }
-
 return result.secure_url;
 }
 
 // ==========================================
-// تحميل الأخبار الأصلية
+// الأخبار الأصلية
 // ==========================================
-
 async function loadArticles(){
 const {data,error}=await db
 .from("articles")
@@ -444,12 +638,10 @@ renderArticles();
 
 function renderArticles(){
 const grid=document.getElementById("newsGrid");
+document.getElementById("newsCount").textContent=`${articlesCache.length} خبر`;
 
-document.getElementById("newsCount").textContent=
-`${articlesCache.length} خبر`;
-
-document.getElementById("adminNewsCount").textContent=
-articlesCache.length;
+const adminCount=document.getElementById("adminNewsCount");
+if(adminCount)adminCount.textContent=articlesCache.length;
 
 if(!articlesCache.length){
 grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار منشورة حتى الآن</div>';
@@ -461,8 +653,7 @@ grid.innerHTML=articlesCache.map((a,index)=>`
 <div class="news-image">
 ${a.image
 ?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy">`
-:`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`
-}
+:`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`}
 </div>
 <div class="p-4">
 <span class="category-tag">${safeText(a.category||"أخبار")}</span>
@@ -471,6 +662,12 @@ ${a.image
 <div class="flex justify-between items-center mt-4 text-xs text-gray-400">
 <span>${formatDate(a.created_at)}</span>
 <span class="text-yellow-700 font-bold">اقرأ المزيد ←</span>
+</div>
+<div class="share-actions" onclick="event.stopPropagation()">
+<button class="share-btn facebook" onclick="shareArticle(event,${index},'facebook')">فيسبوك</button>
+<button class="share-btn whatsapp" onclick="shareArticle(event,${index},'whatsapp')">واتساب</button>
+<button class="share-btn copy" onclick="shareArticle(event,${index},'copy')">نسخ الرابط</button>
+<button class="share-btn" onclick="shareArticle(event,${index},'native')">مشاركة</button>
 </div>
 </div>
 </article>
@@ -482,15 +679,16 @@ if(currentUser)renderAdminArticles();
 function openArticle(index){
 const a=articlesCache[index];
 if(!a)return;
+currentSharedArticle=a;
 
 document.getElementById("articleModalTitle").textContent=a.title||"";
 document.getElementById("articleModalCategory").textContent=a.category||"أخبار";
 document.getElementById("articleModalSummary").textContent=a.summary||"";
 document.getElementById("articleModalBody").textContent=a.body||"";
 document.getElementById("articleModalDate").textContent=formatDate(a.created_at);
+document.getElementById("articleShareMessage").textContent="";
 
 const img=document.getElementById("articleModalImage");
-
 if(a.image){
 img.src=a.image;
 img.style.display="block";
@@ -500,10 +698,19 @@ img.style.display="none";
 }
 
 document.getElementById("articleModal").classList.add("show");
+
+const url=new URL(window.location.href);
+url.searchParams.set("article",String(a.id));
+history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
 
 function closeArticle(){
 document.getElementById("articleModal").classList.remove("show");
+currentSharedArticle=null;
+
+const url=new URL(window.location.href);
+url.searchParams.delete("article");
+history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
 
 function closeArticleOutside(e){
@@ -515,10 +722,21 @@ document.getElementById("fullImage").src=src;
 document.getElementById("imageModal").classList.add("show");
 }
 
+function openSharedArticleFromUrl(){
+const id=new URLSearchParams(window.location.search).get("article");
+if(!id)return;
+
+const index=articlesCache.findIndex(a=>String(a.id)===String(id));
+if(index>=0){
+openArticle(index);
+}else{
+console.warn("لم يتم العثور على الخبر المطلوب:",id);
+}
+}
+
 // ==========================================
 // الأخبار من مصادر أخرى
 // ==========================================
-
 async function loadExternalNews(){
 const grid=document.getElementById("externalNewsGrid");
 const count=document.getElementById("externalNewsCount");
@@ -532,10 +750,7 @@ const {data,error}=await db
 
 if(error){
 console.error("External news error:",error);
-grid.innerHTML=`
-<div class="col-span-full text-center py-8 text-red-600">
-تعذر تحميل الأخبار من المصادر الأخرى
-</div>`;
+grid.innerHTML='<div class="col-span-full text-center py-8 text-red-600">تعذر تحميل الأخبار من المصادر الأخرى</div>';
 return;
 }
 
@@ -543,25 +758,14 @@ externalNewsCache=data||[];
 count.textContent=`${externalNewsCache.length} خبر`;
 
 if(!externalNewsCache.length){
-grid.innerHTML=`
-<div class="col-span-full text-center py-8 text-gray-500">
-لا توجد أخبار خارجية منشورة حاليًا
-</div>`;
+grid.innerHTML='<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار خارجية منشورة حاليًا</div>';
 return;
 }
 
-grid.innerHTML=externalNewsCache.map(item=>{
-let safeUrl="";
-
-try{
-const url=new URL(item.article_url);
-if(["https:","http:"].includes(url.protocol))safeUrl=url.href;
-}catch(e){}
-
+grid.innerHTML=externalNewsCache.map((item,index)=>{
+const safeUrl=getExternalShareUrl(item);
 const image=item.image_url
-?`<div class="news-image">
-<img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy">
-</div>`
+?`<div class="news-image"><img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy"></div>`
 :`<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>`;
 
 return `
@@ -572,25 +776,158 @@ ${image}
 <h3 class="news-title mt-3 mb-2">${safeText(item.title)}</h3>
 <p class="news-summary">${safeText(item.summary||"")}</p>
 <div class="text-xs text-gray-500 mt-4">
-المصدر:
-<strong>${safeText(item.source_name||"مصدر خارجي")}</strong>
+المصدر: <strong>${safeText(item.source_name||"مصدر خارجي")}</strong>
 </div>
 <div class="flex justify-between items-center mt-3 text-xs">
 <span class="text-gray-400">${formatDate(item.published_at)}</span>
 ${safeUrl
 ?`<a href="${safeText(safeUrl)}" target="_blank" rel="noopener noreferrer" class="text-yellow-700 font-bold">الخبر الأصلي ←</a>`
-:`<span class="text-gray-400">الرابط غير متاح</span>`
-}
+:`<span class="text-gray-400">الرابط غير متاح</span>`}
 </div>
+${safeUrl?`
+<div class="share-actions">
+<button class="share-btn facebook" onclick="shareExternalNews(event,${index},'facebook')">فيسبوك</button>
+<button class="share-btn whatsapp" onclick="shareExternalNews(event,${index},'whatsapp')">واتساب</button>
+<button class="share-btn copy" onclick="shareExternalNews(event,${index},'copy')">نسخ الرابط</button>
+<button class="share-btn" onclick="shareExternalNews(event,${index},'native')">مشاركة</button>
+</div>`:""}
 </div>
 </article>`;
 }).join("");
 }
 
 // ==========================================
+// إعدادات التواصل
+// ==========================================
+async function loadContactSettings(){
+const {data,error}=await db
+.from("site_settings")
+.select("facebook_url,whatsapp_number,show_facebook,show_whatsapp")
+.eq("id",1)
+.maybeSingle();
+
+if(error){
+console.error("Contact settings:",error);
+return;
+}
+
+if(data){
+contactSettings={
+facebook_url:data.facebook_url||"",
+whatsapp_number:data.whatsapp_number||"",
+show_facebook:data.show_facebook!==false,
+show_whatsapp:data.show_whatsapp!==false
+};
+}
+
+renderFooterContacts();
+
+const facebookInput=document.getElementById("facebookUrlInput");
+const whatsappInput=document.getElementById("whatsappNumberInput");
+const showFacebook=document.getElementById("showFacebookInput");
+const showWhatsapp=document.getElementById("showWhatsappInput");
+
+if(facebookInput)facebookInput.value=contactSettings.facebook_url;
+if(whatsappInput)whatsappInput.value=contactSettings.whatsapp_number;
+if(showFacebook)showFacebook.checked=contactSettings.show_facebook;
+if(showWhatsapp)showWhatsapp.checked=contactSettings.show_whatsapp;
+}
+
+function renderFooterContacts(){
+const box=document.getElementById("footerContactIcons");
+if(!box)return;
+
+let html="";
+
+const facebookUrl=safeHttpUrl(contactSettings.facebook_url);
+const whatsappNumber=normalizeWhatsAppNumber(contactSettings.whatsapp_number);
+
+if(contactSettings.show_facebook&&facebookUrl){
+html+=`
+<div class="contact-item">
+<a class="contact-link facebook" href="${safeText(facebookUrl)}" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك">
+<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+<path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2V7.5c0-.9.3-1.5 1.6-1.5h1.7V3.1c-.3 0-1.4-.1-2.6-.1-2.6 0-4.4 1.6-4.4 4.5v2.1H7v3.2h2.8V21h3.7z"/>
+</svg>
+</a>
+<span class="contact-label">فيسبوك</span>
+</div>`;
+}
+
+if(contactSettings.show_whatsapp&&whatsappNumber){
+html+=`
+<div class="contact-item">
+<a class="contact-link whatsapp" href="https://wa.me/${safeText(whatsappNumber)}" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
+<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+<path d="M12.04 2A9.9 9.9 0 0 0 3.5 17l-1.1 4 4.1-1.1A10 10 0 1 0 12.04 2zm0 18.1a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.4.6.6-2.3-.2-.4a8.1 8.1 0 1 1 6.4 3.4zm4.5-6.1c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.4-.5c.1-.1.2-.2.2-.4.1-.1 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.4 3.8 3.3.5.2.9.3 1.2.4.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/>
+</svg>
+</a>
+<span class="contact-label">واتساب</span>
+</div>`;
+}
+
+box.innerHTML=html;
+}
+
+async function saveContactSettings(button){
+if(!currentUser||!currentRole)return;
+
+const facebookRaw=document.getElementById("facebookUrlInput").value.trim();
+const whatsappRaw=document.getElementById("whatsappNumberInput").value.trim();
+const showFacebook=document.getElementById("showFacebookInput").checked;
+const showWhatsapp=document.getElementById("showWhatsappInput").checked;
+
+let facebookUrl="";
+
+if(facebookRaw){
+facebookUrl=safeHttpUrl(facebookRaw);
+if(!facebookUrl){
+showMessage("contactMessage","رابط فيسبوك غير صحيح. استخدم رابطًا يبدأ بـ https://");
+return;
+}
+}
+
+const whatsappNumber=normalizeWhatsAppNumber(whatsappRaw);
+
+if(whatsappRaw&&whatsappNumber.length<8){
+showMessage("contactMessage","رقم واتساب غير مكتمل. أدخل مفتاح الدولة والرقم.");
+return;
+}
+
+button.disabled=true;
+button.textContent="جارٍ الحفظ...";
+
+const {error}=await db.from("site_settings").upsert({
+id:1,
+facebook_url:facebookUrl||null,
+whatsapp_number:whatsappNumber||null,
+show_facebook:showFacebook,
+show_whatsapp:showWhatsapp,
+updated_at:new Date().toISOString()
+},{onConflict:"id"});
+
+button.disabled=false;
+button.textContent="حفظ إعدادات التواصل";
+
+if(error){
+showMessage("contactMessage","تعذر الحفظ: "+error.message);
+return;
+}
+
+contactSettings={
+facebook_url:facebookUrl,
+whatsapp_number:whatsappNumber,
+show_facebook:showFacebook,
+show_whatsapp:showWhatsapp
+};
+
+renderFooterContacts();
+showMessage("contactMessage","تم حفظ إعدادات التواصل بنجاح",true);
+}
+
+// ==========================================
 // الإعلانات المتحركة
 // ==========================================
-
 async function loadAds(){
 const {data,error}=await db
 .from("ads")
@@ -604,7 +941,6 @@ return;
 }
 
 const now=Date.now();
-
 adsCache=(data||[]).filter(ad=>{
 const start=ad.starts_at?new Date(ad.starts_at).getTime():0;
 const end=ad.expires_at?new Date(ad.expires_at).getTime():Infinity;
@@ -616,7 +952,8 @@ renderAds();
 
 function renderAds(){
 const frame=document.getElementById("adFrame");
-document.getElementById("adminAdsCount").textContent=adsCache.length;
+const count=document.getElementById("adminAdsCount");
+if(count)count.textContent=adsCache.length;
 
 if(!adsCache.length){
 frame.innerHTML='<div class="h-full flex items-center justify-center text-gray-400">الإعلانات ستظهر هنا</div>';
@@ -635,13 +972,10 @@ ${adsCache.map((ad,i)=>`
 </div>`;
 
 currentAdIndex=0;
-
 if(adTimer)clearInterval(adTimer);
 
 if(adsCache.length>1){
-adTimer=setInterval(()=>{
-goAd((currentAdIndex+1)%adsCache.length);
-},5000);
+adTimer=setInterval(()=>goAd((currentAdIndex+1)%adsCache.length),5000);
 }
 }
 
@@ -649,7 +983,6 @@ function goAd(index){
 const slides=document.querySelectorAll(".ad-slide");
 const dots=document.querySelectorAll(".ad-dot");
 if(!slides.length)return;
-
 currentAdIndex=index;
 slides.forEach((s,i)=>s.classList.toggle("active",i===index));
 dots.forEach((d,i)=>d.classList.toggle("active",i===index));
@@ -658,14 +991,9 @@ dots.forEach((d,i)=>d.classList.toggle("active",i===index));
 function openAd(index){
 const ad=adsCache[index];
 if(!ad)return;
-
 if(ad.target){
-try{
-const url=new URL(ad.target);
-if(url.protocol==="http:"||url.protocol==="https:"){
-window.open(url.href,"_blank","noopener,noreferrer");
-}
-}catch(e){}
+const url=safeHttpUrl(ad.target);
+if(url)window.open(url,"_blank","noopener,noreferrer");
 }else{
 showFullImage(ad.image);
 }
@@ -674,7 +1002,6 @@ showFullImage(ad.image);
 // ==========================================
 // الشريط العاجل
 // ==========================================
-
 async function loadTicker(){
 const {data,error}=await db
 .from("site_settings")
@@ -691,7 +1018,6 @@ document.getElementById("tickerInput").value=data.breaking;
 // ==========================================
 // تسجيل دخول الإدارة
 // ==========================================
-
 function openAdminRoute(){
 if(location.hash==="#admin-panel"){
 document.getElementById("adminPanel").classList.add("show");
@@ -709,15 +1035,11 @@ document.getElementById("dashboard").style.display="none";
 document.getElementById("accessMessage").textContent="";
 
 const {data,error}=await db.auth.getSession();
-
 if(error){
 document.getElementById("accessMessage").textContent="تعذر التحقق من الجلسة";
 return;
 }
-
-if(data.session){
-await verifyAdmin(data.session.user);
-}
+if(data.session)await verifyAdmin(data.session.user);
 }
 
 async function adminLogin(){
@@ -742,7 +1064,6 @@ if(error){
 showMessage("loginMessage","تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.");
 return;
 }
-
 await verifyAdmin(data.user);
 }
 
@@ -759,7 +1080,6 @@ if(error||!data||!["owner","admin"].includes(data.role)){
 await db.auth.signOut();
 currentUser=null;
 currentRole=null;
-
 document.getElementById("loginSection").style.display="block";
 document.getElementById("dashboard").style.display="none";
 document.getElementById("accessMessage").textContent="هذا الحساب غير مصرح له بدخول لوحة الإدارة.";
@@ -767,21 +1087,17 @@ return;
 }
 
 currentRole=data.role;
-
 document.getElementById("loginSection").style.display="none";
 document.getElementById("dashboard").style.display="block";
 document.getElementById("accessMessage").textContent="";
 document.getElementById("adminIdentity").textContent=user.email;
-
-document.getElementById("adminRole").textContent=
-currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
-
-document.getElementById("adminsTabButton").style.display=
-currentRole==="owner"?"inline-block":"none";
+document.getElementById("adminRole").textContent=currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
+document.getElementById("adminsTabButton").style.display=currentRole==="owner"?"inline-block":"none";
 
 await loadArticles();
 await loadAds();
 await loadTicker();
+await loadContactSettings();
 await renderAdminArticles();
 await renderAdminAds();
 
@@ -790,10 +1106,8 @@ if(currentRole==="owner")await loadManagers();
 
 async function adminLogout(){
 await db.auth.signOut();
-
 currentUser=null;
 currentRole=null;
-
 document.getElementById("dashboard").style.display="none";
 document.getElementById("loginSection").style.display="block";
 document.getElementById("loginPassword").value="";
@@ -802,7 +1116,6 @@ document.getElementById("loginMessage").textContent="تم تسجيل الخرو�
 
 function leaveAdmin(){
 document.getElementById("adminPanel").classList.remove("show");
-
 if(location.hash==="#admin-panel"){
 history.replaceState(null,"",location.pathname+location.search);
 }
@@ -820,27 +1133,22 @@ document.getElementById("loginSection").style.display="block";
 // ==========================================
 // تبويبات لوحة الإدارة
 // ==========================================
-
 function showAdminTab(tab,button){
 if(tab==="adminsTab"&&currentRole!=="owner")return;
 
-document.querySelectorAll(".admin-tab-content").forEach(el=>{
-el.style.display="none";
-});
-
-document.querySelectorAll(".admin-tab").forEach(el=>{
-el.classList.remove("active");
-});
+document.querySelectorAll(".admin-tab-content").forEach(el=>el.style.display="none");
+document.querySelectorAll(".admin-tab").forEach(el=>el.classList.remove("active"));
 
 document.getElementById(tab).style.display="block";
 if(button)button.classList.add("active");
+
+if(tab==="contactTab")loadContactSettings();
 }
 
 // ==========================================
 // إضافة خبر
 // ==========================================
-
-async function addArticle(){
+async function addArticle(button){
 if(!currentUser||!currentRole)return;
 
 const title=document.getElementById("newTitle").value.trim();
@@ -854,8 +1162,8 @@ showMessage("newsMessage","يرجى تعبئة عنوان الخبر والمل�
 return;
 }
 
-const btn=event?.target;
-if(btn)btn.disabled=true;
+button=button||document.querySelector("#newsTab button.gold-btn");
+if(button)button.disabled=true;
 
 try{
 let image=null;
@@ -864,29 +1172,25 @@ if(file)image=await uploadImage(file);
 const {error}=await db.from("articles").insert({
 title,category,summary,body,image,published:true
 });
-
 if(error)throw error;
 
 showMessage("newsMessage","تم نشر الخبر بنجاح",true);
-
 document.getElementById("newTitle").value="";
 document.getElementById("newSummary").value="";
 document.getElementById("newBody").value="";
 document.getElementById("newNewsImage").value="";
-
 await loadArticles();
 
 }catch(error){
 showMessage("newsMessage","تعذر النشر: "+error.message);
 }finally{
-if(btn)btn.disabled=false;
+if(button)button.disabled=false;
 }
 }
 
 // ==========================================
 // إدارة الأخبار وحذفها
 // ==========================================
-
 async function renderAdminArticles(){
 const list=document.getElementById("adminArticlesList");
 if(!list)return;
@@ -902,21 +1206,17 @@ list.innerHTML=articlesCache.map(a=>`
 <div class="font-bold text-sm">${safeText(a.title)}</div>
 <div class="text-xs text-gray-400">${formatDate(a.created_at)}</div>
 </div>
-<button class="red-btn shrink-0" onclick="deleteArticle('${a.id}')">حذف</button>
-</div>
-`).join("");
+<button class="red-btn shrink-0" onclick="deleteArticle('${safeText(a.id)}')">حذف</button>
+</div>`).join("");
 }
 
 async function deleteArticle(id){
 if(!confirm("هل تريد حذف هذا الخبر؟"))return;
-
 const {error}=await db.from("articles").delete().eq("id",id);
-
 if(error){
 alert("تعذر حذف الخبر: "+error.message);
 return;
 }
-
 await loadArticles();
 await renderAdminArticles();
 }
@@ -924,7 +1224,6 @@ await renderAdminArticles();
 // ==========================================
 // إضافة إعلان
 // ==========================================
-
 async function addAd(){
 if(!currentUser||!currentRole)return;
 
@@ -937,19 +1236,13 @@ showMessage("adMessage","اختر صورة الإعلان");
 return;
 }
 
-if(target){
-try{
-const u=new URL(target);
-if(!["http:","https:"].includes(u.protocol))throw new Error();
-}catch(e){
+if(target&&!safeHttpUrl(target)){
 showMessage("adMessage","رابط الإعلان غير صالح");
 return;
-}
 }
 
 try{
 showMessage("adMessage","جارٍ رفع الصورة...");
-
 const image=await uploadImage(file);
 
 const {error}=await db.from("ads").insert({
@@ -959,15 +1252,12 @@ starts_at:new Date().toISOString(),
 expires_at:expiry?new Date(expiry).toISOString():null,
 active:true
 });
-
 if(error)throw error;
 
 showMessage("adMessage","تمت إضافة الإعلان بنجاح",true);
-
 document.getElementById("newAdImage").value="";
 document.getElementById("newAdTarget").value="";
 document.getElementById("newAdExpiry").value="";
-
 await loadAds();
 await renderAdminAds();
 
@@ -979,7 +1269,6 @@ showMessage("adMessage","تعذر إضافة الإعلان: "+error.message);
 // ==========================================
 // إدارة الإعلانات وحذفها
 // ==========================================
-
 async function renderAdminAds(){
 const list=document.getElementById("adminAdsList");
 if(!list)return;
@@ -995,21 +1284,17 @@ list.innerHTML=adsCache.map(ad=>`
 <img src="${safeText(ad.image)}" class="w-16 h-12 object-cover rounded">
 <span class="text-sm font-bold">إعلان</span>
 </div>
-<button class="red-btn shrink-0" onclick="deleteAd('${ad.id}')">حذف</button>
-</div>
-`).join("");
+<button class="red-btn shrink-0" onclick="deleteAd('${safeText(ad.id)}')">حذف</button>
+</div>`).join("");
 }
 
 async function deleteAd(id){
 if(!confirm("هل تريد حذف هذا الإعلان؟"))return;
-
 const {error}=await db.from("ads").delete().eq("id",id);
-
 if(error){
 alert("تعذر حذف الإعلان: "+error.message);
 return;
 }
-
 await loadAds();
 await renderAdminAds();
 }
@@ -1017,12 +1302,10 @@ await renderAdminAds();
 // ==========================================
 // تحديث الشريط العاجل
 // ==========================================
-
 async function saveTicker(){
 if(!currentUser||!currentRole)return;
 
 const breaking=document.getElementById("tickerInput").value.trim();
-
 const {error}=await db.from("site_settings").upsert({
 id:1,
 breaking,
@@ -1041,7 +1324,6 @@ showMessage("tickerMessage","تم تحديث الشريط العاجل",true);
 // ==========================================
 // إدارة المدراء: للمالك فقط
 // ==========================================
-
 async function loadManagers(){
 if(currentRole!=="owner")return;
 
@@ -1049,12 +1331,10 @@ const list=document.getElementById("managersList");
 list.textContent="جارٍ تحميل قائمة المدراء...";
 
 const {data,error}=await db.rpc("list_site_admins");
-
 if(error){
 list.textContent="تعذر تحميل القائمة: "+error.message;
 return;
 }
-
 if(!data||!data.length){
 list.textContent="لا يوجد مديرون";
 return;
@@ -1070,17 +1350,14 @@ ${m.role==="owner"?"المدير الرئيسي":"مدير إضافي"}
 </div>
 ${m.role==="admin"
 ?`<button class="red-btn shrink-0" onclick="removeManager('${safeText(m.email)}')">إلغاء الصلاحية</button>`
-:`<span class="text-xs font-bold text-green-700">المالك</span>`
-}
-</div>
-`).join("");
+:`<span class="text-xs font-bold text-green-700">المالك</span>`}
+</div>`).join("");
 }
 
 async function changeManager(makeAdmin){
 if(currentRole!=="owner")return;
 
 const email=document.getElementById("managerEmail").value.trim();
-
 if(!email){
 showMessage("managerMessage","أدخل البريد الإلكتروني");
 return;
@@ -1103,7 +1380,6 @@ await loadManagers();
 async function removeManager(email){
 if(currentRole!=="owner")return;
 if(!confirm("هل تريد إلغاء صلاحية هذا المدير؟"))return;
-
 document.getElementById("managerEmail").value=email;
 await changeManager(false);
 }
@@ -1111,7 +1387,6 @@ await changeManager(false);
 // ==========================================
 // تشغيل الموقع
 // ==========================================
-
 document.getElementById("todayDate").textContent=
 new Date().toLocaleDateString("ar",{
 weekday:"long",
@@ -1125,14 +1400,15 @@ await Promise.all([
 loadArticles(),
 loadAds(),
 loadTicker(),
-loadExternalNews()
+loadExternalNews(),
+loadContactSettings()
 ]);
 
+openSharedArticleFromUrl();
 openAdminRoute();
 }
 
 startSite();
-
 </script>
 </body>
 </html>
