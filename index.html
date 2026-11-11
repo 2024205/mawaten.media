@@ -370,9 +370,9 @@ button{cursor:pointer}
 <label for="showFacebookInput" class="text-sm">إظهار أيقونة فيسبوك في الموقع</label>
 </div>
 
-<label class="text-sm font-bold block mb-2">رقم واتساب مع مفتاح الدولة</label>
-<input id="whatsappNumberInput" type="tel" class="form-control mb-2" placeholder="مثال: 9677XXXXXXXX">
-<p class="text-xs text-gray-500 mb-3">اكتب الرقم بالأرقام فقط، مع مفتاح الدولة، دون علامة + أو مسافات.</p>
+<label class="text-sm font-bold block mb-2">رابط قناة مواطن الإخبارية على واتساب</label>
+<input id="whatsappNumberInput" type="url" class="form-control mb-2" value="https://whatsapp.com/channel/0029VbE1E8q59PwO65247D3c" placeholder="https://whatsapp.com/channel/...">
+<p class="text-xs text-gray-500 mb-3">سيظهر رابط القناة للزوار في أسفل الموقع.</p>
 
 <div class="flex items-center gap-2 mb-5">
 <input id="showWhatsappInput" type="checkbox" checked class="w-4 h-4">
@@ -894,7 +894,7 @@ if(!box)return;
 let html="";
 
 const facebookUrl=safeHttpUrl(contactSettings.facebook_url);
-const whatsappNumber=normalizeWhatsAppNumber(contactSettings.whatsapp_number);
+const whatsappUrl=safeHttpUrl(contactSettings.whatsapp_number);
 
 if(contactSettings.show_facebook&&facebookUrl){
 html+=`
@@ -908,10 +908,10 @@ html+=`
 </div>`;
 }
 
-if(contactSettings.show_whatsapp&&whatsappNumber){
+if(contactSettings.show_whatsapp&&whatsappUrl){
 html+=`
 <div class="contact-item">
-<a class="contact-link whatsapp" href="https://wa.me/${safeText(whatsappNumber)}" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
+<a class="contact-link whatsapp" href="${safeText(whatsappUrl)}" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 <path d="M12.04 2A9.9 9.9 0 0 0 3.5 17l-1.1 4 4.1-1.1A10 10 0 1 0 12.04 2zm0 18.1a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.4.6.6-2.3-.2-.4a8.1 8.1 0 1 1 6.4 3.4zm4.5-6.1c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.4-.5c.1-.1.2-.2.2-.4.1-.1 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.4 3.8 3.3.5.2.9.3 1.2.4.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/>
 </svg>
@@ -941,10 +941,10 @@ return;
 }
 }
 
-const whatsappNumber=normalizeWhatsAppNumber(whatsappRaw);
+const whatsappNumber=whatsappRaw?safeHttpUrl(whatsappRaw):"";
 
-if(whatsappRaw&&whatsappNumber.length<8){
-showMessage("contactMessage","رقم واتساب غير مكتمل. أدخل مفتاح الدولة والرقم.");
+if(whatsappRaw&&(!whatsappNumber||!/^https:\/\/(whatsapp\.com|www\.whatsapp\.com)\/channel\//i.test(whatsappNumber))){
+showMessage("contactMessage","رابط قناة واتساب غير صحيح. استخدم رابط القناة الذي يبدأ بـ https://whatsapp.com/channel/");
 return;
 }
 
