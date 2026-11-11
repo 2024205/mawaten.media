@@ -737,7 +737,7 @@ console.warn("لم يتم العثور على الخبر المطلوب:",id);
 // ==========================================
 // الأخبار من مصادر أخرى
 // ==========================================
-async function loadExternalNews(){
+async async function loadExternalNews(){
 const grid=document.getElementById("externalNewsGrid");
 const count=document.getElementById("externalNewsCount");
 
@@ -1090,7 +1090,7 @@ currentRole=data.role;
 document.getElementById("loginSection").style.display="none";
 document.getElementById("dashboard").style.display="block";
 document.getElementById("accessMessage").textContent="";
-document.getElementById("adminIdentity").textContent=user.email;
+document.getElementById("adminIdentity").textContent="لوحة الإدارة الخاصة";
 document.getElementById("adminRole").textContent=currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
 document.getElementById("adminsTabButton").style.display=currentRole==="owner"?"inline-block":"none";
 
