@@ -1,1737 +1,1138 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <meta name="theme-color" content="#101d36">
-
 <title>مُــوَاطِــن | صوت المواطن.. نبض الوطن</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
-
 *{box-sizing:border-box}
-
 body{margin:0;background:#f4f6fa;color:#18243a;font-family:'Cairo',sans-serif}
-
 :root{--navy:#101d36;--navy2:#192b4b;--gold:#d5ad59;--gold2:#f0d28c}
-
 button,input,textarea,select{font-family:inherit}
-
 button{cursor:pointer}
-
 .site-header{background:linear-gradient(120deg,#101d36,#203657);color:white}
-
 .logo-mark{border:2px solid var(--gold);color:var(--gold);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
-
 .gold-text{color:var(--gold2)}
-
 .nav-link{padding:9px 13px;border-radius:8px;white-space:nowrap}
-
 .nav-link:hover{background:#ffffff18;color:var(--gold2)}
-
 .section-title{border-right:4px solid var(--gold);padding-right:12px;font-weight:900;color:var(--navy)}
-
 .breaking{background:#a82727;color:white;overflow:hidden;display:flex;align-items:center;min-height:42px}
-
 .breaking-label{background:#7f1717;padding:9px 15px;font-weight:900;white-space:nowrap}
-
 .ticker-window{overflow:hidden;flex:1;white-space:nowrap}
-
 .ticker-text{display:inline-block;padding-right:100%;animation:ticker 24s linear infinite}
-
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(100%)}}
-
 .ad-frame{height:230px;background:#e5e9ef;position:relative;overflow:hidden;border-radius:13px}
-
 .ad-slide{position:absolute;inset:0;opacity:0;transition:opacity 1s ease;cursor:pointer}
-
 .ad-slide.active{opacity:1}
-
 .ad-slide img{width:100%;height:100%;object-fit:cover}
-
 .ad-dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:7px;z-index:3}
-
 .ad-dot{width:8px;height:8px;border-radius:50%;background:#ffffff90;border:0;padding:0}
-
 .ad-dot.active{background:var(--gold);width:21px;border-radius:8px}
-
 .news-card{background:white;border-radius:12px;overflow:hidden;border:1px solid #e8ebf0;transition:.25s;cursor:pointer}
-
 .news-card:hover{transform:translateY(-4px);box-shadow:0 9px 24px #14233b16}
-
 .news-image{height:190px;background:#e5e9ef;overflow:hidden}
-
 .news-image img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
-
 .news-card:hover .news-image img{transform:scale(1.04)}
-
 .category-tag{background:#f4ead5;color:#84621f;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:800}
-
 .news-title{font-weight:800;line-height:1.8}
-
 .news-summary{color:#697386;font-size:13px;line-height:1.9}
-
 .site-footer{background:var(--navy);color:#dbe2ed}
-
 .gold-line{height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
-
 .modal-backdrop{position:fixed;inset:0;background:#071020d9;z-index:100;display:none;align-items:center;justify-content:center;padding:14px}
-
 .modal-backdrop.show{display:flex}
-
 .modal-box{background:white;border-radius:15px;width:min(750px,100%);max-height:92vh;overflow:auto}
-
 .modal-image{width:100%;max-height:65vh;object-fit:contain;background:#111}
-
 .form-control{width:100%;border:1px solid #d8deea;border-radius:8px;padding:11px 12px;outline:none;background:white}
-
 .form-control:focus{border-color:var(--gold);box-shadow:0 0 0 2px #d5ad5930}
-
 .gold-btn{background:var(--gold);color:#17233a;font-weight:900;padding:10px 17px;border-radius:8px}
-
 .gold-btn:hover{background:var(--gold2)}
-
 .dark-btn{background:var(--navy);color:white;padding:10px 17px;border-radius:8px}
-
 .red-btn{background:#a52b2b;color:white;padding:7px 12px;border-radius:7px;font-size:12px}
-
 .admin-panel{position:fixed;inset:0;z-index:200;background:#eef1f6;display:none;overflow-y:auto}
-
 .admin-panel.show{display:block}
-
 .admin-top{background:var(--navy);color:white;padding:17px}
-
 .admin-card{background:white;border-radius:12px;padding:17px;border:1px solid #e4e8ef}
-
 .admin-tab{padding:9px 13px;border-radius:8px;background:#e8edf4;color:#27364e;font-weight:700}
-
 .admin-tab.active{background:var(--navy);color:white}
-
 .admin-list-item{border:1px solid #e5e8ef;border-radius:9px;padding:12px;margin-top:9px}
-
 .loading{opacity:.6;pointer-events:none}
-
 @media(max-width:640px){
-
- .ad-frame{height:190px}
-
- .news-image{height:165px}
-
- .news-title{font-size:14px}
-
+.ad-frame{height:190px}
+.news-image{height:165px}
+.news-title{font-size:14px}
 }
-
 </style>
-
 </head>
 
 <body>
 
 <!-- رأس الموقع -->
-
 <header class="site-header">
+<div class="max-w-7xl mx-auto px-4 py-5">
+<div class="flex items-center justify-between gap-3 flex-wrap">
+<div class="flex items-center gap-3">
+<div class="logo-mark">م</div>
+<div>
+<h1 class="text-2xl md:text-3xl font-black tracking-wide">مُــوَاطِــن</h1>
+<p class="text-xs gold-text tracking-widest">M O W A T E N</p>
+<p class="text-xs text-gray-300 mt-1">صوت المواطن.. نبض الوطن</p>
+</div>
+</div>
+<div class="text-left text-xs text-gray-300">
+<div id="todayDate"></div>
+<div class="gold-text mt-1">منبر المواطن الإخباري</div>
+</div>
+</div>
+</div>
+<div class="gold-line"></div>
 
- <div class="max-w-7xl mx-auto px-4 py-5">
-
-  <div class="flex items-center justify-between gap-3 flex-wrap">
-
-   <div class="flex items-center gap-3">
-
-    <div class="logo-mark">م</div>
-
-    <div>
-
-     <h1 class="text-2xl md:text-3xl font-black tracking-wide">مُــوَاطِــن</h1>
-
-     <p class="text-xs gold-text tracking-widest">M O W A T E N</p>
-
-     <p class="text-xs text-gray-300 mt-1">صوت المواطن.. نبض الوطن</p>
-
-    </div>
-
-   </div>
-
-   <div class="text-left text-xs text-gray-300">
-
-    <div id="todayDate"></div>
-
-    <div class="gold-text mt-1">منبر المواطن الإخباري</div>
-
-   </div>
-
-  </div>
-
- </div>
-
- <div class="gold-line"></div>
-
- <nav class="max-w-7xl mx-auto px-3 py-2 flex gap-1 overflow-x-auto text-sm">
-
-  <a href="#home" class="nav-link">الرئيسية</a>
-
-  <a href="#news" class="nav-link">آخر الأخبار</a>
-
-  <a href="#ads" class="nav-link">الإعلانات</a>
-
-  <a href="#about" class="nav-link">عن مواطن</a>
-
- </nav>
-
+<nav class="max-w-7xl mx-auto px-3 py-2 flex gap-1 overflow-x-auto text-sm">
+<a href="#home" class="nav-link">الرئيسية</a>
+<a href="#news" class="nav-link">آخر الأخبار</a>
+<a href="#externalNews" class="nav-link">من مصادر أخرى</a>
+<a href="#ads" class="nav-link">الإعلانات</a>
+<a href="#about" class="nav-link">عن مواطن</a>
+</nav>
 </header>
 
 <!-- عاجل -->
-
 <div class="breaking">
-
- <div class="breaking-label">عاجل</div>
-
- <div class="ticker-window">
-
-  <span class="ticker-text" id="breakingTicker">مرحباً بكم في موقع مواطن الإخباري.. صوت المواطن.. نبض الوطن</span>
-
- </div>
-
+<div class="breaking-label">عاجل</div>
+<div class="ticker-window">
+<span class="ticker-text" id="breakingTicker">مرحباً بكم في موقع مواطن الإخباري.. صوت المواطن.. نبض الوطن</span>
+</div>
 </div>
 
 <main id="home" class="max-w-7xl mx-auto px-4 py-6">
 
- <!-- الإعلانات -->
+<!-- الإعلانات -->
+<section id="ads" class="mb-9">
+<div class="flex justify-between items-center mb-3">
+<h2 class="section-title text-lg">إعلانات وشراكات</h2>
+<span class="text-xs text-gray-500">مساحة إعلانية</span>
+</div>
+<div class="ad-frame" id="adFrame">
+<div class="absolute inset-0 flex items-center justify-center text-gray-400" id="noAds">
+الإعلانات ستظهر هنا
+</div>
+</div>
+</section>
 
- <section id="ads" class="mb-9">
+<!-- الأخبار الأصلية -->
+<section id="news" class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h2 class="section-title text-lg">آخر الأخبار</h2>
+<span class="text-xs text-gray-500" id="newsCount">الأخبار المنشورة</span>
+</div>
+<div id="newsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+<div class="col-span-full text-center py-12 text-gray-500">جارٍ تحميل الأخبار...</div>
+</div>
+</section>
 
-  <div class="flex justify-between items-center mb-3">
+<!-- الأخبار من مصادر أخرى -->
+<section id="externalNews" class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<h2 class="section-title text-lg">من مصادر أخرى</h2>
+<span class="text-xs text-gray-500" id="externalNewsCount">الأخبار الخارجية</span>
+</div>
+<div id="externalNewsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+<div class="col-span-full text-center py-8 text-gray-500">جارٍ تحميل الأخبار الخارجية...</div>
+</div>
+</section>
 
-   <h2 class="section-title text-lg">إعلانات وشراكات</h2>
-
-   <span class="text-xs text-gray-500">مساحة إعلانية</span>
-
-  </div>
-
-  <div class="ad-frame" id="adFrame">
-
-   <div class="absolute inset-0 flex items-center justify-center text-gray-400" id="noAds">
-
-    الإعلانات ستظهر هنا
-
-   </div>
-
-  </div>
-
- </section>
-
- <!-- الأخبار -->
-
- <section id="news" class="mb-10">
-
-  <div class="flex items-center justify-between mb-4">
-
-   <h2 class="section-title text-lg">آخر الأخبار</h2>
-
-   <span class="text-xs text-gray-500" id="newsCount">الأخبار المنشورة</span>
-
-  </div>
-
-  <div id="newsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-
-   <div class="col-span-full text-center py-12 text-gray-500">جارٍ تحميل الأخبار...</div>
-
-  </div>
-
- </section>
-
- <!-- عن الموقع -->
-
- <section id="about" class="mb-10">
-
-  <div class="admin-card text-center py-8">
-
-   <h2 class="text-xl font-black text-gray-800 mb-2">مُــوَاطِــن</h2>
-
-   <div class="gold-line max-w-40 mx-auto mb-4"></div>
-
-   <p class="text-gray-600 text-sm">صوت المواطن.. نبض الوطن</p>
-
-   <p class="text-gray-500 text-xs mt-2">منصة إخبارية لنقل الأخبار والمستجدات</p>
-
-  </div>
-
- </section>
+<!-- عن الموقع -->
+<section id="about" class="mb-10">
+<div class="admin-card text-center py-8">
+<h2 class="text-xl font-black text-gray-800 mb-2">مُــوَاطِــن</h2>
+<div class="gold-line max-w-40 mx-auto mb-4"></div>
+<p class="text-gray-600 text-sm">صوت المواطن.. نبض الوطن</p>
+<p class="text-gray-500 text-xs mt-2">منصة إخبارية لنقل الأخبار والمستجدات</p>
+</div>
+</section>
 
 </main>
 
 <!-- التذييل -->
-
 <footer class="site-footer mt-10">
-
- <div class="gold-line"></div>
-
- <div class="max-w-7xl mx-auto px-4 py-8 text-center">
-
-  <div class="text-2xl font-black gold-text">مُــوَاطِــن</div>
-
-  <p class="text-sm mt-2">صوت المواطن.. نبض الوطن</p>
-
-  <p class="text-xs text-gray-400 mt-5">تم تطوير الموقع من قبل حسن الحميدي</p>
-
-  <p class="text-xs text-gray-400 mt-2">جميع الحقوق محفوظة © 2026</p>
-
- </div>
-
+<div class="gold-line"></div>
+<div class="max-w-7xl mx-auto px-4 py-8 text-center">
+<div class="text-2xl font-black gold-text">مُــوَاطِــن</div>
+<p class="text-sm mt-2">صوت المواطن.. نبض الوطن</p>
+<p class="text-xs text-gray-400 mt-5">تم تطوير الموقع من قبل الضالعي</p>
+<p class="text-xs text-gray-400 mt-2">جميع الحقوق محفوظة © 2026</p>
+</div>
 </footer>
 
 <!-- نافذة تفاصيل الخبر -->
-
 <div class="modal-backdrop" id="articleModal" onclick="closeArticleOutside(event)">
-
- <div class="modal-box">
-
-  <div class="flex justify-between items-center p-4 border-b">
-
-   <strong>تفاصيل الخبر</strong>
-
-   <button onclick="closeArticle()" class="text-2xl text-gray-500">×</button>
-
-  </div>
-
-  <img id="articleModalImage" class="modal-image" style="display:none">
-
-  <div class="p-5">
-
-   <span id="articleModalCategory" class="category-tag"></span>
-
-   <h2 id="articleModalTitle" class="text-xl font-black my-3"></h2>
-
-   <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
-
-   <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
-
-   <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
-
-  </div>
-
- </div>
-
+<div class="modal-box">
+<div class="flex justify-between items-center p-4 border-b">
+<strong>تفاصيل الخبر</strong>
+<button onclick="closeArticle()" class="text-2xl text-gray-500">×</button>
+</div>
+<img id="articleModalImage" class="modal-image" style="display:none">
+<div class="p-5">
+<span id="articleModalCategory" class="category-tag"></span>
+<h2 id="articleModalTitle" class="text-xl font-black my-3"></h2>
+<p id="articleModalSummary" class="text-gray-600 mb-4"></p>
+<div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
+<p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
+</div>
+</div>
 </div>
 
 <!-- عرض الصورة بالحجم الكامل -->
-
 <div class="modal-backdrop" id="imageModal" onclick="this.classList.remove('show')">
-
- <div class="max-w-5xl w-full text-center">
-
-  <button class="text-white text-3xl mb-2" onclick="document.getElementById('imageModal').classList.remove('show')">×</button>
-
-  <img id="fullImage" class="max-w-full max-h-[85vh] mx-auto object-contain rounded-lg">
-
- </div>
-
+<div class="max-w-5xl w-full text-center">
+<button class="text-white text-3xl mb-2" onclick="document.getElementById('imageModal').classList.remove('show')">×</button>
+<img id="fullImage" class="max-w-full max-h-[85vh] mx-auto object-contain rounded-lg">
+</div>
 </div>
 
-<!-- لوحة الإدارة: لا يظهر لها زر في الموقع العام -->
-
+<!-- لوحة الإدارة -->
 <div class="admin-panel" id="adminPanel">
-
- <div class="admin-top">
-
-  <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
-
-   <div>
-
-    <h2 class="text-xl font-black gold-text">إدارة مواطن</h2>
-
-    <p class="text-xs text-gray-300 mt-1" id="adminIdentity">منطقة الإدارة الخاصة</p>
-
-   </div>
-
-   <button onclick="leaveAdmin()" class="border border-gray-500 rounded-lg px-3 py-2 text-sm">إغلاق</button>
-
-  </div>
-
- </div>
-
- <div class="max-w-6xl mx-auto p-4">
-
-  <!-- تسجيل الدخول -->
-
-  <div id="loginSection" class="max-w-md mx-auto mt-10 admin-card">
-
-   <h3 class="text-xl font-black text-center mb-2">دخول الإدارة</h3>
-
-   <p class="text-xs text-gray-500 text-center mb-6">هذه المنطقة مخصصة للمستخدمين المصرح لهم فقط</p>
-
-   <label class="text-sm font-bold block mb-2">البريد الإلكتروني</label>
-
-   <input id="loginEmail" type="email" autocomplete="username" class="form-control mb-4" placeholder="البريد الإلكتروني">
-
-   <label class="text-sm font-bold block mb-2">كلمة المرور</label>
-
-   <input id="loginPassword" type="password" autocomplete="current-password" class="form-control mb-4" placeholder="كلمة المرور">
-
-   <button onclick="adminLogin()" id="loginButton" class="dark-btn w-full">تسجيل الدخول</button>
-
-   <p id="loginMessage" class="text-sm text-center mt-4 text-red-600"></p>
-
-  </div>
-
-  <!-- واجهة الإدارة بعد التحقق -->
-
-  <div id="dashboard" style="display:none">
-
-   <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
-
-    <div class="admin-card">
-
-     <div class="text-xs text-gray-500">حالة الحساب</div>
-
-     <div class="font-black text-green-700 mt-2" id="adminRole">مدير</div>
-
-    </div>
-
-    <div class="admin-card">
-
-     <div class="text-xs text-gray-500">الأخبار المنشورة</div>
-
-     <div class="text-2xl font-black mt-2" id="adminNewsCount">0</div>
-
-    </div>
-
-    <div class="admin-card">
-
-     <div class="text-xs text-gray-500">الإعلانات النشطة</div>
-
-     <div class="text-2xl font-black mt-2" id="adminAdsCount">0</div>
-
-    </div>
-
-   </div>
-
-   <div class="flex flex-wrap gap-2 mb-5">
-
-    <button class="admin-tab active" onclick="showAdminTab('newsTab',this)">إدارة الأخبار</button>
-
-    <button class="admin-tab" onclick="showAdminTab('adsTab',this)">إدارة الإعلانات</button>
-
-    <button class="admin-tab" onclick="showAdminTab('tickerTab',this)">الشريط العاجل</button>
-
-    <button class="admin-tab" id="adminsTabButton" style="display:none" onclick="showAdminTab('adminsTab',this)">إدارة المدراء</button>
-
-   </div>
-
-   <!-- الأخبار -->
-
-   <div id="newsTab" class="admin-tab-content">
-
-    <div class="admin-card mb-5">
-
-     <h3 class="font-black text-lg mb-4">إضافة خبر جديد</h3>
-
-     <label class="text-sm font-bold block mb-2">عنوان الخبر</label>
-
-     <input id="newTitle" class="form-control mb-3" placeholder="اكتب عنوان الخبر">
-
-     <label class="text-sm font-bold block mb-2">التصنيف</label>
-
-     <select id="newCategory" class="form-control mb-3">
-
-      <option>أخبار محلية</option>
-
-      <option>أخبار عربية</option>
-
-      <option>أخبار دولية</option>
-
-      <option>سياسة</option>
-
-      <option>اقتصاد</option>
-
-      <option>رياضة</option>
-
-      <option>مجتمع</option>
-
-      <option>تقارير</option>
-
-     </select>
-
-     <label class="text-sm font-bold block mb-2">ملخص الخبر</label>
-
-     <textarea id="newSummary" class="form-control mb-3" rows="3" placeholder="ملخص قصير للخبر"></textarea>
-
-     <label class="text-sm font-bold block mb-2">تفاصيل الخبر</label>
-
-     <textarea id="newBody" class="form-control mb-3" rows="6" placeholder="اكتب تفاصيل الخبر"></textarea>
-
-     <label class="text-sm font-bold block mb-2">صورة الخبر</label>
-
-     <input id="newNewsImage" type="file" accept="image/*" class="form-control mb-3">
-
-     <button onclick="addArticle()" class="gold-btn w-full">نشر الخبر</button>
-
-     <p id="newsMessage" class="text-sm mt-3"></p>
-
-    </div>
-
-    <div class="admin-card">
-
-     <h3 class="font-black mb-3">الأخبار المنشورة</h3>
-
-     <div id="adminArticlesList">جارٍ التحميل...</div>
-
-    </div>
-
-   </div>
-
-   <!-- الإعلانات -->
-
-   <div id="adsTab" class="admin-tab-content" style="display:none">
-
-    <div class="admin-card mb-5">
-
-     <h3 class="font-black text-lg mb-4">إضافة إعلان</h3>
-
-     <label class="text-sm font-bold block mb-2">صورة الإعلان</label>
-
-     <input id="newAdImage" type="file" accept="image/*" class="form-control mb-3">
-
-     <label class="text-sm font-bold block mb-2">رابط الإعلان (اختياري)</label>
-
-     <input id="newAdTarget" type="url" class="form-control mb-3" placeholder="https://example.com">
-
-     <label class="text-sm font-bold block mb-2">تاريخ انتهاء الإعلان (اختياري)</label>
-
-     <input id="newAdExpiry" type="datetime-local" class="form-control mb-3">
-
-     <button onclick="addAd()" class="gold-btn w-full">إضافة الإعلان</button>
-
-     <p id="adMessage" class="text-sm mt-3"></p>
-
-    </div>
-
-    <div class="admin-card">
-
-     <h3 class="font-black mb-3">الإعلانات النشطة</h3>
-
-     <div id="adminAdsList">جارٍ التحميل...</div>
-
-    </div>
-
-   </div>
-
-   <!-- الشريط العاجل -->
-
-   <div id="tickerTab" class="admin-tab-content" style="display:none">
-
-    <div class="admin-card">
-
-     <h3 class="font-black text-lg mb-4">تحديث الشريط العاجل</h3>
-
-     <textarea id="tickerInput" class="form-control mb-3" rows="4" placeholder="اكتب النص الذي تريد عرضه"></textarea>
-
-     <button onclick="saveTicker()" class="gold-btn w-full">حفظ الشريط</button>
-
-     <p id="tickerMessage" class="text-sm mt-3"></p>
-
-    </div>
-
-   </div>
-
-   <!-- إدارة المدراء: للمالك الرئيسي فقط -->
-
-   <div id="adminsTab" class="admin-tab-content" style="display:none">
-
-    <div class="admin-card mb-5">
-
-     <h3 class="font-black text-lg mb-2">إدارة صلاحيات المدراء</h3>
-
-     <p class="text-xs text-gray-500 mb-4">يمكنك إضافة عشرة مديرين إضافيين كحد أقصى، وإلغاء صلاحية أي منهم.</p>
-
-     <label class="text-sm font-bold block mb-2">البريد الإلكتروني للشخص</label>
-
-     <input id="managerEmail" type="email" class="form-control mb-3" placeholder="أدخل بريد حسابه في الموقع">
-
-     <button onclick="changeManager(true)" class="gold-btn w-full mb-2">منح صلاحية الإدارة</button>
-
-     <button onclick="changeManager(false)" class="dark-btn w-full">إلغاء صلاحية مدير</button>
-
-     <p id="managerMessage" class="text-sm mt-3"></p>
-
-    </div>
-
-    <div class="admin-card">
-
-     <div class="flex justify-between items-center gap-2">
-
-      <h3 class="font-black">قائمة المدراء</h3>
-
-      <button onclick="loadManagers()" class="text-xs text-blue-700">تحديث القائمة</button>
-
-     </div>
-
-     <div id="managersList" class="mt-3">جارٍ التحميل...</div>
-
-    </div>
-
-   </div>
-
-   <div class="text-center mt-7 mb-10">
-
-    <button onclick="adminLogout()" class="red-btn px-6 py-3">تسجيل الخروج</button>
-
-   </div>
-
-  </div>
-
-  <p id="accessMessage" class="text-center text-red-700 font-bold mt-8"></p>
-
- </div>
-
+<div class="admin-top">
+<div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
+<div>
+<h2 class="text-xl font-black gold-text">إدارة مواطن</h2>
+<p class="text-xs text-gray-300 mt-1" id="adminIdentity">منطقة الإدارة الخاصة</p>
+</div>
+<button onclick="leaveAdmin()" class="border border-gray-500 rounded-lg px-3 py-2 text-sm">إغلاق</button>
+</div>
+</div>
+
+<div class="max-w-6xl mx-auto p-4">
+
+<!-- تسجيل الدخول -->
+<div id="loginSection" class="max-w-md mx-auto mt-10 admin-card">
+<h3 class="text-xl font-black text-center mb-2">دخول الإدارة</h3>
+<p class="text-xs text-gray-500 text-center mb-6">هذه المنطقة مخصصة للمستخدمين المصرح لهم فقط</p>
+<label class="text-sm font-bold block mb-2">البريد الإلكتروني</label>
+<input id="loginEmail" type="email" autocomplete="username" class="form-control mb-4" placeholder="البريد الإلكتروني">
+<label class="text-sm font-bold block mb-2">كلمة المرور</label>
+<input id="loginPassword" type="password" autocomplete="current-password" class="form-control mb-4" placeholder="كلمة المرور">
+<button onclick="adminLogin()" id="loginButton" class="dark-btn w-full">تسجيل الدخول</button>
+<p id="loginMessage" class="text-sm text-center mt-4 text-red-600"></p>
+</div>
+
+<!-- لوحة التحكم -->
+<div id="dashboard" style="display:none">
+
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+<div class="admin-card">
+<div class="text-xs text-gray-500">حالة الحساب</div>
+<div class="font-black text-green-700 mt-2" id="adminRole">مدير</div>
+</div>
+<div class="admin-card">
+<div class="text-xs text-gray-500">الأخبار المنشورة</div>
+<div class="text-2xl font-black mt-2" id="adminNewsCount">0</div>
+</div>
+<div class="admin-card">
+<div class="text-xs text-gray-500">الإعلانات النشطة</div>
+<div class="text-2xl font-black mt-2" id="adminAdsCount">0</div>
+</div>
+</div>
+
+<div class="flex flex-wrap gap-2 mb-5">
+<button class="admin-tab active" onclick="showAdminTab('newsTab',this)">إدارة الأخبار</button>
+<button class="admin-tab" onclick="showAdminTab('adsTab',this)">إدارة الإعلانات</button>
+<button class="admin-tab" onclick="showAdminTab('tickerTab',this)">الشريط العاجل</button>
+<button class="admin-tab" id="adminsTabButton" style="display:none" onclick="showAdminTab('adminsTab',this)">إدارة المدراء</button>
+</div>
+
+<!-- إدارة الأخبار -->
+<div id="newsTab" class="admin-tab-content">
+<div class="admin-card mb-5">
+<h3 class="font-black text-lg mb-4">إضافة خبر جديد</h3>
+<label class="text-sm font-bold block mb-2">عنوان الخبر</label>
+<input id="newTitle" class="form-control mb-3" placeholder="اكتب عنوان الخبر">
+<label class="text-sm font-bold block mb-2">التصنيف</label>
+<select id="newCategory" class="form-control mb-3">
+<option>أخبار محلية</option>
+<option>أخبار عربية</option>
+<option>أخبار دولية</option>
+<option>سياسة</option>
+<option>اقتصاد</option>
+<option>رياضة</option>
+<option>مجتمع</option>
+<option>تقارير</option>
+</select>
+<label class="text-sm font-bold block mb-2">ملخص الخبر</label>
+<textarea id="newSummary" class="form-control mb-3" rows="3" placeholder="ملخص قصير للخبر"></textarea>
+<label class="text-sm font-bold block mb-2">تفاصيل الخبر</label>
+<textarea id="newBody" class="form-control mb-3" rows="6" placeholder="اكتب تفاصيل الخبر"></textarea>
+<label class="text-sm font-bold block mb-2">صورة الخبر</label>
+<input id="newNewsImage" type="file" accept="image/*" class="form-control mb-3">
+<button onclick="addArticle()" class="gold-btn w-full">نشر الخبر</button>
+<p id="newsMessage" class="text-sm mt-3"></p>
+</div>
+
+<div class="admin-card">
+<h3 class="font-black mb-3">الأخبار المنشورة</h3>
+<div id="adminArticlesList">جارٍ التحميل...</div>
+</div>
+</div>
+
+<!-- الإعلانات -->
+<div id="adsTab" class="admin-tab-content" style="display:none">
+<div class="admin-card mb-5">
+<h3 class="font-black text-lg mb-4">إضافة إعلان</h3>
+<label class="text-sm font-bold block mb-2">صورة الإعلان</label>
+<input id="newAdImage" type="file" accept="image/*" class="form-control mb-3">
+<label class="text-sm font-bold block mb-2">رابط الإعلان (اختياري)</label>
+<input id="newAdTarget" type="url" class="form-control mb-3" placeholder="https://example.com">
+<label class="text-sm font-bold block mb-2">تاريخ انتهاء الإعلان (اختياري)</label>
+<input id="newAdExpiry" type="datetime-local" class="form-control mb-3">
+<button onclick="addAd()" class="gold-btn w-full">إضافة الإعلان</button>
+<p id="adMessage" class="text-sm mt-3"></p>
+</div>
+<div class="admin-card">
+<h3 class="font-black mb-3">الإعلانات النشطة</h3>
+<div id="adminAdsList">جارٍ التحميل...</div>
+</div>
+</div>
+
+<!-- الشريط العاجل -->
+<div id="tickerTab" class="admin-tab-content" style="display:none">
+<div class="admin-card">
+<h3 class="font-black text-lg mb-4">تحديث الشريط العاجل</h3>
+<textarea id="tickerInput" class="form-control mb-3" rows="4" placeholder="اكتب النص الذي تريد عرضه"></textarea>
+<button onclick="saveTicker()" class="gold-btn w-full">حفظ الشريط</button>
+<p id="tickerMessage" class="text-sm mt-3"></p>
+</div>
+</div>
+
+<!-- إدارة المدراء -->
+<div id="adminsTab" class="admin-tab-content" style="display:none">
+<div class="admin-card mb-5">
+<h3 class="font-black text-lg mb-2">إدارة صلاحيات المدراء</h3>
+<p class="text-xs text-gray-500 mb-4">يمكنك إضافة عشرة مديرين إضافيين كحد أقصى، وإلغاء صلاحية أي منهم.</p>
+<label class="text-sm font-bold block mb-2">البريد الإلكتروني للشخص</label>
+<input id="managerEmail" type="email" class="form-control mb-3" placeholder="أدخل بريد حسابه في الموقع">
+<button onclick="changeManager(true)" class="gold-btn w-full mb-2">منح صلاحية الإدارة</button>
+<button onclick="changeManager(false)" class="dark-btn w-full">إلغاء صلاحية مدير</button>
+<p id="managerMessage" class="text-sm mt-3"></p>
+</div>
+<div class="admin-card">
+<div class="flex justify-between items-center gap-2">
+<h3 class="font-black">قائمة المدراء</h3>
+<button onclick="loadManagers()" class="text-xs text-blue-700">تحديث القائمة</button>
+</div>
+<div id="managersList" class="mt-3">جارٍ التحميل...</div>
+</div>
+</div>
+
+<div class="text-center mt-7 mb-10">
+<button onclick="adminLogout()" class="red-btn px-6 py-3">تسجيل الخروج</button>
+</div>
+
+</div>
+<p id="accessMessage" class="text-center text-red-700 font-bold mt-8"></p>
+</div>
 </div>
 
 <script>
-
 // ==========================================
-
 // إعداد الاتصال
-
 // ==========================================
 
 const SUPABASE_URL = "https://sfomyyvfxyvzsbmecqob.supabase.co";
-
 const SUPABASE_KEY = "sb_publishable_Un8Xw6RLTCjrUM6hJjXGCg_GDvIwk21";
-
 const CLOUDINARY_CLOUD = "lxkdpxpz";
-
 const CLOUDINARY_PRESET = "mawaten_upload";
 
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
-
 let currentRole = null;
-
 let articlesCache = [];
-
 let adsCache = [];
-
+let externalNewsCache = [];
 let adTimer = null;
-
 let currentAdIndex = 0;
 
 // ==========================================
-
 // أدوات مساعدة
-
 // ==========================================
 
 function safeText(value){
-
- return String(value ?? "").replace(/[&<>"']/g, c => ({
-
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-
- }[c]));
-
+return String(value ?? "").replace(/[&<>"']/g,c=>({
+"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+}[c]));
 }
 
 function formatDate(value){
-
- if(!value) return "";
-
- const d = new Date(value);
-
- return d.toLocaleDateString("ar",{
-
-  year:"numeric",month:"long",day:"numeric"
-
- });
-
+if(!value)return "";
+const d=new Date(value);
+if(Number.isNaN(d.getTime()))return "";
+return d.toLocaleDateString("ar",{year:"numeric",month:"long",day:"numeric"});
 }
 
 function showMessage(id,message,success=false){
-
- const el=document.getElementById(id);
-
- if(!el)return;
-
- el.textContent=message;
-
- el.className="text-sm mt-3 "+(success?"text-green-700":"text-red-600");
-
+const el=document.getElementById(id);
+if(!el)return;
+el.textContent=message;
+el.className="text-sm mt-3 "+(success?"text-green-700":"text-red-600");
 }
 
 function validImage(file){
-
- if(!file)return false;
-
- if(!file.type.startsWith("image/")){
-
-  alert("يرجى اختيار صورة فقط");
-
-  return false;
-
- }
-
- if(file.size > 5*1024*1024){
-
-  alert("حجم الصورة يجب ألا يتجاوز 5 ميجابايت");
-
-  return false;
-
- }
-
- return true;
-
+if(!file)return false;
+if(!file.type.startsWith("image/")){
+alert("يرجى اختيار صورة فقط");
+return false;
+}
+if(file.size>5*1024*1024){
+alert("حجم الصورة يجب ألا يتجاوز 5 ميجابايت");
+return false;
+}
+return true;
 }
 
 // ==========================================
-
 // رفع الصور إلى Cloudinary
-
 // ==========================================
 
 async function uploadImage(file){
+if(!validImage(file))throw new Error("ملف الصورة غير صالح");
 
- if(!validImage(file)) throw new Error("ملف الصورة غير صالح");
+const form=new FormData();
+form.append("file",file);
+form.append("upload_preset",CLOUDINARY_PRESET);
 
- const form = new FormData();
+const response=await fetch(
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,
+{method:"POST",body:form}
+);
 
- form.append("file",file);
+const result=await response.json();
 
- form.append("upload_preset",CLOUDINARY_PRESET);
+if(!response.ok||!result.secure_url){
+throw new Error(result.error?.message||"تعذر رفع الصورة");
+}
 
- const response = await fetch(
-
-  `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`,
-
-  {method:"POST",body:form}
-
- );
-
- const result = await response.json();
-
- if(!response.ok || !result.secure_url){
-
-  throw new Error(result.error?.message || "تعذر رفع الصورة");
-
- }
-
- return result.secure_url;
-
+return result.secure_url;
 }
 
 // ==========================================
-
-// تحميل الأخبار
-
+// تحميل الأخبار الأصلية
 // ==========================================
 
 async function loadArticles(){
+const {data,error}=await db
+.from("articles")
+.select("*")
+.eq("published",true)
+.order("created_at",{ascending:false});
 
- const {data,error}=await db
+if(error){
+console.error(error);
+document.getElementById("newsGrid").innerHTML=
+'<p class="col-span-full text-center text-red-600">تعذر تحميل الأخبار حاليًا</p>';
+return;
+}
 
-  .from("articles")
-
-  .select("*")
-
-  .eq("published",true)
-
-  .order("created_at",{ascending:false});
-
- if(error){
-
-  console.error(error);
-
-  document.getElementById("newsGrid").innerHTML=
-
-   '<p class="col-span-full text-center text-red-600">تعذر تحميل الأخبار حاليًا</p>';
-
-  return;
-
- }
-
- articlesCache=data||[];
-
- renderArticles();
-
+articlesCache=data||[];
+renderArticles();
 }
 
 function renderArticles(){
+const grid=document.getElementById("newsGrid");
 
- const grid=document.getElementById("newsGrid");
+document.getElementById("newsCount").textContent=
+`${articlesCache.length} خبر`;
 
- document.getElementById("newsCount").textContent=
+document.getElementById("adminNewsCount").textContent=
+articlesCache.length;
 
-  `${articlesCache.length} خبر`;
+if(!articlesCache.length){
+grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار منشورة حتى الآن</div>';
+return;
+}
 
- document.getElementById("adminNewsCount").textContent=
+grid.innerHTML=articlesCache.map((a,index)=>`
+<article class="news-card" onclick="openArticle(${index})">
+<div class="news-image">
+${a.image
+?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy">`
+:`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`
+}
+</div>
+<div class="p-4">
+<span class="category-tag">${safeText(a.category||"أخبار")}</span>
+<h3 class="news-title mt-3 mb-2">${safeText(a.title)}</h3>
+<p class="news-summary">${safeText(a.summary||"")}</p>
+<div class="flex justify-between items-center mt-4 text-xs text-gray-400">
+<span>${formatDate(a.created_at)}</span>
+<span class="text-yellow-700 font-bold">اقرأ المزيد ←</span>
+</div>
+</div>
+</article>
+`).join("");
 
-  articlesCache.length;
-
- if(!articlesCache.length){
-
-  grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار منشورة حتى الآن</div>';
-
-  return;
-
- }
-
- grid.innerHTML=articlesCache.map((a,index)=>`
-
-  <article class="news-card" onclick="openArticle(${index})">
-
-   <div class="news-image">
-
-    ${a.image
-
-     ? `<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy">`
-
-     : `<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`
-
-    }
-
-   </div>
-
-   <div class="p-4">
-
-    <span class="category-tag">${safeText(a.category||"أخبار")}</span>
-
-    <h3 class="news-title mt-3 mb-2">${safeText(a.title)}</h3>
-
-    <p class="news-summary">${safeText(a.summary||"")}</p>
-
-    <div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-
-     <span>${formatDate(a.created_at)}</span>
-
-     <span class="text-yellow-700 font-bold">اقرأ المزيد ←</span>
-
-    </div>
-
-   </div>
-
-  </article>
-
- `).join("");
-
- if(currentUser)renderAdminArticles();
-
+if(currentUser)renderAdminArticles();
 }
 
 function openArticle(index){
+const a=articlesCache[index];
+if(!a)return;
 
- const a=articlesCache[index];
+document.getElementById("articleModalTitle").textContent=a.title||"";
+document.getElementById("articleModalCategory").textContent=a.category||"أخبار";
+document.getElementById("articleModalSummary").textContent=a.summary||"";
+document.getElementById("articleModalBody").textContent=a.body||"";
+document.getElementById("articleModalDate").textContent=formatDate(a.created_at);
 
- if(!a)return;
+const img=document.getElementById("articleModalImage");
 
- document.getElementById("articleModalTitle").textContent=a.title||"";
+if(a.image){
+img.src=a.image;
+img.style.display="block";
+img.onclick=()=>showFullImage(a.image);
+}else{
+img.style.display="none";
+}
 
- document.getElementById("articleModalCategory").textContent=a.category||"أخبار";
-
- document.getElementById("articleModalSummary").textContent=a.summary||"";
-
- document.getElementById("articleModalBody").textContent=a.body||"";
-
- document.getElementById("articleModalDate").textContent=formatDate(a.created_at);
-
- const img=document.getElementById("articleModalImage");
-
- if(a.image){
-
-  img.src=a.image;
-
-  img.style.display="block";
-
-  img.onclick=()=>showFullImage(a.image);
-
- }else{
-
-  img.style.display="none";
-
- }
-
- document.getElementById("articleModal").classList.add("show");
-
+document.getElementById("articleModal").classList.add("show");
 }
 
 function closeArticle(){
-
- document.getElementById("articleModal").classList.remove("show");
-
+document.getElementById("articleModal").classList.remove("show");
 }
 
 function closeArticleOutside(e){
-
- if(e.target.id==="articleModal")closeArticle();
-
+if(e.target.id==="articleModal")closeArticle();
 }
 
 function showFullImage(src){
-
- document.getElementById("fullImage").src=src;
-
- document.getElementById("imageModal").classList.add("show");
-
+document.getElementById("fullImage").src=src;
+document.getElementById("imageModal").classList.add("show");
 }
 
 // ==========================================
+// الأخبار من مصادر أخرى
+// ==========================================
 
+async function loadExternalNews(){
+const grid=document.getElementById("externalNewsGrid");
+const count=document.getElementById("externalNewsCount");
+
+const {data,error}=await db
+.from("imported_news")
+.select("id,title,summary,image_url,article_url,source_name,category,published_at")
+.eq("is_published",true)
+.order("published_at",{ascending:false})
+.limit(30);
+
+if(error){
+console.error("External news error:",error);
+grid.innerHTML=`
+<div class="col-span-full text-center py-8 text-red-600">
+تعذر تحميل الأخبار من المصادر الأخرى
+</div>`;
+return;
+}
+
+externalNewsCache=data||[];
+count.textContent=`${externalNewsCache.length} خبر`;
+
+if(!externalNewsCache.length){
+grid.innerHTML=`
+<div class="col-span-full text-center py-8 text-gray-500">
+لا توجد أخبار خارجية منشورة حاليًا
+</div>`;
+return;
+}
+
+grid.innerHTML=externalNewsCache.map(item=>{
+let safeUrl="";
+
+try{
+const url=new URL(item.article_url);
+if(["https:","http:"].includes(url.protocol))safeUrl=url.href;
+}catch(e){}
+
+const image=item.image_url
+?`<div class="news-image">
+<img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy">
+</div>`
+:`<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>`;
+
+return `
+<article class="news-card">
+${image}
+<div class="p-4">
+<span class="category-tag">${safeText(item.category||"أخبار خارجية")}</span>
+<h3 class="news-title mt-3 mb-2">${safeText(item.title)}</h3>
+<p class="news-summary">${safeText(item.summary||"")}</p>
+<div class="text-xs text-gray-500 mt-4">
+المصدر:
+<strong>${safeText(item.source_name||"مصدر خارجي")}</strong>
+</div>
+<div class="flex justify-between items-center mt-3 text-xs">
+<span class="text-gray-400">${formatDate(item.published_at)}</span>
+${safeUrl
+?`<a href="${safeText(safeUrl)}" target="_blank" rel="noopener noreferrer" class="text-yellow-700 font-bold">الخبر الأصلي ←</a>`
+:`<span class="text-gray-400">الرابط غير متاح</span>`
+}
+</div>
+</div>
+</article>`;
+}).join("");
+}
+
+// ==========================================
 // الإعلانات المتحركة
-
 // ==========================================
 
 async function loadAds(){
+const {data,error}=await db
+.from("ads")
+.select("*")
+.eq("active",true)
+.order("created_at",{ascending:false});
 
- const {data,error}=await db
+if(error){
+console.error(error);
+return;
+}
 
-  .from("ads")
+const now=Date.now();
 
-  .select("*")
+adsCache=(data||[]).filter(ad=>{
+const start=ad.starts_at?new Date(ad.starts_at).getTime():0;
+const end=ad.expires_at?new Date(ad.expires_at).getTime():Infinity;
+return start<=now&&end>now;
+});
 
-  .eq("active",true)
-
-  .order("created_at",{ascending:false});
-
- if(error){
-
-  console.error(error);
-
-  return;
-
- }
-
- const now=Date.now();
-
- adsCache=(data||[]).filter(ad=>{
-
-  const start=ad.starts_at?new Date(ad.starts_at).getTime():0;
-
-  const end=ad.expires_at?new Date(ad.expires_at).getTime():Infinity;
-
-  return start<=now && end>now;
-
- });
-
- renderAds();
-
+renderAds();
 }
 
 function renderAds(){
+const frame=document.getElementById("adFrame");
+document.getElementById("adminAdsCount").textContent=adsCache.length;
 
- const frame=document.getElementById("adFrame");
+if(!adsCache.length){
+frame.innerHTML='<div class="h-full flex items-center justify-center text-gray-400">الإعلانات ستظهر هنا</div>';
+return;
+}
 
- document.getElementById("adminAdsCount").textContent=adsCache.length;
+frame.innerHTML=adsCache.map((ad,i)=>`
+<div class="ad-slide ${i===0?"active":""}" data-ad="${i}" onclick="openAd(${i})">
+<img src="${safeText(ad.image)}" alt="إعلان" loading="lazy">
+</div>
+`).join("")+`
+<div class="ad-dots">
+${adsCache.map((ad,i)=>`
+<button class="ad-dot ${i===0?"active":""}" onclick="event.stopPropagation();goAd(${i})"></button>
+`).join("")}
+</div>`;
 
- if(!adsCache.length){
+currentAdIndex=0;
 
-  frame.innerHTML='<div class="h-full flex items-center justify-center text-gray-400">الإعلانات ستظهر هنا</div>';
+if(adTimer)clearInterval(adTimer);
 
-  return;
-
- }
-
- frame.innerHTML=adsCache.map((ad,i)=>`
-
-  <div class="ad-slide ${i===0?"active":""}" data-ad="${i}" onclick="openAd(${i})">
-
-   <img src="${safeText(ad.image)}" alt="إعلان" loading="lazy">
-
-  </div>
-
- `).join("")+`
-
-  <div class="ad-dots">
-
-   ${adsCache.map((ad,i)=>`<button class="ad-dot ${i===0?"active":""}" onclick="event.stopPropagation();goAd(${i})"></button>`).join("")}
-
-  </div>
-
- `;
-
- currentAdIndex=0;
-
- if(adTimer)clearInterval(adTimer);
-
- if(adsCache.length>1){
-
-  adTimer=setInterval(()=>{
-
-   goAd((currentAdIndex+1)%adsCache.length);
-
-  },5000);
-
- }
-
+if(adsCache.length>1){
+adTimer=setInterval(()=>{
+goAd((currentAdIndex+1)%adsCache.length);
+},5000);
+}
 }
 
 function goAd(index){
+const slides=document.querySelectorAll(".ad-slide");
+const dots=document.querySelectorAll(".ad-dot");
+if(!slides.length)return;
 
- const slides=document.querySelectorAll(".ad-slide");
-
- const dots=document.querySelectorAll(".ad-dot");
-
- if(!slides.length)return;
-
- currentAdIndex=index;
-
- slides.forEach((s,i)=>s.classList.toggle("active",i===index));
-
- dots.forEach((d,i)=>d.classList.toggle("active",i===index));
-
+currentAdIndex=index;
+slides.forEach((s,i)=>s.classList.toggle("active",i===index));
+dots.forEach((d,i)=>d.classList.toggle("active",i===index));
 }
 
 function openAd(index){
+const ad=adsCache[index];
+if(!ad)return;
 
- const ad=adsCache[index];
-
- if(!ad)return;
-
- if(ad.target){
-
-  try{
-
-   const url=new URL(ad.target);
-
-   if(url.protocol==="http:"||url.protocol==="https:"){
-
-    window.open(url.href,"_blank","noopener,noreferrer");
-
-   }
-
-  }catch(e){}
-
- }else{
-
-  showFullImage(ad.image);
-
- }
-
+if(ad.target){
+try{
+const url=new URL(ad.target);
+if(url.protocol==="http:"||url.protocol==="https:"){
+window.open(url.href,"_blank","noopener,noreferrer");
+}
+}catch(e){}
+}else{
+showFullImage(ad.image);
+}
 }
 
 // ==========================================
-
 // الشريط العاجل
-
 // ==========================================
 
 async function loadTicker(){
+const {data,error}=await db
+.from("site_settings")
+.select("breaking")
+.eq("id",1)
+.maybeSingle();
 
- const {data,error}=await db
-
-  .from("site_settings")
-
-  .select("breaking")
-
-  .eq("id",1)
-
-  .maybeSingle();
-
- if(!error && data && data.breaking){
-
-  document.getElementById("breakingTicker").textContent=data.breaking;
-
-  document.getElementById("tickerInput").value=data.breaking;
-
- }
-
+if(!error&&data&&data.breaking){
+document.getElementById("breakingTicker").textContent=data.breaking;
+document.getElementById("tickerInput").value=data.breaking;
+}
 }
 
 // ==========================================
-
 // تسجيل دخول الإدارة
-
 // ==========================================
 
 function openAdminRoute(){
-
- if(location.hash==="#admin-panel"){
-
-  document.getElementById("adminPanel").classList.add("show");
-
-  checkExistingSession();
-
- }else{
-
-  document.getElementById("adminPanel").classList.remove("show");
-
- }
-
+if(location.hash==="#admin-panel"){
+document.getElementById("adminPanel").classList.add("show");
+checkExistingSession();
+}else{
+document.getElementById("adminPanel").classList.remove("show");
+}
 }
 
 window.addEventListener("hashchange",openAdminRoute);
 
 async function checkExistingSession(){
+document.getElementById("loginSection").style.display="block";
+document.getElementById("dashboard").style.display="none";
+document.getElementById("accessMessage").textContent="";
 
- document.getElementById("loginSection").style.display="block";
+const {data,error}=await db.auth.getSession();
 
- document.getElementById("dashboard").style.display="none";
+if(error){
+document.getElementById("accessMessage").textContent="تعذر التحقق من الجلسة";
+return;
+}
 
- document.getElementById("accessMessage").textContent="";
-
- const {data,error}=await db.auth.getSession();
-
- if(error){
-
-  document.getElementById("accessMessage").textContent="تعذر التحقق من الجلسة";
-
-  return;
-
- }
-
- if(data.session){
-
-  await verifyAdmin(data.session.user);
-
- }
-
+if(data.session){
+await verifyAdmin(data.session.user);
+}
 }
 
 async function adminLogin(){
+const email=document.getElementById("loginEmail").value.trim();
+const password=document.getElementById("loginPassword").value;
+const button=document.getElementById("loginButton");
 
- const email=document.getElementById("loginEmail").value.trim();
+if(!email||!password){
+showMessage("loginMessage","أدخل البريد الإلكتروني وكلمة المرور");
+return;
+}
 
- const password=document.getElementById("loginPassword").value;
+button.disabled=true;
+button.textContent="جارٍ التحقق...";
 
- const button=document.getElementById("loginButton");
+const {data,error}=await db.auth.signInWithPassword({email,password});
 
- if(!email||!password){
+button.disabled=false;
+button.textContent="تسجيل الدخول";
 
-  showMessage("loginMessage","أدخل البريد الإلكتروني وكلمة المرور");
+if(error){
+showMessage("loginMessage","تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.");
+return;
+}
 
-  return;
-
- }
-
- button.disabled=true;
-
- button.textContent="جارٍ التحقق...";
-
- const {data,error}=await db.auth.signInWithPassword({
-
-  email,password
-
- });
-
- button.disabled=false;
-
- button.textContent="تسجيل الدخول";
-
- if(error){
-
-  showMessage("loginMessage","تعذر تسجيل الدخول. تحقق من البريد وكلمة المرور.");
-
-  return;
-
- }
-
- await verifyAdmin(data.user);
-
+await verifyAdmin(data.user);
 }
 
 async function verifyAdmin(user){
+currentUser=user;
 
- currentUser=user;
+const {data,error}=await db
+.from("admins")
+.select("role")
+.eq("user_id",user.id)
+.maybeSingle();
 
- const {data,error}=await db
+if(error||!data||!["owner","admin"].includes(data.role)){
+await db.auth.signOut();
+currentUser=null;
+currentRole=null;
 
-  .from("admins")
+document.getElementById("loginSection").style.display="block";
+document.getElementById("dashboard").style.display="none";
+document.getElementById("accessMessage").textContent="هذا الحساب غير مصرح له بدخول لوحة الإدارة.";
+return;
+}
 
-  .select("role")
+currentRole=data.role;
 
-  .eq("user_id",user.id)
+document.getElementById("loginSection").style.display="none";
+document.getElementById("dashboard").style.display="block";
+document.getElementById("accessMessage").textContent="";
+document.getElementById("adminIdentity").textContent=user.email;
 
-  .maybeSingle();
+document.getElementById("adminRole").textContent=
+currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
 
- if(error || !data || !["owner","admin"].includes(data.role)){
+document.getElementById("adminsTabButton").style.display=
+currentRole==="owner"?"inline-block":"none";
 
-  await db.auth.signOut();
+await loadArticles();
+await loadAds();
+await loadTicker();
+await renderAdminArticles();
+await renderAdminAds();
 
-  currentUser=null;
-
-  currentRole=null;
-
-  document.getElementById("loginSection").style.display="block";
-
-  document.getElementById("dashboard").style.display="none";
-
-  document.getElementById("accessMessage").textContent=
-
-   "هذا الحساب غير مصرح له بدخول لوحة الإدارة.";
-
-  return;
-
- }
-
- currentRole=data.role;
-
- document.getElementById("loginSection").style.display="none";
-
- document.getElementById("dashboard").style.display="block";
-
- document.getElementById("accessMessage").textContent="";
-
- document.getElementById("adminIdentity").textContent=user.email;
-
- document.getElementById("adminRole").textContent=
-
-  currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
-
- document.getElementById("adminsTabButton").style.display=
-
-  currentRole==="owner"?"inline-block":"none";
-
- await loadArticles();
-
- await loadAds();
-
- await loadTicker();
-
- await renderAdminArticles();
-
- await renderAdminAds();
-
- if(currentRole==="owner")await loadManagers();
-
+if(currentRole==="owner")await loadManagers();
 }
 
 async function adminLogout(){
+await db.auth.signOut();
 
- await db.auth.signOut();
+currentUser=null;
+currentRole=null;
 
- currentUser=null;
-
- currentRole=null;
-
- document.getElementById("dashboard").style.display="none";
-
- document.getElementById("loginSection").style.display="block";
-
- document.getElementById("loginPassword").value="";
-
- document.getElementById("loginMessage").textContent="تم تسجيل الخروج";
-
+document.getElementById("dashboard").style.display="none";
+document.getElementById("loginSection").style.display="block";
+document.getElementById("loginPassword").value="";
+document.getElementById("loginMessage").textContent="تم تسجيل الخروج";
 }
 
 function leaveAdmin(){
+document.getElementById("adminPanel").classList.remove("show");
 
- document.getElementById("adminPanel").classList.remove("show");
-
- if(location.hash==="#admin-panel"){
-
-  history.replaceState(null,"",location.pathname+location.search);
-
- }
-
+if(location.hash==="#admin-panel"){
+history.replaceState(null,"",location.pathname+location.search);
+}
 }
 
-// متابعة تغير جلسة الدخول
-
 db.auth.onAuthStateChange((event,session)=>{
-
- if(event==="SIGNED_OUT"){
-
-  currentUser=null;
-
-  currentRole=null;
-
-  document.getElementById("dashboard").style.display="none";
-
-  document.getElementById("loginSection").style.display="block";
-
- }
-
+if(event==="SIGNED_OUT"){
+currentUser=null;
+currentRole=null;
+document.getElementById("dashboard").style.display="none";
+document.getElementById("loginSection").style.display="block";
+}
 });
 
 // ==========================================
-
 // تبويبات لوحة الإدارة
-
 // ==========================================
 
 function showAdminTab(tab,button){
+if(tab==="adminsTab"&&currentRole!=="owner")return;
 
- if(tab==="adminsTab" && currentRole!=="owner")return;
+document.querySelectorAll(".admin-tab-content").forEach(el=>{
+el.style.display="none";
+});
 
- document.querySelectorAll(".admin-tab-content").forEach(el=>{
+document.querySelectorAll(".admin-tab").forEach(el=>{
+el.classList.remove("active");
+});
 
-  el.style.display="none";
-
- });
-
- document.querySelectorAll(".admin-tab").forEach(el=>{
-
-  el.classList.remove("active");
-
- });
-
- document.getElementById(tab).style.display="block";
-
- if(button)button.classList.add("active");
-
+document.getElementById(tab).style.display="block";
+if(button)button.classList.add("active");
 }
 
 // ==========================================
-
 // إضافة خبر
-
 // ==========================================
 
 async function addArticle(){
+if(!currentUser||!currentRole)return;
 
- if(!currentUser||!currentRole)return;
+const title=document.getElementById("newTitle").value.trim();
+const category=document.getElementById("newCategory").value;
+const summary=document.getElementById("newSummary").value.trim();
+const body=document.getElementById("newBody").value.trim();
+const file=document.getElementById("newNewsImage").files[0];
 
- const title=document.getElementById("newTitle").value.trim();
+if(!title||!summary||!body){
+showMessage("newsMessage","يرجى تعبئة عنوان الخبر والملخص والتفاصيل");
+return;
+}
 
- const category=document.getElementById("newCategory").value;
+const btn=event?.target;
+if(btn)btn.disabled=true;
 
- const summary=document.getElementById("newSummary").value.trim();
+try{
+let image=null;
+if(file)image=await uploadImage(file);
 
- const body=document.getElementById("newBody").value.trim();
+const {error}=await db.from("articles").insert({
+title,category,summary,body,image,published:true
+});
 
- const file=document.getElementById("newNewsImage").files[0];
+if(error)throw error;
 
- if(!title||!summary||!body){
+showMessage("newsMessage","تم نشر الخبر بنجاح",true);
 
-  showMessage("newsMessage","يرجى تعبئة عنوان الخبر والملخص والتفاصيل");
+document.getElementById("newTitle").value="";
+document.getElementById("newSummary").value="";
+document.getElementById("newBody").value="";
+document.getElementById("newNewsImage").value="";
 
-  return;
+await loadArticles();
 
- }
-
- const btn=event?.target;
-
- if(btn)btn.disabled=true;
-
- try{
-
-  let image=null;
-
-  if(file)image=await uploadImage(file);
-
-  const {error}=await db.from("articles").insert({
-
-   title,category,summary,body,image,published:true
-
-  });
-
-  if(error)throw error;
-
-  showMessage("newsMessage","تم نشر الخبر بنجاح",true);
-
-  document.getElementById("newTitle").value="";
-
-  document.getElementById("newSummary").value="";
-
-  document.getElementById("newBody").value="";
-
-  document.getElementById("newNewsImage").value="";
-
-  await loadArticles();
-
- }catch(error){
-
-  showMessage("newsMessage","تعذر النشر: "+error.message);
-
- }finally{
-
-  if(btn)btn.disabled=false;
-
- }
-
+}catch(error){
+showMessage("newsMessage","تعذر النشر: "+error.message);
+}finally{
+if(btn)btn.disabled=false;
+}
 }
 
 // ==========================================
-
 // إدارة الأخبار وحذفها
-
 // ==========================================
 
 async function renderAdminArticles(){
+const list=document.getElementById("adminArticlesList");
+if(!list)return;
 
- const list=document.getElementById("adminArticlesList");
+if(!articlesCache.length){
+list.innerHTML='<p class="text-sm text-gray-500">لا توجد أخبار منشورة</p>';
+return;
+}
 
- if(!list)return;
-
- if(!articlesCache.length){
-
-  list.innerHTML='<p class="text-sm text-gray-500">لا توجد أخبار منشورة</p>';
-
-  return;
-
- }
-
- list.innerHTML=articlesCache.map(a=>`
-
-  <div class="admin-list-item flex justify-between items-center gap-3">
-
-   <div class="min-w-0">
-
-    <div class="font-bold text-sm">${safeText(a.title)}</div>
-
-    <div class="text-xs text-gray-400">${formatDate(a.created_at)}</div>
-
-   </div>
-
-   <button class="red-btn shrink-0" onclick="deleteArticle('${a.id}')">حذف</button>
-
-  </div>
-
- `).join("");
-
+list.innerHTML=articlesCache.map(a=>`
+<div class="admin-list-item flex justify-between items-center gap-3">
+<div class="min-w-0">
+<div class="font-bold text-sm">${safeText(a.title)}</div>
+<div class="text-xs text-gray-400">${formatDate(a.created_at)}</div>
+</div>
+<button class="red-btn shrink-0" onclick="deleteArticle('${a.id}')">حذف</button>
+</div>
+`).join("");
 }
 
 async function deleteArticle(id){
+if(!confirm("هل تريد حذف هذا الخبر؟"))return;
 
- if(!confirm("هل تريد حذف هذا الخبر؟"))return;
+const {error}=await db.from("articles").delete().eq("id",id);
 
- const {error}=await db.from("articles").delete().eq("id",id);
+if(error){
+alert("تعذر حذف الخبر: "+error.message);
+return;
+}
 
- if(error){
-
-  alert("تعذر حذف الخبر: "+error.message);
-
-  return;
-
- }
-
- await loadArticles();
-
- await renderAdminArticles();
-
+await loadArticles();
+await renderAdminArticles();
 }
 
 // ==========================================
-
 // إضافة إعلان
-
 // ==========================================
 
 async function addAd(){
+if(!currentUser||!currentRole)return;
 
- if(!currentUser||!currentRole)return;
+const file=document.getElementById("newAdImage").files[0];
+const target=document.getElementById("newAdTarget").value.trim();
+const expiry=document.getElementById("newAdExpiry").value;
 
- const file=document.getElementById("newAdImage").files[0];
+if(!file){
+showMessage("adMessage","اختر صورة الإعلان");
+return;
+}
 
- const target=document.getElementById("newAdTarget").value.trim();
+if(target){
+try{
+const u=new URL(target);
+if(!["http:","https:"].includes(u.protocol))throw new Error();
+}catch(e){
+showMessage("adMessage","رابط الإعلان غير صالح");
+return;
+}
+}
 
- const expiry=document.getElementById("newAdExpiry").value;
+try{
+showMessage("adMessage","جارٍ رفع الصورة...");
 
- if(!file){
+const image=await uploadImage(file);
 
-  showMessage("adMessage","اختر صورة الإعلان");
+const {error}=await db.from("ads").insert({
+image,
+target:target||null,
+starts_at:new Date().toISOString(),
+expires_at:expiry?new Date(expiry).toISOString():null,
+active:true
+});
 
-  return;
+if(error)throw error;
 
- }
+showMessage("adMessage","تمت إضافة الإعلان بنجاح",true);
 
- if(target){
+document.getElementById("newAdImage").value="";
+document.getElementById("newAdTarget").value="";
+document.getElementById("newAdExpiry").value="";
 
-  try{
+await loadAds();
+await renderAdminAds();
 
-   const u=new URL(target);
-
-   if(!["http:","https:"].includes(u.protocol))throw new Error();
-
-  }catch(e){
-
-   showMessage("adMessage","رابط الإعلان غير صالح");
-
-   return;
-
-  }
-
- }
-
- try{
-
-  showMessage("adMessage","جارٍ رفع الصورة...");
-
-  const image=await uploadImage(file);
-
-  const {error}=await db.from("ads").insert({
-
-   image,
-
-   target:target||null,
-
-   starts_at:new Date().toISOString(),
-
-   expires_at:expiry?new Date(expiry).toISOString():null,
-
-   active:true
-
-  });
-
-  if(error)throw error;
-
-  showMessage("adMessage","تمت إضافة الإعلان بنجاح",true);
-
-  document.getElementById("newAdImage").value="";
-
-  document.getElementById("newAdTarget").value="";
-
-  document.getElementById("newAdExpiry").value="";
-
-  await loadAds();
-
-  await renderAdminAds();
-
- }catch(error){
-
-  showMessage("adMessage","تعذر إضافة الإعلان: "+error.message);
-
- }
-
+}catch(error){
+showMessage("adMessage","تعذر إضافة الإعلان: "+error.message);
+}
 }
 
 // ==========================================
-
 // إدارة الإعلانات وحذفها
-
 // ==========================================
 
 async function renderAdminAds(){
+const list=document.getElementById("adminAdsList");
+if(!list)return;
 
- const list=document.getElementById("adminAdsList");
+if(!adsCache.length){
+list.innerHTML='<p class="text-sm text-gray-500">لا توجد إعلانات نشطة</p>';
+return;
+}
 
- if(!list)return;
-
- if(!adsCache.length){
-
-  list.innerHTML='<p class="text-sm text-gray-500">لا توجد إعلانات نشطة</p>';
-
-  return;
-
- }
-
- list.innerHTML=adsCache.map(ad=>`
-
-  <div class="admin-list-item flex justify-between items-center gap-3">
-
-   <div class="flex items-center gap-3 min-w-0">
-
-    <img src="${safeText(ad.image)}" class="w-16 h-12 object-cover rounded">
-
-    <span class="text-sm font-bold">إعلان</span>
-
-   </div>
-
-   <button class="red-btn shrink-0" onclick="deleteAd('${ad.id}')">حذف</button>
-
-  </div>
-
- `).join("");
-
+list.innerHTML=adsCache.map(ad=>`
+<div class="admin-list-item flex justify-between items-center gap-3">
+<div class="flex items-center gap-3 min-w-0">
+<img src="${safeText(ad.image)}" class="w-16 h-12 object-cover rounded">
+<span class="text-sm font-bold">إعلان</span>
+</div>
+<button class="red-btn shrink-0" onclick="deleteAd('${ad.id}')">حذف</button>
+</div>
+`).join("");
 }
 
 async function deleteAd(id){
+if(!confirm("هل تريد حذف هذا الإعلان؟"))return;
 
- if(!confirm("هل تريد حذف هذا الإعلان؟"))return;
+const {error}=await db.from("ads").delete().eq("id",id);
 
- const {error}=await db.from("ads").delete().eq("id",id);
+if(error){
+alert("تعذر حذف الإعلان: "+error.message);
+return;
+}
 
- if(error){
-
-  alert("تعذر حذف الإعلان: "+error.message);
-
-  return;
-
- }
-
- await loadAds();
-
- await renderAdminAds();
-
+await loadAds();
+await renderAdminAds();
 }
 
 // ==========================================
-
 // تحديث الشريط العاجل
-
 // ==========================================
 
 async function saveTicker(){
+if(!currentUser||!currentRole)return;
 
- if(!currentUser||!currentRole)return;
+const breaking=document.getElementById("tickerInput").value.trim();
 
- const breaking=document.getElementById("tickerInput").value.trim();
+const {error}=await db.from("site_settings").upsert({
+id:1,
+breaking,
+updated_at:new Date().toISOString()
+},{onConflict:"id"});
 
- const {error}=await db.from("site_settings").upsert({
+if(error){
+showMessage("tickerMessage","تعذر الحفظ: "+error.message);
+return;
+}
 
-  id:1,
-
-  breaking,
-
-  updated_at:new Date().toISOString()
-
- },{onConflict:"id"});
-
- if(error){
-
-  showMessage("tickerMessage","تعذر الحفظ: "+error.message);
-
-  return;
-
- }
-
- document.getElementById("breakingTicker").textContent=breaking;
-
- showMessage("tickerMessage","تم تحديث الشريط العاجل",true);
-
+document.getElementById("breakingTicker").textContent=breaking;
+showMessage("tickerMessage","تم تحديث الشريط العاجل",true);
 }
 
 // ==========================================
-
 // إدارة المدراء: للمالك فقط
-
 // ==========================================
 
 async function loadManagers(){
+if(currentRole!=="owner")return;
 
- if(currentRole!=="owner")return;
+const list=document.getElementById("managersList");
+list.textContent="جارٍ تحميل قائمة المدراء...";
 
- const list=document.getElementById("managersList");
+const {data,error}=await db.rpc("list_site_admins");
 
- list.textContent="جارٍ تحميل قائمة المدراء...";
+if(error){
+list.textContent="تعذر تحميل القائمة: "+error.message;
+return;
+}
 
- const {data,error}=await db.rpc("list_site_admins");
+if(!data||!data.length){
+list.textContent="لا يوجد مديرون";
+return;
+}
 
- if(error){
-
-  list.textContent="تعذر تحميل القائمة: "+error.message;
-
-  return;
-
- }
-
- if(!data||!data.length){
-
-  list.textContent="لا يوجد مديرون";
-
-  return;
-
- }
-
- list.innerHTML=data.map(m=>`
-
-  <div class="admin-list-item flex justify-between items-center gap-3">
-
-   <div class="min-w-0">
-
-    <div class="font-bold text-sm break-all">${safeText(m.email)}</div>
-
-    <div class="text-xs mt-1 ${m.role==="owner"?"text-yellow-700":"text-gray-500"}">
-
-     ${m.role==="owner"?"المدير الرئيسي":"مدير إضافي"}
-
-    </div>
-
-   </div>
-
-   ${m.role==="admin"
-
-    ? `<button class="red-btn shrink-0" onclick="removeManager('${safeText(m.email)}')">إلغاء الصلاحية</button>`
-
-    : `<span class="text-xs font-bold text-green-700">المالك</span>`
-
-   }
-
-  </div>
-
- `).join("");
-
+list.innerHTML=data.map(m=>`
+<div class="admin-list-item flex justify-between items-center gap-3">
+<div class="min-w-0">
+<div class="font-bold text-sm break-all">${safeText(m.email)}</div>
+<div class="text-xs mt-1 ${m.role==="owner"?"text-yellow-700":"text-gray-500"}">
+${m.role==="owner"?"المدير الرئيسي":"مدير إضافي"}
+</div>
+</div>
+${m.role==="admin"
+?`<button class="red-btn shrink-0" onclick="removeManager('${safeText(m.email)}')">إلغاء الصلاحية</button>`
+:`<span class="text-xs font-bold text-green-700">المالك</span>`
+}
+</div>
+`).join("");
 }
 
 async function changeManager(makeAdmin){
+if(currentRole!=="owner")return;
 
- if(currentRole!=="owner")return;
+const email=document.getElementById("managerEmail").value.trim();
 
- const email=document.getElementById("managerEmail").value.trim();
+if(!email){
+showMessage("managerMessage","أدخل البريد الإلكتروني");
+return;
+}
 
- if(!email){
+const {data,error}=await db.rpc("manage_admin_by_email",{
+target_email:email,
+make_admin:makeAdmin
+});
 
-  showMessage("managerMessage","أدخل البريد الإلكتروني");
+if(error){
+showMessage("managerMessage","تعذر تنفيذ العملية: "+error.message);
+return;
+}
 
-  return;
-
- }
-
- const {data,error}=await db.rpc("manage_admin_by_email",{
-
-  target_email:email,
-
-  make_admin:makeAdmin
-
- });
-
- if(error){
-
-  showMessage("managerMessage","تعذر تنفيذ العملية: "+error.message);
-
-  return;
-
- }
-
- showMessage("managerMessage",data||"تم تنفيذ العملية بنجاح",true);
-
- await loadManagers();
-
+showMessage("managerMessage",data||"تم تنفيذ العملية بنجاح",true);
+await loadManagers();
 }
 
 async function removeManager(email){
+if(currentRole!=="owner")return;
+if(!confirm("هل تريد إلغاء صلاحية هذا المدير؟"))return;
 
- if(currentRole!=="owner")return;
-
- if(!confirm("هل تريد إلغاء صلاحية هذا المدير؟"))return;
-
- document.getElementById("managerEmail").value=email;
-
- await changeManager(false);
-
+document.getElementById("managerEmail").value=email;
+await changeManager(false);
 }
 
 // ==========================================
-
 // تشغيل الموقع
-
 // ==========================================
 
 document.getElementById("todayDate").textContent=
-
- new Date().toLocaleDateString("ar",{
-
-  weekday:"long",year:"numeric",month:"long",day:"numeric"
-
- });
+new Date().toLocaleDateString("ar",{
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+});
 
 async function startSite(){
+await Promise.all([
+loadArticles(),
+loadAds(),
+loadTicker(),
+loadExternalNews()
+]);
 
- await Promise.all([
-
-  loadArticles(),
-
-  loadAds(),
-
-  loadTicker()
-
- ]);
-
- openAdminRoute();
-
+openAdminRoute();
 }
 
 startSite();
 
 </script>
-
 </body>
-
 </html>
