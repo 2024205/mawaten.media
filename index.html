@@ -5,6 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#101d36">
 <title>مُــوَاطِــن | صوت المواطن.. نبض الوطن</title>
+<meta name="description" content="مواطن منصة إخبارية تنقل آخر الأخبار المحلية والعربية والدولية، بصوت المواطن ونبض الوطن.">
+<meta name="robots" content="index,follow">
+<meta property="og:site_name" content="مواطن">
+<meta property="og:locale" content="ar_YE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="مواطن | صوت المواطن.. نبض الوطن">
+<meta property="og:description" content="آخر الأخبار المحلية والعربية والدولية من منصة مواطن الإخبارية.">
+<meta name="twitter:card" content="summary_large_image">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -17,6 +25,7 @@ body{margin:0;background:#f4f6fa;color:#18243a;font-family:'Cairo',sans-serif}
 button,input,textarea,select{font-family:inherit}
 button{cursor:pointer}
 .site-header{background:linear-gradient(120deg,#101d36,#203657);color:white}
+.visitor-counter{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid #d5ad5960;border-radius:7px;background:#ffffff0d;color:#f0d28c;font-size:11px;white-space:nowrap;box-shadow:inset 0 0 0 1px #ffffff08}.visitor-counter strong{font-size:13px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.3px}.visitor-counter svg{width:14px;height:14px;opacity:.9}
 .logo-mark{border:2px solid var(--gold);color:var(--gold);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
 .gold-text{color:var(--gold2)}
 .nav-link{padding:9px 13px;border-radius:8px;white-space:nowrap}
@@ -84,6 +93,29 @@ button{cursor:pointer}
 .contact-label{font-size:11px;color:#c7d0df;margin-top:5px}
 .contact-item{display:flex;flex-direction:column;align-items:center;min-width:42px}
 
+.news-tools{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:10px;margin:0 0 18px}
+.news-tools input,.news-tools select{width:100%;border:1px solid #dce2eb;background:#fff;border-radius:10px;padding:12px 14px;font:inherit;color:#18243a;outline:none}
+.news-tools input:focus,.news-tools select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #d5ad5920}
+.news-tools-hint{font-size:11px;color:#7b8494;margin:7px 2px 0}
+@media(max-width:640px){.news-tools{grid-template-columns:1fr}.news-tools select{min-height:44px}}
+
+
+/* الوضع الليلي */
+body[data-theme="dark"]{background:#0d1728;color:#e5eaf2}
+body[data-theme="dark"] .news-card,body[data-theme="dark"] .admin-card,body[data-theme="dark"] .modal-box{background:#17243a;color:#e5eaf2;border-color:#2c3b53}
+body[data-theme="dark"] .section-title{color:#e5eaf2}
+body[data-theme="dark"] .news-summary,body[data-theme="dark"] .news-tools-hint{color:#aab6c8}
+body[data-theme="dark"] .news-tools input,body[data-theme="dark"] .news-tools select,body[data-theme="dark"] .form-control{background:#111e32;color:#e5eaf2;border-color:#34445d}
+body[data-theme="dark"] .share-btn{background:#1e2d45;color:#e5eaf2;border-color:#34445d}
+body[data-theme="dark"] .category-tag{background:#493d27;color:#f0d28c}
+body[data-theme="dark"] #about .admin-card{background:#17243a}
+body[data-theme="dark"] .admin-panel{background:#0d1728}
+body[data-theme="dark"] .admin-tab{background:#26364f;color:#e5eaf2}
+body[data-theme="dark"] .admin-tab.active{background:#d5ad59;color:#17233a}
+.theme-toggle{border:1px solid #d5ad5970;border-radius:8px;padding:7px 11px;color:#f0d28c;background:#ffffff10;font-weight:700;white-space:nowrap}
+.back-to-top{position:fixed;bottom:20px;left:18px;z-index:80;width:44px;height:44px;border:0;border-radius:50%;background:var(--gold);color:#17233a;font-size:22px;font-weight:900;box-shadow:0 5px 18px #07102035;display:none}
+.back-to-top.visible{display:block}
+@media(max-width:640px){.theme-toggle{padding:7px 9px;font-size:12px}}
 @media(max-width:640px){
 .ad-frame{height:190px}
 .news-image{height:165px}
@@ -106,9 +138,13 @@ button{cursor:pointer}
 <p class="text-xs text-gray-300 mt-1">صوت المواطن.. نبض الوطن</p>
 </div>
 </div>
-<div class="text-left text-xs text-gray-300">
+<div class="flex flex-col items-start sm:items-end gap-2 text-xs text-gray-300">
+<div class="visitor-counter" title="إجمالي زيارات الموقع">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+<span>زوار مواطن</span><strong id="siteVisitorCount">—</strong>
+</div>
 <div id="todayDate"></div>
-<div class="gold-text mt-1">منبر المواطن الإخباري</div>
+<div class="gold-text">منبر المواطن الإخباري</div>
 </div>
 </div>
 </div>
@@ -116,9 +152,10 @@ button{cursor:pointer}
 <nav class="max-w-7xl mx-auto px-3 py-2 flex gap-1 overflow-x-auto text-sm">
 <a href="#home" class="nav-link">الرئيسية</a>
 <a href="#news" class="nav-link">آخر الأخبار</a>
-<a href="#externalNews" class="nav-link">من مصادر أخرى</a>
+<a href="#externalNews" class="nav-link">أخبار أخرى</a>
 <a href="#ads" class="nav-link">الإعلانات</a>
 <a href="#about" class="nav-link">عن مواطن</a>
+<button id="themeToggle" class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="تغيير مظهر الموقع">🌙 الوضع الليلي</button>
 </nav>
 </header>
 
@@ -146,6 +183,15 @@ button{cursor:pointer}
 <h2 class="section-title text-lg">آخر الأخبار</h2>
 <span class="text-xs text-gray-500" id="newsCount">الأخبار المنشورة</span>
 </div>
+<div class="news-tools">
+<div>
+<input id="newsSearchInput" type="search" placeholder="ابحث في الأخبار والعناوين..." aria-label="البحث في الأخبار" oninput="renderArticles()">
+<p class="news-tools-hint">ابحث بالكلمات أو اسم التصنيف أو تفاصيل الخبر</p>
+</div>
+<select id="newsCategoryFilter" aria-label="تصفية الأخبار حسب التصنيف" onchange="renderArticles()">
+<option value="">كل التصنيفات</option>
+</select>
+</div>
 <div id="newsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 <div class="col-span-full text-center py-12 text-gray-500">جارٍ تحميل الأخبار...</div>
 </div>
@@ -153,7 +199,7 @@ button{cursor:pointer}
 
 <section id="externalNews" class="mb-10">
 <div class="flex items-center justify-between mb-4">
-<h2 class="section-title text-lg">من مصادر أخرى</h2>
+<h2 class="section-title text-lg">أخبار أخرى</h2>
 <span class="text-xs text-gray-500" id="externalNewsCount">الأخبار الخارجية</span>
 </div>
 <div id="externalNewsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -189,6 +235,7 @@ button{cursor:pointer}
 <p class="text-xs text-gray-400 mt-2">جميع الحقوق محفوظة © 2026</p>
 </div>
 </footer>
+<button id="backToTop" class="back-to-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="العودة للأعلى">↑</button>
 
 <!-- تفاصيل الخبر -->
 <div class="modal-backdrop" id="articleModal" onclick="closeArticleOutside(event)">
@@ -204,6 +251,13 @@ button{cursor:pointer}
 <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
 <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
+<div class="mt-5 rounded-xl border border-gray-200 p-4">
+<div class="flex items-center justify-between gap-3"><strong>تفاعل القراء</strong><button id="articleLikeButton" class="share-btn" onclick="likeCurrentArticle()">👍 أعجبني <span id="articleLikeCount">0</span></button></div>
+<div id="articleCommentsList" class="mt-3 space-y-2 text-sm"></div>
+<form class="mt-4 space-y-2" onsubmit="submitArticleComment(event)">
+<input id="commentName" class="form-control" maxlength="60" minlength="2" placeholder="اسمك" required>
+<textarea id="commentContent" class="form-control" rows="3" maxlength="1200" minlength="3" placeholder="اكتب تعليقك (يظهر بعد مراجعة الإدارة)" required></textarea>
+<button class="gold-btn" type="submit">إرسال التعليق</button><p id="commentSubmitMessage" class="text-xs mt-1"></p></form></div>
 
 <div class="modal-share">
 <button class="share-btn facebook" onclick="shareCurrentFacebook()">فيسبوك</button>
@@ -271,9 +325,11 @@ button{cursor:pointer}
 <button class="admin-tab" onclick="showAdminTab('adsTab',this)">إدارة الإعلانات</button>
 <button class="admin-tab" onclick="showAdminTab('tickerTab',this)">الشريط العاجل</button>
 <button class="admin-tab" onclick="showAdminTab('contactTab',this)">إعدادات التواصل</button>
+<button class="admin-tab" onclick="showAdminTab('commentsTab',this);loadAdminComments()">مراجعة التعليقات</button>
 <button class="admin-tab" id="adminsTabButton" style="display:none" onclick="showAdminTab('adminsTab',this)">إدارة المدراء</button>
 </div>
 
+<div id="commentsTab" class="admin-tab-content" style="display:none"><div class="admin-card"><h3 class="font-black text-lg mb-3">تعليقات بانتظار المراجعة</h3><div id="adminCommentsList">جارٍ التحميل...</div></div></div>
 <!-- الأخبار -->
 <div id="newsTab" class="admin-tab-content">
 <div class="admin-card mb-5">
@@ -342,9 +398,9 @@ button{cursor:pointer}
 <label for="showFacebookInput" class="text-sm">إظهار أيقونة فيسبوك في الموقع</label>
 </div>
 
-<label class="text-sm font-bold block mb-2">رقم واتساب مع مفتاح الدولة</label>
-<input id="whatsappNumberInput" type="tel" class="form-control mb-2" placeholder="مثال: 9677XXXXXXXX">
-<p class="text-xs text-gray-500 mb-3">اكتب الرقم بالأرقام فقط، مع مفتاح الدولة، دون علامة + أو مسافات.</p>
+<label class="text-sm font-bold block mb-2">رابط قناة مواطن الإخبارية على واتساب</label>
+<input id="whatsappNumberInput" type="url" class="form-control mb-2" value="https://whatsapp.com/channel/0029VbE1E8q59PwO65247D3c" placeholder="https://whatsapp.com/channel/...">
+<p class="text-xs text-gray-500 mb-3">سيظهر رابط القناة للزوار في أسفل الموقع.</p>
 
 <div class="flex items-center gap-2 mb-5">
 <input id="showWhatsappInput" type="checkbox" checked class="w-4 h-4">
@@ -458,7 +514,7 @@ function getArticleUrl(article){
 const url=new URL(window.location.href);
 url.hash="";
 url.search="";
-url.searchParams.set("article",String(article.id));
+url.searchParams.set("a",String(article.id));
 return url.href;
 }
 
@@ -636,46 +692,37 @@ articlesCache=data||[];
 renderArticles();
 }
 
-function renderArticles(){
-const grid=document.getElementById("newsGrid");
-document.getElementById("newsCount").textContent=`${articlesCache.length} خبر`;
-
-const adminCount=document.getElementById("adminNewsCount");
-if(adminCount)adminCount.textContent=articlesCache.length;
-
-if(!articlesCache.length){
-grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار منشورة حتى الآن</div>';
-return;
+function getUnifiedNewsItems(){
+const local=articlesCache.map(data=>({kind:"local",date:data.created_at||"",data}));
+const external=externalNewsCache.map(data=>({kind:"external",date:data.published_at||data.imported_at||"",data}));
+return [...local,...external].sort((a,b)=>(new Date(b.date).getTime()||0)-(new Date(a.date).getTime()||0));
 }
-
-grid.innerHTML=articlesCache.map((a,index)=>`
-<article class="news-card" onclick="openArticle(${index})">
-<div class="news-image">
-${a.image
-?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy">`
-:`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`}
-</div>
-<div class="p-4">
-<span class="category-tag">${safeText(a.category||"أخبار")}</span>
-<h3 class="news-title mt-3 mb-2">${safeText(a.title)}</h3>
-<p class="news-summary">${safeText(a.summary||"")}</p>
-<div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-<span>${formatDate(a.created_at)}</span>
-<span class="text-yellow-700 font-bold">اقرأ المزيد ←</span>
-</div>
-<div class="share-actions" onclick="event.stopPropagation()">
-<button class="share-btn facebook" onclick="shareArticle(event,${index},'facebook')">فيسبوك</button>
-<button class="share-btn whatsapp" onclick="shareArticle(event,${index},'whatsapp')">واتساب</button>
-<button class="share-btn copy" onclick="shareArticle(event,${index},'copy')">نسخ الرابط</button>
-<button class="share-btn" onclick="shareArticle(event,${index},'native')">مشاركة</button>
-</div>
-</div>
-</article>
-`).join("");
-
+function renderUnifiedNewsCard(item){
+const a=item.data, local=item.kind==="local", date=formatDate(item.date);
+const title=safeText(a.title||"خبر"), category=safeText(a.category||(local?"أخبار":"أخبار خارجية"));
+const imageUrl=local?a.image:a.image_url;
+const image=imageUrl?'<div class="news-image"><img src="'+safeText(imageUrl)+'" alt="'+title+'" loading="lazy" decoding="async"></div>':'<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>';
+if(local){
+const i=articlesCache.indexOf(a);
+return '<article class="news-card" onclick="openArticle('+i+')">'+image+'<div class="p-4"><span class="category-tag">'+category+'</span><h3 class="news-title mt-3 mb-2">'+title+'</h3><p class="news-summary">'+safeText(a.summary||"")+'</p><div class="flex justify-between items-center mt-4 text-xs text-gray-400"><span>'+date+'</span><span class="text-yellow-700 font-bold">اقرأ المزيد ←</span></div><div class="share-actions" onclick="event.stopPropagation()"><button class="share-btn facebook" onclick="shareArticle(event,'+i+',\'facebook\')">فيسبوك</button><button class="share-btn whatsapp" onclick="shareArticle(event,'+i+',\'whatsapp\')">واتساب</button><button class="share-btn copy" onclick="shareArticle(event,'+i+',\'copy\')">نسخ الرابط</button><button class="share-btn" onclick="shareArticle(event,'+i+',\'native\')">مشاركة</button></div></div></article>';
+}
+const i=externalNewsCache.indexOf(a), url=getExternalShareUrl(a);
+return '<article class="news-card">'+image+'<div class="p-4"><span class="category-tag">'+category+'</span><h3 class="news-title mt-3 mb-2">'+title+'</h3><p class="news-summary">'+safeText(a.summary||"")+'</p><div class="text-xs text-gray-500 mt-4">المصدر: <strong>'+safeText(a.source_name||"مصدر خارجي")+'</strong></div><div class="flex justify-between items-center mt-3 text-xs"><span class="text-gray-400">'+date+'</span>'+(url?'<a href="'+safeText(url)+'" target="_blank" rel="noopener noreferrer" class="text-yellow-700 font-bold">الخبر الأصلي ←</a>':'<span class="text-gray-400">الرابط غير متاح</span>')+'</div>'+(url?'<div class="share-actions"><button class="share-btn facebook" onclick="shareExternalNews(event,'+i+',\'facebook\')">فيسبوك</button><button class="share-btn whatsapp" onclick="shareExternalNews(event,'+i+',\'whatsapp\')">واتساب</button><button class="share-btn copy" onclick="shareExternalNews(event,'+i+',\'copy\')">نسخ الرابط</button><button class="share-btn" onclick="shareExternalNews(event,'+i+',\'native\')">مشاركة</button></div>':'')+'</div></article>';
+}
+function renderArticles(){
+const mainGrid=document.getElementById("newsGrid"), olderGrid=document.getElementById("externalNewsGrid");
+const adminCount=document.getElementById("adminNewsCount"); if(adminCount)adminCount.textContent=articlesCache.length;
+const all=getUnifiedNewsItems(), search=document.getElementById("newsSearchInput"), category=document.getElementById("newsCategoryFilter");
+const query=(search?.value||"").trim().toLocaleLowerCase("ar"), selected=category?.value||"";
+if(category){const current=category.value,cats=[...new Set(all.map(x=>(x.data.category||"أخبار").trim()).filter(Boolean))].sort((x,y)=>x.localeCompare(y,"ar"));category.innerHTML='<option value="">كل التصنيفات</option>'+cats.map(x=>'<option value="'+safeText(x)+'">'+safeText(x)+'</option>').join("");category.value=cats.includes(current)?current:"";}
+const filtered=all.filter(x=>{const a=x.data,hay=[a.title,a.summary,a.body,a.category,a.source_name].join(" ").toLocaleLowerCase("ar");return (!query||hay.includes(query))&&(!selected||(a.category||"أخبار")===selected);});
+const latest=filtered.slice(0,10), older=filtered.slice(10);
+document.getElementById("newsCount").textContent=latest.length+" أحدث الأخبار من "+filtered.length;
+document.getElementById("externalNewsCount").textContent=older.length+" خبر";
+mainGrid.innerHTML=latest.length?latest.map(renderUnifiedNewsCard).join(""):'<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار تطابق البحث حالياً</div>';
+olderGrid.innerHTML=older.length?older.map(renderUnifiedNewsCard).join(""):'<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار أقدم حالياً</div>';
 if(currentUser)renderAdminArticles();
 }
-
 function openArticle(index){
 const a=articlesCache[index];
 if(!a)return;
@@ -698,11 +745,24 @@ img.style.display="none";
 }
 
 document.getElementById("articleModal").classList.add("show");
+loadArticleReactions(a);
 
 const url=new URL(window.location.href);
-url.searchParams.set("article",String(a.id));
+url.searchParams.set("a",String(a.id));
 history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
+
+function getVisitorToken(){let t=localStorage.getItem("mawaten_visitor_token");if(!t){t=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random())+"-"+Math.random().toString(36).slice(2);localStorage.setItem("mawaten_visitor_token",t);}return t;}
+
+async function loadArticleReactions(a){if(!a)return;const r=await Promise.all([db.from("article_likes").select("id",{count:"exact",head:true}).eq("article_id",a.id),db.from("article_comments").select("display_name,content,created_at").eq("article_id",a.id).eq("status","approved").order("created_at",{ascending:false}).limit(30)]);document.getElementById("articleLikeCount").textContent=r[0].error?"—":Number(r[0].count||0).toLocaleString("ar");const box=document.getElementById("articleCommentsList");if(r[1].error){box.textContent="تعذر تحميل التعليقات";return;}box.innerHTML=r[1].data&&r[1].data.length?r[1].data.map(x=>"<div class=\"rounded-lg bg-gray-50 p-3\"><strong>"+safeText(x.display_name)+"</strong><p class=\"mt-1 whitespace-pre-wrap\">"+safeText(x.content)+"</p><span class=\"text-xs text-gray-400\">"+formatDate(x.created_at)+"</span></div>").join(""):"<p class=\"text-xs text-gray-500\">لا توجد تعليقات معتمدة بعد.</p>";}
+
+async function likeCurrentArticle(){if(!currentSharedArticle)return;const b=document.getElementById("articleLikeButton");b.disabled=true;const r=await db.from("article_likes").insert({article_id:currentSharedArticle.id,visitor_token:getVisitorToken()});if(r.error&&r.error.code!=="23505")alert("تعذر تسجيل الإعجاب حالياً");await loadArticleReactions(currentSharedArticle);b.disabled=false;}
+
+async function submitArticleComment(e){e.preventDefault();if(!currentSharedArticle)return;const msg=document.getElementById("commentSubmitMessage");const name=document.getElementById("commentName").value.trim();const content=document.getElementById("commentContent").value.trim();const r=await db.from("article_comments").insert({article_id:currentSharedArticle.id,display_name:name,content,status:"pending"});if(r.error){msg.textContent="تعذر إرسال التعليق. حاول لاحقاً.";msg.className="text-xs mt-1 text-red-600";return;}document.getElementById("commentContent").value="";msg.textContent="وصل تعليقك، وسيظهر بعد موافقة الإدارة.";msg.className="text-xs mt-1 text-green-700";}
+
+async function loadAdminComments(){if(!currentUser||!currentRole)return;const box=document.getElementById("adminCommentsList");const r=await db.from("article_comments").select("id,display_name,content,created_at,articles(title)").eq("status","pending").order("created_at",{ascending:true}).limit(100);if(r.error){box.textContent="تعذر تحميل التعليقات";return;}if(!r.data||!r.data.length){box.textContent="لا توجد تعليقات بانتظار المراجعة.";return;}box.innerHTML=r.data.map(x=>"<div class=\"admin-card mb-3\"><div class=\"text-xs text-gray-500\">"+safeText(x.articles&&x.articles.title||"خبر")+" · "+formatDate(x.created_at)+"</div><strong>"+safeText(x.display_name)+"</strong><p class=\"my-2 whitespace-pre-wrap\">"+safeText(x.content)+"</p><div class=\"flex gap-2\"><button class=\"gold-btn\" onclick=\"reviewComment('"+x.id+"','approved')\">موافقة</button><button class=\"red-btn\" onclick=\"reviewComment('"+x.id+"','rejected')\">رفض</button></div></div>").join("");}
+
+async function reviewComment(id,status){const r=await db.from("article_comments").update({status:status,reviewed_at:new Date().toISOString(),reviewed_by:currentUser.id}).eq("id",id);if(r.error){alert("تعذر تحديث التعليق");return;}await loadAdminComments();}
 
 function closeArticle(){
 document.getElementById("articleModal").classList.remove("show");
@@ -710,6 +770,7 @@ currentSharedArticle=null;
 
 const url=new URL(window.location.href);
 url.searchParams.delete("article");
+url.searchParams.delete("a");
 history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
 
@@ -723,7 +784,8 @@ document.getElementById("imageModal").classList.add("show");
 }
 
 function openSharedArticleFromUrl(){
-const id=new URLSearchParams(window.location.search).get("article");
+const params=new URLSearchParams(window.location.search);
+const id=params.get("a")||params.get("article");
 if(!id)return;
 
 const index=articlesCache.findIndex(a=>String(a.id)===String(id));
@@ -738,65 +800,12 @@ console.warn("لم يتم العثور على الخبر المطلوب:",id);
 // الأخبار من مصادر أخرى
 // ==========================================
 async function loadExternalNews(){
-const grid=document.getElementById("externalNewsGrid");
-const count=document.getElementById("externalNewsCount");
-
-const {data,error}=await db
-.from("imported_news")
-.select("id,title,summary,image_url,article_url,source_name,category,published_at")
-.eq("is_published",true)
-.order("published_at",{ascending:false})
-.limit(30);
-
-if(error){
-console.error("External news error:",error);
-grid.innerHTML='<div class="col-span-full text-center py-8 text-red-600">تعذر تحميل الأخبار من المصادر الأخرى</div>';
-return;
-}
-
+const {data,error}=await db.from("imported_news").select("id,title,summary,image_url,article_url,source_name,category,published_at,imported_at").eq("is_published",true).order("published_at",{ascending:false}).limit(200);
+if(error){console.error("External news error:",error);document.getElementById("externalNewsGrid").innerHTML='<div class="col-span-full text-center py-8 text-red-600">تعذر تحميل الأخبار الخارجية</div>';return;}
 externalNewsCache=data||[];
-count.textContent=`${externalNewsCache.length} خبر`;
-
-if(!externalNewsCache.length){
-grid.innerHTML='<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار خارجية منشورة حاليًا</div>';
-return;
+renderArticles();
 }
 
-grid.innerHTML=externalNewsCache.map((item,index)=>{
-const safeUrl=getExternalShareUrl(item);
-const image=item.image_url
-?`<div class="news-image"><img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy"></div>`
-:`<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>`;
-
-return `
-<article class="news-card">
-${image}
-<div class="p-4">
-<span class="category-tag">${safeText(item.category||"أخبار خارجية")}</span>
-<h3 class="news-title mt-3 mb-2">${safeText(item.title)}</h3>
-<p class="news-summary">${safeText(item.summary||"")}</p>
-<div class="text-xs text-gray-500 mt-4">
-المصدر: <strong>${safeText(item.source_name||"مصدر خارجي")}</strong>
-</div>
-<div class="flex justify-between items-center mt-3 text-xs">
-<span class="text-gray-400">${formatDate(item.published_at)}</span>
-${safeUrl
-?`<a href="${safeText(safeUrl)}" target="_blank" rel="noopener noreferrer" class="text-yellow-700 font-bold">الخبر الأصلي ←</a>`
-:`<span class="text-gray-400">الرابط غير متاح</span>`}
-</div>
-${safeUrl?`
-<div class="share-actions">
-<button class="share-btn facebook" onclick="shareExternalNews(event,${index},'facebook')">فيسبوك</button>
-<button class="share-btn whatsapp" onclick="shareExternalNews(event,${index},'whatsapp')">واتساب</button>
-<button class="share-btn copy" onclick="shareExternalNews(event,${index},'copy')">نسخ الرابط</button>
-<button class="share-btn" onclick="shareExternalNews(event,${index},'native')">مشاركة</button>
-</div>`:""}
-</div>
-</article>`;
-}).join("");
-}
-
-// ==========================================
 // إعدادات التواصل
 // ==========================================
 async function loadContactSettings(){
@@ -840,7 +849,7 @@ if(!box)return;
 let html="";
 
 const facebookUrl=safeHttpUrl(contactSettings.facebook_url);
-const whatsappNumber=normalizeWhatsAppNumber(contactSettings.whatsapp_number);
+const whatsappUrl=safeHttpUrl(contactSettings.whatsapp_number);
 
 if(contactSettings.show_facebook&&facebookUrl){
 html+=`
@@ -854,10 +863,10 @@ html+=`
 </div>`;
 }
 
-if(contactSettings.show_whatsapp&&whatsappNumber){
+if(contactSettings.show_whatsapp&&whatsappUrl){
 html+=`
 <div class="contact-item">
-<a class="contact-link whatsapp" href="https://wa.me/${safeText(whatsappNumber)}" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
+<a class="contact-link whatsapp" href="${safeText(whatsappUrl)}" target="_blank" rel="noopener noreferrer" aria-label="واتساب">
 <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
 <path d="M12.04 2A9.9 9.9 0 0 0 3.5 17l-1.1 4 4.1-1.1A10 10 0 1 0 12.04 2zm0 18.1a8.1 8.1 0 0 1-4.1-1.1l-.3-.2-2.4.6.6-2.3-.2-.4a8.1 8.1 0 1 1 6.4 3.4zm4.5-6.1c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.5.1-.2.2-.6.8-.8.9-.1.2-.3.2-.5.1-.2-.1-1-.4-1.9-1.2-.7-.6-1.2-1.4-1.3-1.6-.1-.2 0-.3.1-.4l.4-.5c.1-.1.2-.2.2-.4.1-.1 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 1.9s.8 2.2.9 2.3c.1.2 1.6 2.4 3.8 3.3.5.2.9.3 1.2.4.5.2 1 .1 1.4.1.4-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/>
 </svg>
@@ -887,10 +896,10 @@ return;
 }
 }
 
-const whatsappNumber=normalizeWhatsAppNumber(whatsappRaw);
+const whatsappNumber=whatsappRaw?safeHttpUrl(whatsappRaw):"";
 
-if(whatsappRaw&&whatsappNumber.length<8){
-showMessage("contactMessage","رقم واتساب غير مكتمل. أدخل مفتاح الدولة والرقم.");
+if(whatsappRaw&&(!whatsappNumber||!/^https:\/\/(whatsapp\.com|www\.whatsapp\.com)\/channel\//i.test(whatsappNumber))){
+showMessage("contactMessage","رابط قناة واتساب غير صحيح. استخدم رابط القناة الذي يبدأ بـ https://whatsapp.com/channel/");
 return;
 }
 
@@ -1090,7 +1099,7 @@ currentRole=data.role;
 document.getElementById("loginSection").style.display="none";
 document.getElementById("dashboard").style.display="block";
 document.getElementById("accessMessage").textContent="";
-document.getElementById("adminIdentity").textContent=user.email;
+document.getElementById("adminIdentity").textContent="لوحة الإدارة الخاصة";
 document.getElementById("adminRole").textContent=currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
 document.getElementById("adminsTabButton").style.display=currentRole==="owner"?"inline-block":"none";
 
@@ -1395,7 +1404,42 @@ month:"long",
 day:"numeric"
 });
 
+
+function applyTheme(theme){
+const dark=theme==="dark";
+document.body.dataset.theme=dark?"dark":"light";
+const button=document.getElementById("themeToggle");
+if(button){button.textContent=dark?"☀️ الوضع النهاري":"🌙 الوضع الليلي";button.setAttribute("aria-pressed",String(dark));}
+try{localStorage.setItem("mawaten_theme",dark?"dark":"light");}catch(_){}
+}
+function toggleTheme(){applyTheme(document.body.dataset.theme==="dark"?"light":"dark");}
+function initTheme(){
+let saved="light";try{saved=localStorage.getItem("mawaten_theme")||"light";}catch(_){}
+applyTheme(saved);
+}
+function initBackToTop(){
+const button=document.getElementById("backToTop");if(!button)return;
+const update=()=>button.classList.toggle("visible",window.scrollY>420);
+window.addEventListener("scroll",update,{passive:true});update();
+}
+
+async function loadSiteVisitorCount(){
+const counter=document.getElementById("siteVisitorCount");
+if(!counter)return;
+try{
+const {data,error}=await db.rpc("increment_site_visit_count");
+if(error)throw error;
+counter.textContent=Number(data||0).toLocaleString("en-US");
+}catch(error){
+counter.textContent="—";
+console.warn("تعذر تحديث عداد الزيارات:",error.message);
+}
+}
+
 async function startSite(){
+initTheme();
+initBackToTop();
+loadSiteVisitorCount();
 await Promise.all([
 loadArticles(),
 loadAds(),
