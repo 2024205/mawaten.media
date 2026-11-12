@@ -25,7 +25,7 @@ body{margin:0;background:#f4f6fa;color:#18243a;font-family:'Cairo',sans-serif}
 button,input,textarea,select{font-family:inherit}
 button{cursor:pointer}
 .site-header{background:linear-gradient(120deg,#101d36,#203657);color:white}
-.visitor-counter{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid #d5ad5960;border-radius:7px;background:#ffffff0d;color:#f0d28c;font-size:11px;white-space:nowrap;box-shadow:inset 0 0 0 1px #ffffff08}.visitor-counter strong{font-size:13px;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:.3px}.visitor-counter svg{width:14px;height:14px;opacity:.9}
+.visitor-counter{display:inline-flex;align-items:center;gap:9px;padding:5px 10px;border:1px solid #d5ad5960;border-radius:7px;background:#ffffff0d;color:#f0d28c;font-size:12px;font-weight:800;white-space:nowrap;box-shadow:inset 0 0 0 1px #ffffff08}.visitor-counter strong{display:inline-flex;align-items:center;justify-content:center;direction:ltr;min-width:7.5ch;padding:4px 8px;border:1px solid #d5ad59a8;border-radius:5px;background:#0b172b;color:#fff;font-size:15px;font-weight:900;font-variant-numeric:tabular-nums;letter-spacing:.5px;line-height:1.2}.visitor-counter svg{width:15px;height:15px;opacity:.9;flex-shrink:0}
 .logo-mark{border:2px solid var(--gold);color:var(--gold);width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:22px}
 .gold-text{color:var(--gold2)}
 .nav-link{padding:9px 13px;border-radius:8px;white-space:nowrap}
@@ -178,7 +178,7 @@ body[data-theme="dark"] .admin-list-item{background:#17243a;border-color:#34445d
 <div class="flex flex-col items-start sm:items-end gap-2 text-xs text-gray-300">
 <div class="visitor-counter" title="إجمالي زيارات الموقع">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-<span>زوار مواطن</span><strong id="siteVisitorCount">—</strong>
+<span>الزوار</span><strong id="siteVisitorCount" aria-label="إجمالي عدد الزوار">—</strong>
 </div>
 <div id="todayDate"></div>
 <div class="gold-text">منبر المواطن الإخباري</div>
