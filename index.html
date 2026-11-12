@@ -1269,13 +1269,36 @@ return;
 }
 
 list.innerHTML=articlesCache.map(a=>`
-<div class="admin-list-item flex justify-between items-center gap-3">
+<div class="admin-list-item flex flex-col gap-3">
 <div class="min-w-0">
 <div class="font-bold text-sm">${safeText(a.title)}</div>
 <div class="text-xs text-gray-400">${formatDate(a.created_at)}</div>
 </div>
-<button class="red-btn shrink-0" onclick="deleteArticle('${safeText(a.id)}')">حذف</button>
+<div class="flex flex-wrap gap-2">
+<button class="share-btn whatsapp" type="button" onclick="prepareChannelPost('${safeText(a.id)}')">تجهيز منشور واتساب</button>
+<button class="share-btn" type="button" onclick="openChannelImage('${safeText(a.id)}')">فتح صورة الخبر</button>
+<button class="red-btn" type="button" onclick="deleteArticle('${safeText(a.id)}')">حذف</button>
+</div>
 </div>`).join("");
+}
+
+// تجهيز منشور لقناة واتساب: نسخ النص وفتح القناة للنشر اليدوي
+const WHATSAPP_CHANNEL_URL="https://whatsapp.com/channel/0029VbE1E8q59PwO65247D3c";
+function findLocalArticle(id){return articlesCache.find(a=>String(a.id)===String(id));}
+async function prepareChannelPost(id){
+const article=findLocalArticle(id);if(!article)return;
+const url=getArticleUrl(article);
+const caption=(article.title||"خبر من منصة مواطن")+"\\n\\n"+(article.summary||"")+
+"\\n\\nاقرأ التفاصيل عبر منصة مواطن:\\n"+url;
+window.open(WHATSAPP_CHANNEL_URL,"_blank","noopener,noreferrer");
+const copied=await copyText(caption);
+alert(copied?"تم نسخ نص المنشور وفتح قناة واتساب. أضف صورة الخبر ثم الصق النص واضغط نشر.":"تم فتح القناة، لكن تعذر النسخ تلقائيًا. انسخ النص من تفاصيل الخبر.");
+}
+function openChannelImage(id){
+const article=findLocalArticle(id);if(!article)return;
+const image=safeHttpUrl(article.image||"");
+if(!image){alert("هذا الخبر لا يحتوي على صورة.");return;}
+window.open(image,"_blank","noopener,noreferrer");
 }
 
 async function deleteArticle(id){
