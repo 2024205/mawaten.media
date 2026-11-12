@@ -99,6 +99,23 @@ button{cursor:pointer}
 .news-tools-hint{font-size:11px;color:#7b8494;margin:7px 2px 0}
 @media(max-width:640px){.news-tools{grid-template-columns:1fr}.news-tools select{min-height:44px}}
 
+
+/* الوضع الليلي */
+body[data-theme="dark"]{background:#0d1728;color:#e5eaf2}
+body[data-theme="dark"] .news-card,body[data-theme="dark"] .admin-card,body[data-theme="dark"] .modal-box{background:#17243a;color:#e5eaf2;border-color:#2c3b53}
+body[data-theme="dark"] .section-title{color:#e5eaf2}
+body[data-theme="dark"] .news-summary,body[data-theme="dark"] .news-tools-hint{color:#aab6c8}
+body[data-theme="dark"] .news-tools input,body[data-theme="dark"] .news-tools select,body[data-theme="dark"] .form-control{background:#111e32;color:#e5eaf2;border-color:#34445d}
+body[data-theme="dark"] .share-btn{background:#1e2d45;color:#e5eaf2;border-color:#34445d}
+body[data-theme="dark"] .category-tag{background:#493d27;color:#f0d28c}
+body[data-theme="dark"] #about .admin-card{background:#17243a}
+body[data-theme="dark"] .admin-panel{background:#0d1728}
+body[data-theme="dark"] .admin-tab{background:#26364f;color:#e5eaf2}
+body[data-theme="dark"] .admin-tab.active{background:#d5ad59;color:#17233a}
+.theme-toggle{border:1px solid #d5ad5970;border-radius:8px;padding:7px 11px;color:#f0d28c;background:#ffffff10;font-weight:700;white-space:nowrap}
+.back-to-top{position:fixed;bottom:20px;left:18px;z-index:80;width:44px;height:44px;border:0;border-radius:50%;background:var(--gold);color:#17233a;font-size:22px;font-weight:900;box-shadow:0 5px 18px #07102035;display:none}
+.back-to-top.visible{display:block}
+@media(max-width:640px){.theme-toggle{padding:7px 9px;font-size:12px}}
 @media(max-width:640px){
 .ad-frame{height:190px}
 .news-image{height:165px}
@@ -138,6 +155,7 @@ button{cursor:pointer}
 <a href="#externalNews" class="nav-link">أخبار أخرى</a>
 <a href="#ads" class="nav-link">الإعلانات</a>
 <a href="#about" class="nav-link">عن مواطن</a>
+<button id="themeToggle" class="theme-toggle" type="button" onclick="toggleTheme()" aria-label="تغيير مظهر الموقع">🌙 الوضع الليلي</button>
 </nav>
 </header>
 
@@ -217,6 +235,7 @@ button{cursor:pointer}
 <p class="text-xs text-gray-400 mt-2">جميع الحقوق محفوظة © 2026</p>
 </div>
 </footer>
+<button id="backToTop" class="back-to-top" type="button" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="العودة للأعلى">↑</button>
 
 <!-- تفاصيل الخبر -->
 <div class="modal-backdrop" id="articleModal" onclick="closeArticleOutside(event)">
@@ -1385,6 +1404,25 @@ month:"long",
 day:"numeric"
 });
 
+
+function applyTheme(theme){
+const dark=theme==="dark";
+document.body.dataset.theme=dark?"dark":"light";
+const button=document.getElementById("themeToggle");
+if(button){button.textContent=dark?"☀️ الوضع النهاري":"🌙 الوضع الليلي";button.setAttribute("aria-pressed",String(dark));}
+try{localStorage.setItem("mawaten_theme",dark?"dark":"light");}catch(_){}
+}
+function toggleTheme(){applyTheme(document.body.dataset.theme==="dark"?"light":"dark");}
+function initTheme(){
+let saved="light";try{saved=localStorage.getItem("mawaten_theme")||"light";}catch(_){}
+applyTheme(saved);
+}
+function initBackToTop(){
+const button=document.getElementById("backToTop");if(!button)return;
+const update=()=>button.classList.toggle("visible",window.scrollY>420);
+window.addEventListener("scroll",update,{passive:true});update();
+}
+
 async function loadSiteVisitorCount(){
 const counter=document.getElementById("siteVisitorCount");
 if(!counter)return;
@@ -1399,6 +1437,8 @@ console.warn("تعذر تحديث عداد الزيارات:",error.message);
 }
 
 async function startSite(){
+initTheme();
+initBackToTop();
 loadSiteVisitorCount();
 await Promise.all([
 loadArticles(),
