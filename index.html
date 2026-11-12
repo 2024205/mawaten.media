@@ -46,7 +46,7 @@ button{cursor:pointer}
 .news-card{background:white;border-radius:12px;overflow:hidden;border:1px solid #e8ebf0;transition:.25s;cursor:pointer}
 .news-card:hover{transform:translateY(-3px);box-shadow:0 9px 24px #14233b16}
 .news-image{height:190px;background:#e5e9ef;overflow:hidden}
-.news-image img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.news-image img{width:100%;height:100%;object-fit:cover;transition:transform .4s}\n.news-image.image-fallback{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#101d36,#263d60);color:#f0d28c;font-size:30px;font-weight:900;letter-spacing:2px}
 .news-card:hover .news-image img{transform:scale(1.03)}
 .category-tag{background:#f4ead5;color:#84621f;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:800}
 .news-title{font-weight:800;line-height:1.8}
@@ -701,7 +701,7 @@ function renderUnifiedNewsCard(item){
 const a=item.data, local=item.kind==="local", date=formatDate(item.date);
 const title=safeText(a.title||"خبر"), category=safeText(a.category||(local?"أخبار":"أخبار خارجية"));
 const imageUrl=local?a.image:a.image_url;
-const image=imageUrl?'<div class="news-image"><img src="'+safeText(imageUrl)+'" alt="'+title+'" loading="lazy" decoding="async"></div>':'<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>';
+const image=imageUrl?'<div class="news-image"><img src="'+safeText(imageUrl)+'" alt="'+title+'" loading="lazy" decoding="async" onerror="this.onerror=null;this.parentElement.classList.add(\'image-fallback\');this.remove()"></div>':'<div class="news-image image-fallback">مواطن</div>';
 if(local){
 const i=articlesCache.indexOf(a);
 return '<article class="news-card" onclick="openArticle('+i+')">'+image+'<div class="p-4"><span class="category-tag">'+category+'</span><h3 class="news-title mt-3 mb-2">'+title+'</h3><p class="news-summary">'+safeText(a.summary||"")+'</p><div class="flex justify-between items-center mt-4 text-xs text-gray-400"><span>'+date+'</span><span class="text-yellow-700 font-bold">اقرأ المزيد ←</span></div><div class="share-actions" onclick="event.stopPropagation()"><button class="share-btn facebook" onclick="shareArticle(event,'+i+',\'facebook\')">فيسبوك</button><button class="share-btn whatsapp" onclick="shareArticle(event,'+i+',\'whatsapp\')">واتساب</button><button class="share-btn copy" onclick="shareArticle(event,'+i+',\'copy\')">نسخ الرابط</button><button class="share-btn" onclick="shareArticle(event,'+i+',\'native\')">مشاركة</button></div></div></article>';
