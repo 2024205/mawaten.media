@@ -135,7 +135,7 @@ button{cursor:pointer}
 <nav class="max-w-7xl mx-auto px-3 py-2 flex gap-1 overflow-x-auto text-sm">
 <a href="#home" class="nav-link">الرئيسية</a>
 <a href="#news" class="nav-link">آخر الأخبار</a>
-<a href="#externalNews" class="nav-link">من مصادر أخرى</a>
+<a href="#externalNews" class="nav-link">أخبار أخرى</a>
 <a href="#ads" class="nav-link">الإعلانات</a>
 <a href="#about" class="nav-link">عن مواطن</a>
 </nav>
@@ -181,7 +181,7 @@ button{cursor:pointer}
 
 <section id="externalNews" class="mb-10">
 <div class="flex items-center justify-between mb-4">
-<h2 class="section-title text-lg">من مصادر أخرى</h2>
+<h2 class="section-title text-lg">أخبار أخرى</h2>
 <span class="text-xs text-gray-500" id="externalNewsCount">الأخبار الخارجية</span>
 </div>
 <div id="externalNewsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -673,70 +673,37 @@ articlesCache=data||[];
 renderArticles();
 }
 
+function getUnifiedNewsItems(){
+const local=articlesCache.map(data=>({kind:"local",date:data.created_at||"",data}));
+const external=externalNewsCache.map(data=>({kind:"external",date:data.published_at||data.imported_at||"",data}));
+return [...local,...external].sort((a,b)=>(new Date(b.date).getTime()||0)-(new Date(a.date).getTime()||0));
+}
+function renderUnifiedNewsCard(item){
+const a=item.data, local=item.kind==="local", date=formatDate(item.date);
+const title=safeText(a.title||"خبر"), category=safeText(a.category||(local?"أخبار":"أخبار خارجية"));
+const imageUrl=local?a.image:a.image_url;
+const image=imageUrl?'<div class="news-image"><img src="'+safeText(imageUrl)+'" alt="'+title+'" loading="lazy" decoding="async"></div>':'<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>';
+if(local){
+const i=articlesCache.indexOf(a);
+return '<article class="news-card" onclick="openArticle('+i+')">'+image+'<div class="p-4"><span class="category-tag">'+category+'</span><h3 class="news-title mt-3 mb-2">'+title+'</h3><p class="news-summary">'+safeText(a.summary||"")+'</p><div class="flex justify-between items-center mt-4 text-xs text-gray-400"><span>'+date+'</span><span class="text-yellow-700 font-bold">اقرأ المزيد ←</span></div><div class="share-actions" onclick="event.stopPropagation()"><button class="share-btn facebook" onclick="shareArticle(event,'+i+',\'facebook\')">فيسبوك</button><button class="share-btn whatsapp" onclick="shareArticle(event,'+i+',\'whatsapp\')">واتساب</button><button class="share-btn copy" onclick="shareArticle(event,'+i+',\'copy\')">نسخ الرابط</button><button class="share-btn" onclick="shareArticle(event,'+i+',\'native\')">مشاركة</button></div></div></article>';
+}
+const i=externalNewsCache.indexOf(a), url=getExternalShareUrl(a);
+return '<article class="news-card">'+image+'<div class="p-4"><span class="category-tag">'+category+'</span><h3 class="news-title mt-3 mb-2">'+title+'</h3><p class="news-summary">'+safeText(a.summary||"")+'</p><div class="text-xs text-gray-500 mt-4">المصدر: <strong>'+safeText(a.source_name||"مصدر خارجي")+'</strong></div><div class="flex justify-between items-center mt-3 text-xs"><span class="text-gray-400">'+date+'</span>'+(url?'<a href="'+safeText(url)+'" target="_blank" rel="noopener noreferrer" class="text-yellow-700 font-bold">الخبر الأصلي ←</a>':'<span class="text-gray-400">الرابط غير متاح</span>')+'</div>'+(url?'<div class="share-actions"><button class="share-btn facebook" onclick="shareExternalNews(event,'+i+',\'facebook\')">فيسبوك</button><button class="share-btn whatsapp" onclick="shareExternalNews(event,'+i+',\'whatsapp\')">واتساب</button><button class="share-btn copy" onclick="shareExternalNews(event,'+i+',\'copy\')">نسخ الرابط</button><button class="share-btn" onclick="shareExternalNews(event,'+i+',\'native\')">مشاركة</button></div>':'')+'</div></article>';
+}
 function renderArticles(){
-const grid=document.getElementById("newsGrid");
-const adminCount=document.getElementById("adminNewsCount");
-if(adminCount)adminCount.textContent=articlesCache.length;
-
-const search=document.getElementById("newsSearchInput");
-const category=document.getElementById("newsCategoryFilter");
-const query=(search?.value||"").trim().toLocaleLowerCase("ar");
-const selectedCategory=category?.value||"";
-
-if(category){
-const current=category.value;
-const categories=[...new Set(articlesCache.map(a=>(a.category||"أخبار").trim()).filter(Boolean))].sort((x,y)=>x.localeCompare(y,"ar"));
-category.innerHTML='<option value="">كل التصنيفات</option>'+categories.map(x=>'<option value="'+safeText(x)+'">'+safeText(x)+'</option>').join("");
-category.value=categories.includes(current)?current:"";
-}
-
-if(!articlesCache.length){
-document.getElementById("newsCount").textContent="0 خبر";
-grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار منشورة حتى الآن</div>';
-return;
-}
-
-const filtered=articlesCache.filter(a=>{
-const haystack=[a.title,a.summary,a.body,a.category].join(" ").toLocaleLowerCase("ar");
-return (!query||haystack.includes(query))&&(!selectedCategory||(a.category||"أخبار")===selectedCategory);
-});
-document.getElementById("newsCount").textContent=filtered.length+" من "+articlesCache.length+" خبر";
-
-if(!filtered.length){
-grid.innerHTML='<div class="col-span-full text-center py-12 text-gray-500">ما لقينا أخبار تطابق بحثك. جرّب كلمة ثانية أو غيّر التصنيف.</div>';
-return;
-}
-
-grid.innerHTML=filtered.map(a=>{
-const index=articlesCache.indexOf(a);
-return `
-<article class="news-card" onclick="openArticle(${index})">
-<div class="news-image">
-${a.image
-?`<img src="${safeText(a.image)}" alt="${safeText(a.title)}" loading="lazy" decoding="async">`
-:`<div class="h-full flex items-center justify-center text-gray-400">مواطن</div>`}
-</div>
-<div class="p-4">
-<span class="category-tag">${safeText(a.category||"أخبار")}</span>
-<h3 class="news-title mt-3 mb-2">${safeText(a.title)}</h3>
-<p class="news-summary">${safeText(a.summary||"")}</p>
-<div class="flex justify-between items-center mt-4 text-xs text-gray-400">
-<span>${formatDate(a.created_at)}</span>
-<span class="text-yellow-700 font-bold">اقرأ المزيد ←</span>
-</div>
-<div class="share-actions" onclick="event.stopPropagation()">
-<button class="share-btn facebook" onclick="shareArticle(event,${index},'facebook')">فيسبوك</button>
-<button class="share-btn whatsapp" onclick="shareArticle(event,${index},'whatsapp')">واتساب</button>
-<button class="share-btn copy" onclick="shareArticle(event,${index},'copy')">نسخ الرابط</button>
-<button class="share-btn" onclick="shareArticle(event,${index},'native')">مشاركة</button>
-</div>
-</div>
-</article>`;
-}).join("");
-
+const mainGrid=document.getElementById("newsGrid"), olderGrid=document.getElementById("externalNewsGrid");
+const adminCount=document.getElementById("adminNewsCount"); if(adminCount)adminCount.textContent=articlesCache.length;
+const all=getUnifiedNewsItems(), search=document.getElementById("newsSearchInput"), category=document.getElementById("newsCategoryFilter");
+const query=(search?.value||"").trim().toLocaleLowerCase("ar"), selected=category?.value||"";
+if(category){const current=category.value,cats=[...new Set(all.map(x=>(x.data.category||"أخبار").trim()).filter(Boolean))].sort((x,y)=>x.localeCompare(y,"ar"));category.innerHTML='<option value="">كل التصنيفات</option>'+cats.map(x=>'<option value="'+safeText(x)+'">'+safeText(x)+'</option>').join("");category.value=cats.includes(current)?current:"";}
+const filtered=all.filter(x=>{const a=x.data,hay=[a.title,a.summary,a.body,a.category,a.source_name].join(" ").toLocaleLowerCase("ar");return (!query||hay.includes(query))&&(!selected||(a.category||"أخبار")===selected);});
+const latest=filtered.slice(0,10), older=filtered.slice(10);
+document.getElementById("newsCount").textContent=latest.length+" أحدث الأخبار من "+filtered.length;
+document.getElementById("externalNewsCount").textContent=older.length+" خبر";
+mainGrid.innerHTML=latest.length?latest.map(renderUnifiedNewsCard).join(""):'<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار تطابق البحث حالياً</div>';
+olderGrid.innerHTML=older.length?older.map(renderUnifiedNewsCard).join(""):'<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار أقدم حالياً</div>';
 if(currentUser)renderAdminArticles();
 }
-
 function openArticle(index){
 const a=articlesCache[index];
 if(!a)return;
@@ -814,65 +781,12 @@ console.warn("لم يتم العثور على الخبر المطلوب:",id);
 // الأخبار من مصادر أخرى
 // ==========================================
 async function loadExternalNews(){
-const grid=document.getElementById("externalNewsGrid");
-const count=document.getElementById("externalNewsCount");
-
-const {data,error}=await db
-.from("imported_news")
-.select("id,title,summary,image_url,article_url,source_name,category,published_at")
-.eq("is_published",true)
-.order("published_at",{ascending:false})
-.limit(30);
-
-if(error){
-console.error("External news error:",error);
-grid.innerHTML='<div class="col-span-full text-center py-8 text-red-600">تعذر تحميل الأخبار من المصادر الأخرى</div>';
-return;
-}
-
+const {data,error}=await db.from("imported_news").select("id,title,summary,image_url,article_url,source_name,category,published_at,imported_at").eq("is_published",true).order("published_at",{ascending:false}).limit(200);
+if(error){console.error("External news error:",error);document.getElementById("externalNewsGrid").innerHTML='<div class="col-span-full text-center py-8 text-red-600">تعذر تحميل الأخبار الخارجية</div>';return;}
 externalNewsCache=data||[];
-count.textContent=`${externalNewsCache.length} خبر`;
-
-if(!externalNewsCache.length){
-grid.innerHTML='<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار خارجية منشورة حاليًا</div>';
-return;
+renderArticles();
 }
 
-grid.innerHTML=externalNewsCache.map((item,index)=>{
-const safeUrl=getExternalShareUrl(item);
-const image=item.image_url
-?`<div class="news-image"><img src="${safeText(item.image_url)}" alt="${safeText(item.title)}" loading="lazy"></div>`
-:`<div class="news-image flex items-center justify-center text-gray-400">مواطن</div>`;
-
-return `
-<article class="news-card">
-${image}
-<div class="p-4">
-<span class="category-tag">${safeText(item.category||"أخبار خارجية")}</span>
-<h3 class="news-title mt-3 mb-2">${safeText(item.title)}</h3>
-<p class="news-summary">${safeText(item.summary||"")}</p>
-<div class="text-xs text-gray-500 mt-4">
-المصدر: <strong>${safeText(item.source_name||"مصدر خارجي")}</strong>
-</div>
-<div class="flex justify-between items-center mt-3 text-xs">
-<span class="text-gray-400">${formatDate(item.published_at)}</span>
-${safeUrl
-?`<a href="${safeText(safeUrl)}" target="_blank" rel="noopener noreferrer" class="text-yellow-700 font-bold">الخبر الأصلي ←</a>`
-:`<span class="text-gray-400">الرابط غير متاح</span>`}
-</div>
-${safeUrl?`
-<div class="share-actions">
-<button class="share-btn facebook" onclick="shareExternalNews(event,${index},'facebook')">فيسبوك</button>
-<button class="share-btn whatsapp" onclick="shareExternalNews(event,${index},'whatsapp')">واتساب</button>
-<button class="share-btn copy" onclick="shareExternalNews(event,${index},'copy')">نسخ الرابط</button>
-<button class="share-btn" onclick="shareExternalNews(event,${index},'native')">مشاركة</button>
-</div>`:""}
-</div>
-</article>`;
-}).join("");
-}
-
-// ==========================================
 // إعدادات التواصل
 // ==========================================
 async function loadContactSettings(){
