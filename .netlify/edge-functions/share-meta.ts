@@ -48,10 +48,14 @@ export default async (request: Request, context: any) => {
     const title = esc(article.title || "مواطن | صوت المواطن.. نبض الوطن");
     const description = esc(article.summary || "آخر الأخبار من منصة مواطن الإخبارية");
     const rawImage = safeImageUrl(externalId ? article.image_url : article.image);
-    // WhatsApp/Meta previews are more reliable with a JPEG rendition than source WebP.
-    const previewImage = rawImage
-      ? "https://res.cloudinary.com/lxkdpxpz/image/fetch/f_jpg,q_auto,w_1200/" + encodeURIComponent(rawImage)
-      : "";
+    // Local article images are already public Cloudinary JPEGs; use them directly.
+    // Convert only remote/non-JPEG sources to a JPEG rendition for WhatsApp compatibility.
+    const isCloudinaryUpload = /^https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\//i.test(rawImage);
+    const previewImage = !rawImage
+      ? ""
+      : isCloudinaryUpload
+        ? rawImage
+        : "https://res.cloudinary.com/lxkdpxpz/image/fetch/f_jpg,q_auto,w_1200/" + encodeURIComponent(rawImage);
     const image = esc(previewImage || rawImage);
     const canonical = esc(url.origin + url.pathname + "?" + (externalId ? "external=" : "a=") + encodeURIComponent(id!));
     const html = `<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
@@ -60,7 +64,7 @@ export default async (request: Request, context: any) => {
 <meta property="og:site_name" content="مواطن"><meta property="og:locale" content="ar_YE">
 <meta property="og:type" content="article"><meta property="og:title" content="${title}">
 <meta property="og:description" content="${description}"><meta property="og:url" content="${canonical}">
-${image ? `<meta property="og:image" content="${image}"><meta property="og:image:secure_url" content="${image}"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:alt" content="${title}"><meta name="twitter:image" content="${image}">` : ""}
+${image ? `<meta property="og:image" content="${image}"><meta property="og:image:secure_url" content="${image}"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="${title}"><meta name="twitter:image" content="${image}">` : ""}
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${title}">
 <meta name="twitter:description" content="${description}"></head><body>
 <h1>${title}</h1><p>${description}</p><script>location.replace(${JSON.stringify(canonical)});</script>
