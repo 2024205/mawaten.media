@@ -250,6 +250,7 @@ body[data-theme="dark"] .admin-tab.active{background:#d5ad59;color:#17233a}
 <h2 id="articleModalTitle" class="text-xl font-black my-3"></h2>
 <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
 <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
+<div id="relatedArticles" class="mt-6 border-t pt-5"><h3 class="font-black text-lg mb-3">قد يهمك أيضاً</h3><div id="relatedArticlesList" class="grid gap-2"></div></div>
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
 <div class="mt-5 rounded-xl border border-gray-200 p-4">
 <div class="flex items-center justify-between gap-3"><strong>تفاعل القراء</strong><button id="articleLikeButton" class="share-btn" onclick="likeCurrentArticle()">👍 أعجبني <span id="articleLikeCount">0</span></button></div>
@@ -723,6 +724,7 @@ mainGrid.innerHTML=latest.length?latest.map(renderUnifiedNewsCard).join(""):'<di
 olderGrid.innerHTML=older.length?older.map(renderUnifiedNewsCard).join(""):'<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار أقدم حالياً</div>';
 if(currentUser)renderAdminArticles();
 }
+function renderRelatedArticles(current){const category=(current.category||"أخبار").trim();const related=articlesCache.filter(x=>String(x.id)!==String(current.id)).sort((a,b)=>(((b.category||"").trim()===category)?1:0)-(((a.category||"").trim()===category)?1:0)).slice(0,3);if(!related.length)return '<p class="text-sm text-gray-500">لا توجد أخبار أخرى حالياً.</p>';return related.map(a=>{const i=articlesCache.indexOf(a);return '<button type="button" onclick="openArticle('+i+')" class="w-full text-right rounded-lg border border-gray-200 p-3 hover:border-yellow-500 transition"><span class="text-xs text-yellow-700 font-bold">'+safeText(a.category||"أخبار")+'</span><span class="block mt-1 font-bold text-sm">'+safeText(a.title||"خبر")+'</span><span class="block mt-1 text-xs text-gray-400">'+formatDate(a.created_at)+'</span></button>';}).join("");}
 function openArticle(index){
 const a=articlesCache[index];
 if(!a)return;
@@ -732,6 +734,7 @@ document.getElementById("articleModalTitle").textContent=a.title||"";
 document.getElementById("articleModalCategory").textContent=a.category||"أخبار";
 document.getElementById("articleModalSummary").textContent=a.summary||"";
 document.getElementById("articleModalBody").textContent=a.body||"";
+document.getElementById("relatedArticlesList").innerHTML=renderRelatedArticles(a);
 document.getElementById("articleModalDate").textContent=formatDate(a.created_at);
 document.getElementById("articleShareMessage").textContent="";
 
