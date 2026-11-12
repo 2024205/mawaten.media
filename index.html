@@ -254,11 +254,11 @@ body[data-theme="dark"] .admin-tab.active{background:#d5ad59;color:#17233a}
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
 <div class="mt-5 rounded-xl border border-gray-200 p-4">
 <div class="flex items-center justify-between gap-3"><strong>تفاعل القراء</strong><button id="articleLikeButton" class="share-btn" onclick="likeCurrentArticle()">👍 أعجبني <span id="articleLikeCount">0</span></button></div>
-<div id="articleCommentsList" class="mt-3 space-y-2 text-sm"></div>
 <form class="mt-4 space-y-2" onsubmit="submitArticleComment(event)">
 <input id="commentName" class="form-control" maxlength="60" minlength="2" placeholder="اسمك" required>
 <textarea id="commentContent" class="form-control" rows="3" maxlength="1200" minlength="3" placeholder="اكتب تعليقك (يظهر بعد مراجعة الإدارة)" required></textarea>
-<button class="gold-btn" type="submit">إرسال التعليق</button><p id="commentSubmitMessage" class="text-xs mt-1"></p></form></div>
+<button class="gold-btn" type="submit">إرسال التعليق</button><p id="commentSubmitMessage" class="text-xs mt-1"></p></form>
+<div class="mt-5 border-t pt-4"><strong class="block mb-3">تعليقات القراء</strong><div id="articleCommentsList" class="space-y-2 text-sm"></div></div></div>
 
 <div class="modal-share">
 <button class="share-btn facebook" onclick="shareCurrentFacebook()">فيسبوك</button>
