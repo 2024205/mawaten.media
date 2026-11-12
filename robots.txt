@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mawaten-news.netlify.app/sitemap.xml
