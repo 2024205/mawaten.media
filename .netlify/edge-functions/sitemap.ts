@@ -11,11 +11,16 @@ async function fetchIds(table: string, publishedField: string): Promise<string[]
     api.searchParams.set("order", "id.asc");
     api.searchParams.set("limit", "1000");
     api.searchParams.set("offset", String(offset));
-    const response = await fetch(api, { headers: { apikey: SUPABASE_KEY, Authorization: "Bearer " + SUPABASE_KEY } });
-    if (!response.ok) throw new Error("Sitemap source query failed: " + table);
+    // Publishable keys belong in the apikey header; they are not JWT bearer tokens.
+    const response = await fetch(api, { headers: { apikey: SUPABASE_KEY } });
+    if (!response.ok) {
+      console.error("Sitemap query failed", table, response.status, await response.text());
+      throw new Error("Sitemap source query failed: " + table);
+    }
     const rows = await response.json();
+    if (!Array.isArray(rows)) throw new Error("Unexpected sitemap response: " + table);
     for (const row of rows) if (row?.id) ids.push(String(row.id));
-    if (!Array.isArray(rows) || rows.length < 1000) break;
+    if (rows.length < 1000) break;
   }
   return ids;
 }
@@ -31,8 +36,9 @@ export default async () => {
       '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
       urls.map(loc => "  <url><loc>" + loc.replace(/&/g, "&amp;").replace(/</g, "&lt;") + "</loc></url>").join("\n") +
       "\n</urlset>";
-    return new Response(body, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=0, s-maxage=300" } });
-  } catch (_) {
+    return new Response(body, { headers: { "content-type": "application/xml; charset=utf-8", "cache-control": "public, max-age=0, s-maxage=60" } });
+  } catch (error) {
+    console.error("Sitemap generation failed", error);
     return new Response("Sitemap temporarily unavailable", { status: 503, headers: { "content-type": "text/plain; charset=utf-8", "cache-control": "no-store" } });
   }
 };
