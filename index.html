@@ -287,7 +287,7 @@ body[data-theme="dark"] .admin-list-item{background:#17243a;border-color:#34445d
 <h2 id="articleModalTitle" class="text-xl font-black my-3"></h2>
 <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
 <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
-<div id="relatedArticles" class="mt-6 border-t pt-5"><h3 class="font-black text-lg mb-3">قد يهمك أيضاً</h3><div id="relatedArticlesList" class="grid gap-2"></div></div>
+<div class="mt-6 border-t pt-5"><strong class="block mb-3">تعليقات القراء</strong><div id="articleCommentsList" class="space-y-2 text-sm"></div></div>
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
 <div class="mt-5 rounded-xl border border-gray-200 p-4">
 <div class="flex items-center justify-between gap-3"><strong>تفاعل القراء</strong><button id="articleLikeButton" class="share-btn" onclick="likeCurrentArticle()">👍 أعجبني <span id="articleLikeCount">0</span></button></div>
@@ -295,7 +295,7 @@ body[data-theme="dark"] .admin-list-item{background:#17243a;border-color:#34445d
 <input id="commentName" class="form-control" maxlength="60" minlength="2" placeholder="اسمك" required>
 <textarea id="commentContent" class="form-control" rows="3" maxlength="1200" minlength="3" placeholder="اكتب تعليقك (يظهر بعد مراجعة الإدارة)" required></textarea>
 <button class="gold-btn" type="submit">إرسال التعليق</button><p id="commentSubmitMessage" class="text-xs mt-1"></p></form>
-<div class="mt-5 border-t pt-4"><strong class="block mb-3">تعليقات القراء</strong><div id="articleCommentsList" class="space-y-2 text-sm"></div></div></div>
+</div>
 
 <div class="modal-share">
 <button class="share-btn facebook" onclick="shareCurrentFacebook()">فيسبوك</button>
@@ -792,7 +792,7 @@ document.getElementById("articleModalTitle").textContent=a.title||"";
 document.getElementById("articleModalCategory").textContent=a.category||"أخبار";
 document.getElementById("articleModalSummary").textContent=a.summary||"";
 document.getElementById("articleModalBody").textContent=a.body||"";
-document.getElementById("relatedArticlesList").innerHTML=renderRelatedArticles(a);
+
 document.getElementById("articleModalDate").textContent=formatDate(a.created_at);
 document.getElementById("articleShareMessage").textContent="";
 
@@ -819,7 +819,7 @@ document.getElementById("articleModalTitle").textContent=a.title||"";
 document.getElementById("articleModalCategory").textContent=a.category||"أخبار خارجية";
 document.getElementById("articleModalSummary").textContent=a.summary||"";
 document.getElementById("articleModalBody").textContent="هذا الخبر من "+(a.source_name||"مصدر خارجي")+". يمكنك زيارة المصدر الأصلي من البطاقة.";
-document.getElementById("relatedArticlesList").innerHTML="";
+
 document.getElementById("articleModalDate").textContent=formatDate(a.published_at||a.imported_at);
 document.getElementById("articleShareMessage").textContent="";
 const img=document.getElementById("articleModalImage");if(a.image_url){img.src=a.image_url;img.style.display="block";img.onclick=()=>showFullImage(a.image_url);}else{img.style.display="none";}
