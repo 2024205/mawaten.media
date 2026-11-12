@@ -756,30 +756,11 @@ const all=getUnifiedNewsItems(), search=document.getElementById("newsSearchInput
 const query=(search?.value||"").trim().toLocaleLowerCase("ar"), selected=category?.value||"";
 if(category){const current=category.value,cats=[...new Set(all.map(x=>(x.data.category||"أخبار").trim()).filter(Boolean))].sort((x,y)=>x.localeCompare(y,"ar"));category.innerHTML='<option value="">كل التصنيفات</option>'+cats.map(x=>'<option value="'+safeText(x)+'">'+safeText(x)+'</option>').join("");category.value=cats.includes(current)?current:"";}
 const filtered=all.filter(x=>{const a=x.data,hay=[a.title,a.summary,a.body,a.category,a.source_name].join(" ").toLocaleLowerCase("ar");return (!query||hay.includes(query))&&(!selected||(a.category||"أخبار")===selected);});
-const latest=filtered.slice(0,10), older=filtered.slice(10);
-document.getElementById("newsCount").textContent=latest.length+" أحدث الأخبار من "+filtered.length;
-document.getElementById("externalNewsCount").textContent=older.length+" خبر";
+const latest=filtered.slice(0,10);
+document.getElementById("newsCount").textContent=latest.length+" أحدث الأخبار";
+document.getElementById("externalNewsCount").textContent="";
 mainGrid.innerHTML=latest.length?latest.map(renderUnifiedNewsCard).join(""):'<div class="col-span-full text-center py-12 text-gray-500">لا توجد أخبار تطابق البحث حالياً</div>';
-if(older.length){
-const groups=new Map();
-older.forEach(item=>{
-const name=(item.data.category||"أخبار").trim()||"أخبار";
-if(!groups.has(name))groups.set(name,[]);
-groups.get(name).push(item);
-});
-olderGrid.innerHTML=[...groups.entries()].map(([name,items])=>(
-'<section class="archive-category mb-8">'+
-'<div class="flex items-center justify-between gap-3 mb-3">'+
-'<h3 class="section-title text-base">'+safeText(name)+'</h3>'+
-'<span class="text-xs text-gray-500">'+items.length+' خبر</span>'+
-'</div>'+
-'<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">'+
-items.map(renderUnifiedNewsCard).join("")+
-'</div></section>'
-)).join("");
-}else{
-olderGrid.innerHTML='<div class="col-span-full text-center py-8 text-gray-500">لا توجد أخبار أقدم حالياً</div>';
-}
+olderGrid.innerHTML="";
 if(currentUser)renderAdminArticles();
 }
 function renderRelatedArticles(current){const category=(current.category||"أخبار").trim();const related=articlesCache.filter(x=>String(x.id)!==String(current.id)).sort((a,b)=>(((b.category||"").trim()===category)?1:0)-(((a.category||"").trim()===category)?1:0)).slice(0,3);if(!related.length)return '<p class="text-sm text-gray-500">لا توجد أخبار أخرى حالياً.</p>';return related.map(a=>{const i=articlesCache.indexOf(a);return '<button type="button" onclick="openArticle('+i+')" class="w-full text-right rounded-lg border border-gray-200 p-3 hover:border-yellow-500 transition"><span class="text-xs text-yellow-700 font-bold">'+safeText(a.category||"أخبار")+'</span><span class="block mt-1 font-bold text-sm">'+safeText(a.title||"خبر")+'</span><span class="block mt-1 text-xs text-gray-400">'+formatDate(a.created_at)+'</span></button>';}).join("");}
