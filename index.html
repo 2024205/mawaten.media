@@ -122,6 +122,43 @@ body[data-theme="dark"] .admin-tab.active{background:#d5ad59;color:#17233a}
 .news-title{font-size:14px}
 .share-btn{padding:6px 7px}
 }
+
+/* تحسينات لوحة الإدارة: واجهة أوضح ومتجاوبة */
+.admin-panel{overscroll-behavior:contain}
+.admin-top{position:sticky;top:0;z-index:20;box-shadow:0 4px 18px #07102020}
+.admin-top .max-w-6xl{min-height:58px}
+#adminIdentity{overflow-wrap:anywhere}
+#dashboard{padding-bottom:32px}
+#dashboard>.flex.flex-wrap.gap-2.mb-5{
+ position:sticky;top:72px;z-index:15;background:#eef1f6;
+ padding:10px 0;margin-inline:-4px;padding-inline:4px;
+ flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;
+ scrollbar-width:thin
+}
+.admin-tab{flex:0 0 auto;min-height:42px;border:1px solid #dce2eb;transition:background .18s,border-color .18s}
+.admin-tab:focus-visible,.admin-panel button:focus-visible,.admin-panel input:focus-visible,.admin-panel textarea:focus-visible,.admin-panel select:focus-visible{outline:3px solid #d5ad5970;outline-offset:2px}
+.admin-tab.active{border-color:var(--navy);box-shadow:0 3px 10px #101d3620}
+.admin-card{box-shadow:0 4px 16px #15243b08}
+.admin-list-item{background:#fff;transition:border-color .18s,box-shadow .18s}
+.admin-list-item:hover{border-color:#d5ad59;box-shadow:0 3px 12px #15243b0b}
+#loginSection{box-shadow:0 14px 38px #14233b12}
+#loginSection .form-control{min-height:46px}
+#loginButton{min-height:46px}
+@media(max-width:640px){
+ .admin-top{padding:12px}
+ .admin-top .max-w-6xl{align-items:flex-start}
+ .admin-top h2{font-size:18px}
+ .admin-top button{min-height:40px;white-space:nowrap}
+ .max-w-6xl.mx-auto.p-4{padding:12px}
+ #dashboard>.grid{gap:9px}
+ #dashboard>.flex.flex-wrap.gap-2.mb-5{top:64px}
+ .admin-tab{padding:9px 11px;font-size:12px}
+ .admin-card{padding:14px}
+ .admin-list-item{align-items:flex-start}
+}
+body[data-theme="dark"] #dashboard>.flex.flex-wrap.gap-2.mb-5{background:#0d1728}
+body[data-theme="dark"] .admin-list-item{background:#17243a;border-color:#34445d}
+
 </style>
 </head>
 
@@ -1139,7 +1176,7 @@ currentRole=data.role;
 document.getElementById("loginSection").style.display="none";
 document.getElementById("dashboard").style.display="block";
 document.getElementById("accessMessage").textContent="";
-document.getElementById("adminIdentity").textContent="لوحة الإدارة الخاصة";
+document.getElementById("adminIdentity").textContent=(user.email||"حساب مصرح له")+" · "+(currentRole==="owner"?"المدير الرئيسي":"مدير معتمد");
 document.getElementById("adminRole").textContent=currentRole==="owner"?"المدير الرئيسي":"مدير معتمد";
 document.getElementById("adminsTabButton").style.display=currentRole==="owner"?"inline-block":"none";
 
