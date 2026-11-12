@@ -520,7 +520,9 @@ return url.href;
 }
 
 function getExternalShareUrl(item){
-return safeHttpUrl(item.article_url);
+const url=new URL(window.location.origin+window.location.pathname);
+url.searchParams.set("external",String(item.id));
+return url.href;
 }
 
 function normalizeWhatsAppNumber(value){
