@@ -232,6 +232,13 @@ button{cursor:pointer}
 <p id="articleModalSummary" class="text-gray-600 mb-4"></p>
 <div id="articleModalBody" class="text-gray-800 leading-8 whitespace-pre-wrap"></div>
 <p id="articleModalDate" class="text-xs text-gray-400 mt-5"></p>
+<div class="mt-5 rounded-xl border border-gray-200 p-4">
+<div class="flex items-center justify-between gap-3"><strong>تفاعل القراء</strong><button id="articleLikeButton" class="share-btn" onclick="likeCurrentArticle()">👍 أعجبني <span id="articleLikeCount">0</span></button></div>
+<div id="articleCommentsList" class="mt-3 space-y-2 text-sm"></div>
+<form class="mt-4 space-y-2" onsubmit="submitArticleComment(event)">
+<input id="commentName" class="form-control" maxlength="60" minlength="2" placeholder="اسمك" required>
+<textarea id="commentContent" class="form-control" rows="3" maxlength="1200" minlength="3" placeholder="اكتب تعليقك (يظهر بعد مراجعة الإدارة)" required></textarea>
+<button class="gold-btn" type="submit">إرسال التعليق</button><p id="commentSubmitMessage" class="text-xs mt-1"></p></form></div>
 
 <div class="modal-share">
 <button class="share-btn facebook" onclick="shareCurrentFacebook()">فيسبوك</button>
@@ -299,9 +306,11 @@ button{cursor:pointer}
 <button class="admin-tab" onclick="showAdminTab('adsTab',this)">إدارة الإعلانات</button>
 <button class="admin-tab" onclick="showAdminTab('tickerTab',this)">الشريط العاجل</button>
 <button class="admin-tab" onclick="showAdminTab('contactTab',this)">إعدادات التواصل</button>
+<button class="admin-tab" onclick="showAdminTab('commentsTab',this);loadAdminComments()">مراجعة التعليقات</button>
 <button class="admin-tab" id="adminsTabButton" style="display:none" onclick="showAdminTab('adminsTab',this)">إدارة المدراء</button>
 </div>
 
+<div id="commentsTab" class="admin-tab-content" style="display:none"><div class="admin-card"><h3 class="font-black text-lg mb-3">تعليقات بانتظار المراجعة</h3><div id="adminCommentsList">جارٍ التحميل...</div></div></div>
 <!-- الأخبار -->
 <div id="newsTab" class="admin-tab-content">
 <div class="admin-card mb-5">
@@ -750,11 +759,24 @@ img.style.display="none";
 }
 
 document.getElementById("articleModal").classList.add("show");
+loadArticleReactions(a);
 
 const url=new URL(window.location.href);
 url.searchParams.set("a",String(a.id));
 history.replaceState(null,"",url.pathname+url.search+url.hash);
 }
+
+function getVisitorToken(){let t=localStorage.getItem("mawaten_visitor_token");if(!t){t=(crypto.randomUUID?crypto.randomUUID():Date.now()+"-"+Math.random())+"-"+Math.random().toString(36).slice(2);localStorage.setItem("mawaten_visitor_token",t);}return t;}
+
+async function loadArticleReactions(a){if(!a)return;const r=await Promise.all([db.from("article_likes").select("id",{count:"exact",head:true}).eq("article_id",a.id),db.from("article_comments").select("display_name,content,created_at").eq("article_id",a.id).eq("status","approved").order("created_at",{ascending:false}).limit(30)]);document.getElementById("articleLikeCount").textContent=r[0].error?"—":Number(r[0].count||0).toLocaleString("ar");const box=document.getElementById("articleCommentsList");if(r[1].error){box.textContent="تعذر تحميل التعليقات";return;}box.innerHTML=r[1].data&&r[1].data.length?r[1].data.map(x=>"<div class=\"rounded-lg bg-gray-50 p-3\"><strong>"+safeText(x.display_name)+"</strong><p class=\"mt-1 whitespace-pre-wrap\">"+safeText(x.content)+"</p><span class=\"text-xs text-gray-400\">"+formatDate(x.created_at)+"</span></div>").join(""):"<p class=\"text-xs text-gray-500\">لا توجد تعليقات معتمدة بعد.</p>";}
+
+async function likeCurrentArticle(){if(!currentSharedArticle)return;const b=document.getElementById("articleLikeButton");b.disabled=true;const r=await db.from("article_likes").insert({article_id:currentSharedArticle.id,visitor_token:getVisitorToken()});if(r.error&&r.error.code!=="23505")alert("تعذر تسجيل الإعجاب حالياً");await loadArticleReactions(currentSharedArticle);b.disabled=false;}
+
+async function submitArticleComment(e){e.preventDefault();if(!currentSharedArticle)return;const msg=document.getElementById("commentSubmitMessage");const name=document.getElementById("commentName").value.trim();const content=document.getElementById("commentContent").value.trim();const r=await db.from("article_comments").insert({article_id:currentSharedArticle.id,display_name:name,content,status:"pending"});if(r.error){msg.textContent="تعذر إرسال التعليق. حاول لاحقاً.";msg.className="text-xs mt-1 text-red-600";return;}document.getElementById("commentContent").value="";msg.textContent="وصل تعليقك، وسيظهر بعد موافقة الإدارة.";msg.className="text-xs mt-1 text-green-700";}
+
+async function loadAdminComments(){if(!currentUser||!currentRole)return;const box=document.getElementById("adminCommentsList");const r=await db.from("article_comments").select("id,display_name,content,created_at,articles(title)").eq("status","pending").order("created_at",{ascending:true}).limit(100);if(r.error){box.textContent="تعذر تحميل التعليقات";return;}if(!r.data||!r.data.length){box.textContent="لا توجد تعليقات بانتظار المراجعة.";return;}box.innerHTML=r.data.map(x=>"<div class=\"admin-card mb-3\"><div class=\"text-xs text-gray-500\">"+safeText(x.articles&&x.articles.title||"خبر")+" · "+formatDate(x.created_at)+"</div><strong>"+safeText(x.display_name)+"</strong><p class=\"my-2 whitespace-pre-wrap\">"+safeText(x.content)+"</p><div class=\"flex gap-2\"><button class=\"gold-btn\" onclick=\"reviewComment('"+x.id+"','approved')\">موافقة</button><button class=\"red-btn\" onclick=\"reviewComment('"+x.id+"','rejected')\">رفض</button></div></div>").join("");}
+
+async function reviewComment(id,status){const r=await db.from("article_comments").update({status:status,reviewed_at:new Date().toISOString(),reviewed_by:currentUser.id}).eq("id",id);if(r.error){alert("تعذر تحديث التعليق");return;}await loadAdminComments();}
 
 function closeArticle(){
 document.getElementById("articleModal").classList.remove("show");
