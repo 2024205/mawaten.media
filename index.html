@@ -1315,7 +1315,7 @@ async function prepareChannelPost(id){
 const article=findLocalArticle(id);if(!article)return;
 const url=getArticleUrl(article);
 const caption=(article.title||"خبر من منصة مواطن")+"\\n\\n"+(article.summary||"")+
-"\\n\\n\\n\\n━━━━━━━━━━━━━━\\n📖 اقرأ التفاصيل كاملة عبر منصة مواطن الإخبارية:\\n\\n"+url;
+"\\n\\n\\n\\n━━━━━━━━━━━━━━\\n#مواطن #صوت_المواطن_نبض_الوطن #منصة_مواطن_الاحبارية\\n\\n📖 اقرأ التفاصيل كاملة عبر منصة مواطن الإخبارية:\\n\\n"+url;
 window.open(WHATSAPP_CHANNEL_URL,"_blank","noopener,noreferrer");
 const copied=await copyText(caption);
 alert(copied?"تم نسخ نص المنشور وفتح قناة واتساب. أضف صورة الخبر ثم الصق النص واضغط نشر.":"تم فتح القناة، لكن تعذر النسخ تلقائيًا. انسخ النص من تفاصيل الخبر.");
