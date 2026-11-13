@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://mawaten-news.netlify.app/sitemap.xml
+Sitemap: https://mawaten-news.netlify.app/sitemap-news.xml
