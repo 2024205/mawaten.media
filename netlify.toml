@@ -3,5 +3,9 @@ function = "sitemap"
 path = "/sitemap.xml"
 
 [[edge_functions]]
+function = "news-sitemap"
+path = "/sitemap-news.xml"
+
+[[edge_functions]]
 function = "share-meta"
 path = "/*"
